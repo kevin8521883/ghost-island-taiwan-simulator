@@ -1,0 +1,44 @@
+[
+  {
+    "id": "burnout",
+    "title": "過勞邊緣人",
+    "description": "你成功把公司當家，但家沒有把你當人。在 7-11 結帳時手指停在悠遊卡上，你已經想不起來自己昨天有沒有吃飯。",
+    "priority": 100,
+    "condition": { "stress": { "gte": 100 } }
+  },
+  {
+    "id": "health_collapse",
+    "title": "急診室一日遊",
+    "description": "胃食道逆流、自律神經失調、慢性疲勞——醫生唸了一串病名，你只想知道能不能請病假。",
+    "priority": 95,
+    "condition": { "health": { "lte": 0 } }
+  },
+  {
+    "id": "bankruptcy",
+    "title": "卡債人生",
+    "description": "你打開銀行 App，看著紅色數字發呆。爸媽 LINE 傳訊息：『你最近還好嗎』，你已讀不回。",
+    "priority": 90,
+    "condition": { "money": { "lte": -50000 } }
+  },
+  {
+    "id": "lying_flat",
+    "title": "躺平大師",
+    "description": "你關掉手機通知、退追蹤所有前同事、把履歷檔案改名為「再見」。世界很吵，但你終於安靜下來了。",
+    "priority": 80,
+    "condition": { "happiness": { "lte": 0 } }
+  },
+  {
+    "id": "civil_servant_dream",
+    "title": "考上公務員",
+    "description": "你終於上岸了。鐵飯碗、年終、月退——爸媽在社區走路有風。你坐在辦公室裡看著窗外的雲，覺得人生好像就這樣了。",
+    "priority": 60,
+    "condition": { "day": { "gte": 30 }, "career": { "gte": 70 }, "happiness": { "gte": 60 } }
+  },
+  {
+    "id": "survivor",
+    "title": "社畜倖存者",
+    "description": "30 天過去，你還活著。沒有發財、沒有出名、沒有崩潰——這已經是這個鬼島上最了不起的成就。",
+    "priority": 10,
+    "condition": { "day": { "gte": 30 } }
+  }
+]

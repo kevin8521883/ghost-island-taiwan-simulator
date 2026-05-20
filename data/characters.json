@@ -1,0 +1,46 @@
+[
+  {
+    "id": "office_worker",
+    "name": "普通上班族",
+    "description": "通勤一小時、加班是日常、薪水卡在中段、夢想是準時下班。",
+    "money": 30000,
+    "stress": 40,
+    "health": 80,
+    "happiness": 50,
+    "career": 40,
+    "reputation": 50
+  },
+  {
+    "id": "engineer",
+    "name": "科技業工程師",
+    "description": "竹科宿舍、薪水好但隨叫隨到、眼睛快瞎、頭快禿。",
+    "money": 50000,
+    "stress": 70,
+    "health": 60,
+    "happiness": 45,
+    "career": 70,
+    "reputation": 60
+  },
+  {
+    "id": "delivery_rider",
+    "name": "外送員",
+    "description": "風雨無阻、爆雷區搶單、平台抽成讓人心碎、但時間自由。",
+    "money": 25000,
+    "stress": 30,
+    "health": 90,
+    "happiness": 55,
+    "career": 20,
+    "reputation": 40
+  },
+  {
+    "id": "fresh_graduate",
+    "name": "剛畢業新鮮人",
+    "description": "履歷海投、面試吃閉門羹、學貸繳到天荒地老、還沒被社會磨平。",
+    "money": 15000,
+    "stress": 50,
+    "health": 85,
+    "happiness": 60,
+    "career": 10,
+    "reputation": 45
+  }
+]

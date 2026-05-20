@@ -1,0 +1,23 @@
+{
+  "name": "ghost-island-taiwan-simulator",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "6.12.2",
+    "@pinia/nuxt": "0.5.5",
+    "nuxt": "3.13.2",
+    "typescript": "^5.6.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.4.0"
+  },
+  "dependencies": {
+    "pinia": "^2.2.0"
+  }
+}

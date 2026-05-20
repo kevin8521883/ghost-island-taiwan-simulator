@@ -1,0 +1,11 @@
+node_modules
+.nuxt
+.output
+.env
+.DS_Store
+dist
+*.log
+.vscode
+.gstack/
+.vercel/
+*:Zone.Identifier
