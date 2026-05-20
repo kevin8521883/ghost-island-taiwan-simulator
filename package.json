@@ -12,6 +12,8 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "6.12.2",
     "@pinia/nuxt": "0.5.5",
+    "@vite-pwa/assets-generator": "^1.0.2",
+    "@vite-pwa/nuxt": "^1.1.1",
     "nuxt": "3.13.2",
     "typescript": "^5.6.0",
     "vue": "^3.5.0",
