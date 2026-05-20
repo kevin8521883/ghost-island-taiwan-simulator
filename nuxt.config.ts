@@ -23,7 +23,11 @@ export default defineNuxtConfig({
         { property: 'og:title', content: '鬼島台灣模擬器：社畜篇' },
         { property: 'og:description', content: '一款台灣黑色幽默人生模擬遊戲。每天一張事件卡，你能撐過 30 天嗎？' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:image', content: '/pwa-512x512.png' },
+        { property: 'og:image', content: '/og-image.png' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:image', content: '/og-image.png' },
       ],
       link: [
         { rel: 'manifest', href: '/manifest.webmanifest' },

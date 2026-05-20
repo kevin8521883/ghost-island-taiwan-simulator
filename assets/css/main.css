@@ -195,4 +195,268 @@
   .celebrate-flash {
     animation: celebrate-flash 0.8s ease-in-out infinite;
   }
+
+  /* ─────────  結局頁特效 layer  ───────── */
+  .ending-effect-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .particle {
+    position: absolute;
+    top: 0;
+    will-change: transform, opacity;
+    user-select: none;
+  }
+
+  /* 破產：紙鈔下飄 + 旋轉 */
+  @keyframes particle-fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+  .particle-fall {
+    animation: particle-fall linear infinite both;
+  }
+
+  /* 大亨：閃爍上升 */
+  @keyframes particle-sparkle {
+    0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+  }
+  .particle-sparkle {
+    animation: particle-sparkle linear infinite both;
+  }
+
+  /* 網紅：愛心上升搖擺 */
+  @keyframes particle-rise {
+    0% { transform: translateY(110vh) translateX(0) scale(0.6); opacity: 0; }
+    20% { opacity: 1; }
+    50% { transform: translateY(50vh) translateX(20px) scale(1); }
+    80% { opacity: 1; }
+    100% { transform: translateY(-10vh) translateX(-15px) scale(1.1); opacity: 0; }
+  }
+  .particle-rise {
+    animation: particle-rise ease-in-out infinite both;
+  }
+
+  /* 頓悟：雲緩慢平移 */
+  @keyframes particle-drift {
+    0% { transform: translateX(-30vw) translateY(0); opacity: 0; }
+    20% { opacity: 0.4; }
+    80% { opacity: 0.4; }
+    100% { transform: translateX(130vw) translateY(0); opacity: 0; }
+  }
+  .particle-drift {
+    top: 15%;
+    animation: particle-drift linear infinite both;
+    filter: blur(1px);
+  }
+
+  /* 創業失敗：火焰閃爍上跳 */
+  @keyframes particle-flicker {
+    0% { transform: translateY(110vh) scale(0.8); opacity: 0; }
+    20% { opacity: 1; }
+    50% { transform: translateY(60vh) scale(1.2); }
+    80% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+  }
+  .particle-flicker {
+    animation: particle-flicker ease-out infinite both;
+  }
+
+  /* 公務員：公文紙慢慢飄 */
+  @keyframes particle-papers {
+    0% { transform: translateY(-10vh) rotate(-15deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: translateY(110vh) rotate(15deg); opacity: 0; }
+  }
+  .particle-papers {
+    animation: particle-papers linear infinite both;
+  }
+
+  /* 倖存：陽光閃爍 */
+  @keyframes particle-shine {
+    0%, 100% { transform: translateY(0) scale(0.5); opacity: 0; }
+    50% { transform: translateY(0) scale(1.2); opacity: 0.6; }
+  }
+  .particle-shine {
+    top: 8%;
+    animation: particle-shine ease-in-out infinite both;
+  }
+
+  /* 移民：飛機橫越 */
+  @keyframes particle-fly-across {
+    0% { transform: translateX(-20vw) rotate(-5deg); }
+    100% { transform: translateX(120vw) rotate(-5deg); }
+  }
+  .particle-fly-across {
+    animation: particle-fly-across linear infinite both;
+  }
+
+  /* 結局背景渲染（容器級疊色）*/
+  .effect-burnout {
+    background: radial-gradient(ellipse at center,
+      transparent 30%, rgba(239, 68, 68, 0.18) 100%);
+    animation: pulse-bg-red 2s ease-in-out infinite;
+  }
+  @keyframes pulse-bg-red {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .effect-health_collapse {
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(34, 197, 94, 0.12) 100%);
+  }
+
+  .effect-bankruptcy {
+    background: radial-gradient(circle at center,
+      rgba(239, 68, 68, 0.08), transparent);
+  }
+
+  .effect-lying_flat {
+    background: rgba(160, 160, 160, 0.12);
+    backdrop-filter: grayscale(0.4);
+  }
+
+  .effect-tycoon {
+    background: radial-gradient(circle at center,
+      rgba(251, 191, 36, 0.18), transparent 70%);
+  }
+
+  .effect-emigration {
+    background: linear-gradient(180deg,
+      rgba(59, 130, 246, 0.15), transparent);
+  }
+
+  .effect-influencer {
+    background: radial-gradient(circle at center,
+      rgba(244, 114, 182, 0.18), transparent 70%);
+  }
+
+  .effect-civil_servant_dream {
+    background: linear-gradient(180deg,
+      rgba(148, 163, 184, 0.10), transparent);
+  }
+
+  .effect-startup_crash {
+    background: radial-gradient(circle at bottom,
+      rgba(249, 115, 22, 0.25), transparent 60%);
+    animation: pulse-bg-orange 0.8s ease-in-out infinite;
+  }
+  @keyframes pulse-bg-orange {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  .effect-enlightenment {
+    background: linear-gradient(180deg,
+      rgba(125, 211, 252, 0.10), rgba(125, 211, 252, 0.02));
+  }
+
+  .effect-survivor {
+    background: radial-gradient(ellipse at top,
+      rgba(251, 191, 36, 0.15), transparent 60%);
+  }
+
+  .effect-side_hustle_success {
+    background: linear-gradient(180deg,
+      rgba(168, 85, 247, 0.12), transparent);
+  }
 }
+
+/* ──────────────  主題切換 (override Tailwind hardcoded colors) ────────────── */
+/* default theme = current colors，無需 override */
+
+/* ─── CRT 螢光綠 ─── */
+html.theme-crt body {
+  background: #000800;
+  color: #00ff66;
+}
+html.theme-crt .text-amber-400 { color: #00ff66 !important; }
+html.theme-crt .text-amber-300 { color: #80ffaa !important; }
+html.theme-crt .border-amber-400 { border-color: #00ff66 !important; }
+html.theme-crt .bg-amber-400 { background-color: #00ff66 !important; color: #000800 !important; }
+html.theme-crt .accent-amber-400 { accent-color: #00ff66 !important; }
+html.theme-crt .text-green-400 { color: #66ff99 !important; }
+html.theme-crt .text-red-400 { color: #ff8888 !important; }
+html.theme-crt .pixel-card,
+html.theme-crt .pixel-card-accent {
+  background: #000c00 !important;
+  border-color: #00ff66 !important;
+  box-shadow: 4px 4px 0 #00ff66 !important;
+}
+html.theme-crt .pixel-button,
+html.theme-crt .pixel-button-choice {
+  background: #000c00 !important;
+  border-color: #00ff66 !important;
+  color: #00ff66 !important;
+  box-shadow: 4px 4px 0 #00ff66 !important;
+}
+html.theme-crt .pixel-button:hover { background: #001a00 !important; }
+html.theme-crt .pixel-button-primary {
+  background: #00ff66 !important;
+  border-color: #00ff66 !important;
+  color: #000800 !important;
+  box-shadow: 4px 4px 0 #008833 !important;
+}
+html.theme-crt .pixel-button-primary:hover { background: #66ff99 !important; }
+/* danger stat 改成正向（CRT 沒紅色，用警黃）*/
+html.theme-crt .danger-stat { color: #ffff66 !important; }
+/* CRT scanline overlay */
+html.theme-crt body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 255, 102, 0.04) 2px,
+    rgba(0, 255, 102, 0.04) 3px
+  );
+}
+
+/* ─── 80s 復古粉 ─── */
+html.theme-retro body {
+  background: #1a0814;
+  color: #ffd6e8;
+}
+html.theme-retro .text-amber-400 { color: #ff66b3 !important; }
+html.theme-retro .text-amber-300 { color: #ff99cc !important; }
+html.theme-retro .border-amber-400 { border-color: #ff66b3 !important; }
+html.theme-retro .bg-amber-400 { background-color: #ff66b3 !important; color: #1a0814 !important; }
+html.theme-retro .accent-amber-400 { accent-color: #ff66b3 !important; }
+html.theme-retro .text-green-400 { color: #66ffd9 !important; }
+html.theme-retro .pixel-card,
+html.theme-retro .pixel-card-accent {
+  background: #2a1020 !important;
+  border-color: #ff66b3 !important;
+  box-shadow: 4px 4px 0 #ff66b3 !important;
+}
+html.theme-retro .pixel-button,
+html.theme-retro .pixel-button-choice {
+  background: #2a1020 !important;
+  border-color: #ff66b3 !important;
+  color: #ffd6e8 !important;
+  box-shadow: 4px 4px 0 #ff66b3 !important;
+}
+html.theme-retro .pixel-button:hover { background: #3a1830 !important; }
+html.theme-retro .pixel-button-primary {
+  background: #ff66b3 !important;
+  border-color: #ff66b3 !important;
+  color: #1a0814 !important;
+  box-shadow: 4px 4px 0 #8b3366 !important;
+}
+html.theme-retro .pixel-button-primary:hover { background: #ff99cc !important; }
+html.theme-retro .danger-stat { color: #ff4488 !important; }

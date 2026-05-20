@@ -3,6 +3,7 @@ const store = useGameStore()
 const bgm = useBgm()
 const sfx = useSfx()
 const dex = useEndingDex()
+const theme = useTheme()
 const hasSave = ref(false)
 
 onMounted(() => {
@@ -88,6 +89,32 @@ const onSfxVolume = (e: Event) => {
           class="w-full accent-amber-400"
           @input="onSfxVolume"
         />
+      </div>
+
+      <hr class="border-[#333]" />
+
+      <div class="space-y-2">
+        <p class="pb-1">主題</p>
+        <div class="grid grid-cols-1 gap-2">
+          <button
+            v-for="t in theme.themes"
+            :key="t.id"
+            type="button"
+            class="text-left px-3 py-2 border-2 transition-colors"
+            :class="
+              theme.current === t.id
+                ? 'border-amber-400 bg-[#222] text-amber-400'
+                : 'border-[#444] text-paper hover:bg-[#1a1a1a]'
+            "
+            @click="theme.set(t.id); sfx.play('click')"
+          >
+            <div class="flex justify-between items-center">
+              <span>{{ t.name }}</span>
+              <span v-if="theme.current === t.id" class="text-[10px]">✓</span>
+            </div>
+            <p class="text-[10px] text-muted pt-0.5">{{ t.subtitle }}</p>
+          </button>
+        </div>
       </div>
 
       <hr class="border-[#333]" />

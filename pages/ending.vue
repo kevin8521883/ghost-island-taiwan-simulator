@@ -122,7 +122,8 @@ const handleDownload = () => {
 </script>
 
 <template>
-  <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto flex flex-col justify-center space-y-6">
+  <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto flex flex-col justify-center space-y-6 relative">
+    <EndingEffect :ending-id="store.endingId" />
     <template v-if="ending">
       <div class="pixel-card-accent space-y-3" @click="skip">
         <p class="text-[11px] text-amber-400">第 {{ store.stats.day }} 天 · 結局</p>
