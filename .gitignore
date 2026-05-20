@@ -9,3 +9,4 @@ dist
 .gstack/
 .vercel/
 *:Zone.Identifier
+.vercel

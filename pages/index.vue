@@ -40,8 +40,9 @@ const continueGame = () => {
         <PixelButton to="/settings">設定</PixelButton>
       </div>
 
-      <footer class="text-[10px] text-muted pt-6">
-        Ghost Island Taiwan Simulator · MVP v0.1
+      <footer class="text-[10px] text-muted pt-6 space-y-1">
+        <p>Ghost Island Taiwan Simulator · v0.2</p>
+        <p>45 events · 6 endings · 含 AI 時事篇</p>
       </footer>
     </div>
   </div>

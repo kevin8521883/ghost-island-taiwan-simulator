@@ -2,6 +2,8 @@
 
 Ghost Island Taiwan Simulator: Salaryman Edition — 一款台灣黑色幽默人生模擬遊戲。
 
+**🎮 線上試玩**：<https://ghost-island-taiwan-simulator.vercel.app>
+
 **Phase 1 MVP**：Nuxt 3 + TypeScript + Pinia + Tailwind 的 Web 版本，後續走 PWA → Capacitor 打包 iOS / Android。
 
 ---
@@ -11,7 +13,7 @@ Ghost Island Taiwan Simulator: Salaryman Edition — 一款台灣黑色幽默人
 - **設定檔**：`package.json` / `nuxt.config.ts` / `tsconfig.json` / `tailwind.config.ts`
 - **資料**：
   - `data/characters.json`：4 種角色（office_worker / engineer / delivery_rider / fresh_graduate）
-  - `data/events.json`：30 個 Taiwan-flavored 事件
+  - `data/events.json`：45 個 Taiwan-flavored 事件（含 8 個 AI 時事主題）
   - `data/endings.json`：6 個結局（含 5 個 spec 結局 + 1 個 survivor catch-all）
 - **狀態**：`stores/game.ts`（Pinia）+ localStorage 持久化
 - **核心**：`composables/useGameEngine.ts` / `useEvents.ts`（加權隨機）/ `useEndings.ts`（按 priority 判定）
