@@ -224,5 +224,5 @@ export const useShareCard = () => {
     return true
   }
 
-  return { generating, lastError, generate, share, download }
+  return reactive({ generating, lastError, generate, share, download })
 }
