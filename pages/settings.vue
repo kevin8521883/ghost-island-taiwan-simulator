@@ -98,6 +98,7 @@ const onSfxVolume = (e: Event) => {
 
     <div class="space-y-2">
       <PixelButton to="/gallery">結局圖鑑</PixelButton>
+      <PixelButton to="/history">歷史紀錄</PixelButton>
       <PixelButton :disabled="!hasSave" @click="clearSave">清除存檔</PixelButton>
       <PixelButton :disabled="dex.unlockedCount === 0" @click="resetDex">重置圖鑑</PixelButton>
       <PixelButton to="/">回到首頁</PixelButton>

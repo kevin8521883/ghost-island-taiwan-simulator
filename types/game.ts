@@ -8,6 +8,14 @@ export interface Character {
   happiness: number
   career: number
   reputation: number
+  /** 是否為隱藏角色，預設 false */
+  hidden?: boolean
+  /**
+   * 解鎖條件：
+   *   "random"        命運轉盤抽到才會出現
+   *   "ending:<id>"   通關特定結局後解鎖
+   */
+  unlock?: string
 }
 
 export interface EventEffect {
@@ -40,6 +48,8 @@ export interface GameEvent {
   characters?: string[]
   /** 隨機池排除（只能被 chain trigger 觸發）。預設 false */
   chainOnly?: boolean
+  /** 特殊日子：當 day === requiredDay 時必出此事件（仍受 characters 過濾）*/
+  requiredDay?: number
   choices: EventChoice[]
 }
 
@@ -98,4 +108,15 @@ export interface LogEntry {
 export interface ScheduledEvent {
   eventId: string
   triggerDay: number
+}
+
+export interface RunRecord {
+  id: string
+  endedAt: number
+  characterId: string
+  characterName: string
+  endingId: string
+  endingTitle: string
+  day: number
+  finalStats: PlayerStats
 }

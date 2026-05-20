@@ -7,6 +7,7 @@ const dex = useEndingDex()
 
 const ending = computed(() => findEnding(store.endingId))
 const wasNewUnlock = ref(false)
+const newCharUnlock = ref<{ id: string; name: string } | null>(null)
 
 const titleShown = ref('')
 const descShown = ref('')
@@ -65,8 +66,12 @@ onMounted(() => {
     navigateTo('/')
     return
   }
-  // 紀錄到圖鑑（如果是第一次拿到此結局，標記新解鎖）
-  wasNewUnlock.value = dex.recordUnlock(store.endingId)
+  // 紀錄到圖鑑（如果是第一次拿到此結局或連動解鎖角色，標記新解鎖）
+  const result = dex.recordUnlock(store.endingId)
+  wasNewUnlock.value = result.newEnding
+  if (result.newChar) {
+    newCharUnlock.value = { id: result.newChar.id, name: result.newChar.name }
+  }
   playAnimation()
 })
 
@@ -154,6 +159,13 @@ const handleDownload = () => {
         <div v-if="descDone && wasNewUnlock" class="pixel-card-accent text-center text-xs space-y-1 animate-pulse">
           <p class="text-amber-400">🎉 新解鎖結局！</p>
           <p class="text-muted">圖鑑進度：{{ dex.unlockedCount }} / {{ dex.total }}</p>
+        </div>
+      </Transition>
+
+      <Transition name="fade">
+        <div v-if="descDone && newCharUnlock" class="pixel-card-accent text-center text-xs space-y-1">
+          <p class="text-amber-400">🔓 解鎖隱藏人生：{{ newCharUnlock.name }}</p>
+          <p class="text-muted">下次選擇人生時可以選</p>
         </div>
       </Transition>
 

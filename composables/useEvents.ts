@@ -32,7 +32,17 @@ export const useEvents = () => {
       if (ev) return { event: ev, fromSchedule: true }
     }
 
-    // 2. 過濾 + 隨機
+    // 2. 特殊日子：requiredDay 對應且未看過就必出
+    const forced = ALL_EVENTS.find(
+      (e) =>
+        e.requiredDay === currentDay &&
+        !e.chainOnly &&
+        !seenIds.includes(e.id) &&
+        (!e.characters || !characterId || e.characters.includes(characterId))
+    )
+    if (forced) return { event: forced, fromSchedule: false }
+
+    // 3. 過濾 + 隨機
     let pool = ALL_EVENTS.filter((e) => {
       if (e.chainOnly) return false
       if (e.characters && characterId && !e.characters.includes(characterId)) return false

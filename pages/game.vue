@@ -32,6 +32,12 @@ const handleChoice = (index: number) => {
   showOutcome.value = true
 }
 
+const quitRun = () => {
+  if (!confirm('確定要結束本局重來嗎？目前的存檔會消失。')) return
+  store.reset()
+  navigateTo('/character')
+}
+
 const nextDay = () => {
   showOutcome.value = false
   lastEffects.value = null
@@ -51,7 +57,7 @@ const statLabel: Record<string, string> = {
 
 <template>
   <div class="min-h-dvh pt-14 px-4 pb-4 max-w-md mx-auto space-y-4">
-    <GameStatusBar :stats="store.stats" />
+    <GameStatusBar :stats="store.stats" :character="store.selectedCharacter" />
 
     <template v-if="!showOutcome && store.currentEvent">
       <div :key="store.currentEvent.id" class="event-enter space-y-4">
@@ -104,5 +110,15 @@ const statLabel: Record<string, string> = {
       </div>
       <PixelButton variant="primary" @click="nextDay">下一天 →</PixelButton>
     </template>
+
+    <div class="pt-6 text-center">
+      <button
+        type="button"
+        class="text-[11px] text-muted underline opacity-70 hover:opacity-100"
+        @click="quitRun"
+      >
+        結束本局重來
+      </button>
+    </div>
   </div>
 </template>

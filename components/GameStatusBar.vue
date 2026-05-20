@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import type { PlayerStats } from '~/types/game'
+import type { Character, PlayerStats } from '~/types/game'
 
-const props = defineProps<{ stats: PlayerStats }>()
+const props = defineProps<{
+  stats: PlayerStats
+  character?: Character | null
+}>()
 
 const dayPct = computed(() => Math.min(100, (props.stats.day / 30) * 100))
 const stressDanger = computed(() => props.stats.stress >= 90)
@@ -12,9 +15,18 @@ const moneyDanger = computed(() => props.stats.money <= -40000)
 
 <template>
   <div class="pixel-card">
+    <div
+      v-if="character"
+      class="flex items-center justify-between text-[11px] pb-2 mb-2 border-b border-[#333]"
+    >
+      <span class="text-paper">🪪 {{ character.name }}</span>
+      <span class="text-muted">{{ Math.round(dayPct) }}%</span>
+    </div>
     <div class="flex items-center justify-between text-xs mb-2">
       <span class="text-amber-400 tracking-widest">DAY {{ stats.day }} / 30</span>
-      <span class="text-muted text-[10px]">{{ Math.round(dayPct) }}%</span>
+      <span v-if="!character" class="text-muted text-[10px]">
+        {{ Math.round(dayPct) }}%
+      </span>
     </div>
     <div class="h-1 bg-[#2a2a2a] mb-3">
       <div

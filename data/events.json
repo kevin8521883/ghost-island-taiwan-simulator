@@ -4,6 +4,7 @@
     "title": "主管說公司像家",
     "description": "主管拍著你的肩膀：『年輕人要多學，今天大家一起留下來努力。』他的手有點重。",
     "tags": ["work", "boss", "overtime"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 10,
     "choices": [
       { "text": "留下來加班", "effects": { "stress": 12, "health": -5, "career": 5 } },
@@ -28,6 +29,7 @@
     "title": "颱風假沒放，主管說 WFH 一樣交報告",
     "description": "外面風大雨大，你家網路剛好斷線。",
     "tags": ["work", "weather"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 7,
     "choices": [
       { "text": "去咖啡廳硬幹", "effects": { "money": -300, "stress": 5, "career": 3 } },
@@ -124,6 +126,7 @@
     "title": "年終獎金公告：兩個月",
     "description": "你期待的是 3 個月。同事 Kevin 拿到 4 個月。",
     "tags": ["work", "money"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 6,
     "choices": [
       { "text": "知足常樂", "effects": { "money": 60000, "stress": -5, "happiness": 8 } },
@@ -160,6 +163,7 @@
     "title": "同事 Amy 提離職",
     "description": "她下週就走。她的工作會「暫時」交接給你。",
     "tags": ["work", "colleague"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 7,
     "choices": [
       { "text": "幫忙接下來", "effects": { "stress": 15, "career": 8, "money": 2000 } },
@@ -172,6 +176,7 @@
     "title": "老闆：『公司明年要 IPO，大家一起苦一下』",
     "description": "全體會議，老闆 PPT 第三張寫著『共體時艱』。",
     "tags": ["work", "boss"],
+    "characters": ["office_worker", "engineer"],
     "weight": 6,
     "choices": [
       { "text": "鼓掌、繼續相信", "effects": { "stress": 5, "career": 3, "happiness": -3 }, "trigger": { "eventId": "company_news_bad", "afterDays": 5 } },
@@ -196,6 +201,7 @@
     "title": "全公司一半的人在咳嗽",
     "description": "Slack 上有三個人說『我有點不舒服』，但他們都還在上班。",
     "tags": ["health", "work"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 6,
     "choices": [
       { "text": "戴口罩、勤洗手", "effects": { "stress": 2, "health": 2 } },
@@ -268,6 +274,7 @@
     "title": "同事 Jason 要結婚了，紅炸彈到",
     "description": "你跟他講話沒超過 5 次。",
     "tags": ["work", "money", "social"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 5,
     "choices": [
       { "text": "包 2200 出席", "effects": { "money": -2200, "stress": 3, "reputation": 3 } },
@@ -424,6 +431,7 @@
     "title": "老闆 All Hands：『明年所有人 KPI 要看 AI 使用率』",
     "description": "PPT 第三張寫『每人每天至少 5 個 prompt』。台下沒人敢問怎麼計算。",
     "tags": ["work", "ai", "boss"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 8,
     "choices": [
       { "text": "認真學 prompt engineering", "effects": { "stress": 8, "career": 6, "money": -500 } },
@@ -436,6 +444,7 @@
     "title": "新聞：『AI 將取代 70% 文書工作』",
     "description": "圖表上你的職位剛好在紅色區塊。底下留言：『被取代是活該』。",
     "tags": ["ai", "news", "career"],
+    "characters": ["office_worker", "engineer", "civil_servant", "freelancer", "fresh_graduate", "influencer_char"],
     "weight": 7,
     "choices": [
       { "text": "報名 Coursera 學新技能", "effects": { "money": -2000, "stress": 5, "career": 6 } },
@@ -448,6 +457,7 @@
     "title": "同事 Kevin 的報告全是 ChatGPT 寫的",
     "description": "你發現他週報那個工整到不像人的句型。但他這季的考績比你高。",
     "tags": ["work", "ai", "colleague"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 7,
     "choices": [
       { "text": "也偷偷開始用", "effects": { "stress": -8, "happiness": 5, "career": 5 } },
@@ -460,6 +470,7 @@
     "title": "資安信：『即日起公司網路封鎖所有 AI 服務』",
     "description": "怕資料外洩。但你的工作已經離不開 Copilot。",
     "tags": ["work", "ai", "policy"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 6,
     "choices": [
       { "text": "用手機熱點偷偷繞過", "effects": { "stress": 5, "career": 3, "money": -300 } },
@@ -484,6 +495,7 @@
     "title": "投了 50 份履歷 0 回應",
     "description": "朋友看了一眼：『你這份太工整了，ATS 一定判斷成 AI 寫的』。",
     "tags": ["ai", "career"],
+    "characters": ["fresh_graduate", "freelancer"],
     "weight": 6,
     "choices": [
       { "text": "重寫成手寫風格", "effects": { "stress": 8, "career": 4 } },
@@ -798,8 +810,75 @@
     "description": "他點了八方雲集。",
     "tags": ["luck", "good", "work"],
     "weight": 4,
+    "characters": ["office_worker", "engineer", "civil_servant"],
     "choices": [
       { "text": "點便宜的、不要不識相", "effects": { "happiness": 5, "reputation": 3, "career": 2 } }
+    ]
+  },
+  {
+    "id": "special_typhoon_warning",
+    "title": "氣象局發布陸上颱風警報",
+    "description": "新聞跑馬燈一直在播。下班路上 7-11 泡麵架一片空。",
+    "tags": ["special", "weather"],
+    "weight": 1,
+    "requiredDay": 7,
+    "choices": [
+      { "text": "衝全聯囤糧", "effects": { "money": -800, "stress": -3, "happiness": 5 } },
+      { "text": "跑去海邊拍浪", "effects": { "stress": -8, "happiness": 10, "health": -5, "reputation": -2 } },
+      { "text": "早點回家追劇", "effects": { "stress": -5, "happiness": 6 } }
+    ]
+  },
+  {
+    "id": "special_double_11",
+    "title": "11/11 雙 11 來了，App 推播炸了一整天",
+    "description": "蝦皮 / momo / PChome 全都在叫你打開。購物車裡堆了三個月的東西。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 11,
+    "choices": [
+      { "text": "失手刷了 5000", "effects": { "money": -5000, "happiness": 15, "stress": 5 } },
+      { "text": "理性只買必需品", "effects": { "money": -800, "happiness": 5 } },
+      { "text": "卸載所有購物 App", "effects": { "stress": -3, "happiness": 3, "reputation": 1 } }
+    ]
+  },
+  {
+    "id": "special_mid_autumn_bbq",
+    "title": "中秋節，公司、家裡、朋友都約烤肉",
+    "description": "你的胃只有一個。每場都答應感覺要爆炸。",
+    "tags": ["special", "family", "social"],
+    "weight": 1,
+    "requiredDay": 15,
+    "choices": [
+      { "text": "三場都去、撐死也要", "effects": { "money": -500, "health": -8, "happiness": 12, "reputation": 5 } },
+      { "text": "只去家裡這場", "effects": { "money": -200, "happiness": 8, "reputation": 2 } },
+      { "text": "全部推掉躺平", "effects": { "stress": -8, "happiness": -3, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "special_new_year_eve",
+    "title": "跨年夜：信義區還是台北 101？",
+    "description": "朋友揪你 8 點到，你下班 7 點半。",
+    "tags": ["special", "social"],
+    "weight": 1,
+    "requiredDay": 22,
+    "choices": [
+      { "text": "硬擠 101 看煙火", "effects": { "money": -500, "stress": 12, "happiness": 10, "health": -5 } },
+      { "text": "找咖啡廳看直播", "effects": { "money": -300, "happiness": 8 } },
+      { "text": "在家看直播、12 點睡", "effects": { "stress": -5, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "special_month_end_bills",
+    "title": "月底大關：房租 + 信用卡 + 電費同一週全來",
+    "description": "你的活存帳戶數字看著有點頭暈。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate", "delivery_rider", "freelancer", "influencer_char"],
+    "choices": [
+      { "text": "認命刷分期", "effects": { "money": -15000, "stress": 12 } },
+      { "text": "跟爸媽周轉一萬", "effects": { "money": -10000, "stress": 5, "reputation": -3 } },
+      { "text": "動用緊急基金", "effects": { "money": -18000, "stress": -3, "happiness": -5 } }
     ]
   }
 ]

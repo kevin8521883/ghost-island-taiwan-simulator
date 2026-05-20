@@ -42,5 +42,70 @@
     "happiness": 60,
     "career": 10,
     "reputation": 45
+  },
+  {
+    "id": "rich_kid",
+    "name": "富二代",
+    "description": "從沒打過工、信用卡是金卡、繼承家業不是 if 是 when。但你想要的東西錢都買不到。",
+    "money": 500000,
+    "stress": 20,
+    "health": 75,
+    "happiness": 70,
+    "career": 5,
+    "reputation": 25,
+    "hidden": true,
+    "unlock": "random"
+  },
+  {
+    "id": "civil_servant",
+    "name": "公務員",
+    "description": "考試考三年才上岸。鐵飯碗、年終、月退——人生從此一望無際的平靜（或者說無聊）。",
+    "money": 38000,
+    "stress": 25,
+    "health": 75,
+    "happiness": 55,
+    "career": 65,
+    "reputation": 70,
+    "hidden": true,
+    "unlock": "ending:civil_servant_dream"
+  },
+  {
+    "id": "freelancer",
+    "name": "接案族",
+    "description": "白天不用打卡、夜晚趕死線。客戶說『最後一次修改』通常是第三次。",
+    "money": 45000,
+    "stress": 40,
+    "health": 70,
+    "happiness": 75,
+    "career": 35,
+    "reputation": 55,
+    "hidden": true,
+    "unlock": "ending:side_hustle_success"
+  },
+  {
+    "id": "influencer_char",
+    "name": "全職網紅",
+    "description": "粉絲叫你寶寶、業配排到三個月後、爸媽終於不問你『正當職業是什麼』。",
+    "money": 60000,
+    "stress": 60,
+    "health": 60,
+    "happiness": 65,
+    "career": 50,
+    "reputation": 90,
+    "hidden": true,
+    "unlock": "ending:influencer"
+  },
+  {
+    "id": "homemaker",
+    "name": "家庭主婦／主夫",
+    "description": "沒收入、沒打卡、沒人說你拚不拚——但也沒人覺得你做的事算數。",
+    "money": 5000,
+    "stress": 30,
+    "health": 75,
+    "happiness": 65,
+    "career": 0,
+    "reputation": 55,
+    "hidden": true,
+    "unlock": "ending:enlightenment"
   }
 ]
