@@ -2,16 +2,23 @@
 const store = useGameStore()
 const bgm = useBgm()
 const sfx = useSfx()
+const dex = useEndingDex()
 const hasSave = ref(false)
 
 onMounted(() => {
   hasSave.value = store.hasSave()
+  dex.refresh()
 })
 
 const clearSave = () => {
   if (!confirm('確定要清除存檔嗎？無法復原。')) return
   store.reset()
   hasSave.value = false
+}
+
+const resetDex = () => {
+  if (!confirm('確定要清空結局圖鑑嗎？所有解鎖紀錄會消失。')) return
+  dex.reset()
 }
 
 const onBgmVolume = (e: Event) => {
@@ -23,7 +30,7 @@ const onSfxVolume = (e: Event) => {
 </script>
 
 <template>
-  <div class="min-h-dvh p-6 max-w-md mx-auto space-y-6">
+  <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto space-y-6">
     <header class="text-center">
       <h1 class="text-lg text-amber-400">設定</h1>
     </header>
@@ -86,10 +93,13 @@ const onSfxVolume = (e: Event) => {
       <hr class="border-[#333]" />
 
       <p class="text-muted">存檔狀態：{{ hasSave ? '有' : '無' }}</p>
+      <p class="text-muted">結局圖鑑：{{ dex.unlockedCount }} / {{ dex.total }} 解鎖</p>
     </div>
 
     <div class="space-y-2">
+      <PixelButton to="/gallery">結局圖鑑</PixelButton>
       <PixelButton :disabled="!hasSave" @click="clearSave">清除存檔</PixelButton>
+      <PixelButton :disabled="dex.unlockedCount === 0" @click="resetDex">重置圖鑑</PixelButton>
       <PixelButton to="/">回到首頁</PixelButton>
     </div>
   </div>

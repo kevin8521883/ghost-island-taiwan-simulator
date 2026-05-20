@@ -15,7 +15,7 @@ const handleClick = () => {
 <template>
   <button
     type="button"
-    class="fixed top-3 right-3 z-50 w-11 h-11 flex items-center justify-center bg-[#161616] border-[3px] transition-colors"
+    class="fixed top-2 right-2 z-50 w-10 h-10 flex items-center justify-center bg-[#161616] border-[3px] transition-colors"
     :class="bgm.isPlaying ? 'border-amber-400 text-amber-400' : 'border-[#555] text-[#777]'"
     :style="{
       boxShadow: bgm.isPlaying ? '3px 3px 0 #b08a16' : '3px 3px 0 #333',

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 const store = useGameStore()
 const bgm = useBgm()
+const dex = useEndingDex()
 const hasSave = ref(false)
 
 onMounted(() => {
   hasSave.value = store.hasSave()
+  dex.refresh()
 })
 
 const startNew = () => {
@@ -37,6 +39,7 @@ const continueGame = () => {
       <div class="space-y-3">
         <PixelButton variant="primary" @click="startNew">開始新人生</PixelButton>
         <PixelButton v-if="hasSave" @click="continueGame">繼續遊戲</PixelButton>
+        <PixelButton to="/gallery">結局圖鑑（{{ dex.unlockedCount }} / {{ dex.total }}）</PixelButton>
         <PixelButton to="/settings">設定</PixelButton>
       </div>
 

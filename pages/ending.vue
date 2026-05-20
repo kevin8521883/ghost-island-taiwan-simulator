@@ -3,8 +3,10 @@ const store = useGameStore()
 const { findEnding } = useEndings()
 const sfx = useSfx()
 const shareCard = useShareCard()
+const dex = useEndingDex()
 
 const ending = computed(() => findEnding(store.endingId))
+const wasNewUnlock = ref(false)
 
 const titleShown = ref('')
 const descShown = ref('')
@@ -63,6 +65,8 @@ onMounted(() => {
     navigateTo('/')
     return
   }
+  // 紀錄到圖鑑（如果是第一次拿到此結局，標記新解鎖）
+  wasNewUnlock.value = dex.recordUnlock(store.endingId)
   playAnimation()
 })
 
@@ -113,7 +117,7 @@ const handleDownload = () => {
 </script>
 
 <template>
-  <div class="min-h-dvh p-6 max-w-md mx-auto flex flex-col justify-center space-y-6">
+  <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto flex flex-col justify-center space-y-6">
     <template v-if="ending">
       <div class="pixel-card-accent space-y-3" @click="skip">
         <p class="text-[11px] text-amber-400">第 {{ store.stats.day }} 天 · 結局</p>
@@ -147,6 +151,13 @@ const handleDownload = () => {
       </Transition>
 
       <Transition name="fade">
+        <div v-if="descDone && wasNewUnlock" class="pixel-card-accent text-center text-xs space-y-1 animate-pulse">
+          <p class="text-amber-400">🎉 新解鎖結局！</p>
+          <p class="text-muted">圖鑑進度：{{ dex.unlockedCount }} / {{ dex.total }}</p>
+        </div>
+      </Transition>
+
+      <Transition name="fade">
         <div v-if="descDone" class="space-y-2">
           <PixelButton variant="primary" @click="playAgain">再玩一次</PixelButton>
           <PixelButton :disabled="shareCard.generating" @click="handleShare">
@@ -155,6 +166,7 @@ const handleDownload = () => {
           <PixelButton :disabled="shareCard.generating" @click="handleDownload">
             下載結局圖
           </PixelButton>
+          <PixelButton to="/gallery">查看結局圖鑑</PixelButton>
           <PixelButton to="/">回到首頁</PixelButton>
         </div>
       </Transition>

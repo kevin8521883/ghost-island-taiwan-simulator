@@ -12,7 +12,7 @@ const confirmAndStart = () => {
 </script>
 
 <template>
-  <div class="min-h-dvh p-6 max-w-md mx-auto space-y-4">
+  <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto space-y-4">
     <header class="text-center space-y-1 pb-2">
       <h1 class="text-lg text-amber-400">選擇你的人生</h1>
       <p class="text-xs text-muted">每個身分都有不同的起點</p>

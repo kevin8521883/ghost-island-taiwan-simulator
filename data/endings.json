@@ -4,41 +4,108 @@
     "title": "過勞邊緣人",
     "description": "你成功把公司當家，但家沒有把你當人。在 7-11 結帳時手指停在悠遊卡上，你已經想不起來自己昨天有沒有吃飯。",
     "priority": 100,
-    "condition": { "stress": { "gte": 100 } }
+    "condition": { "stress": { "gte": 100 } },
+    "hint": "壓力衝破天花板"
   },
   {
     "id": "health_collapse",
     "title": "急診室一日遊",
     "description": "胃食道逆流、自律神經失調、慢性疲勞——醫生唸了一串病名，你只想知道能不能請病假。",
     "priority": 95,
-    "condition": { "health": { "lte": 0 } }
+    "condition": { "health": { "lte": 0 } },
+    "hint": "把身體當提款機"
   },
   {
     "id": "bankruptcy",
     "title": "卡債人生",
     "description": "你打開銀行 App，看著紅色數字發呆。爸媽 LINE 傳訊息：『你最近還好嗎』，你已讀不回。",
     "priority": 90,
-    "condition": { "money": { "lte": -50000 } }
+    "condition": { "money": { "lte": -50000 } },
+    "hint": "亂花錢、亂投資、亂貪心"
   },
   {
     "id": "lying_flat",
     "title": "躺平大師",
     "description": "你關掉手機通知、退追蹤所有前同事、把履歷檔案改名為「再見」。世界很吵，但你終於安靜下來了。",
     "priority": 80,
-    "condition": { "happiness": { "lte": 0 } }
+    "condition": { "happiness": { "lte": 0 } },
+    "hint": "失去所有熱情"
+  },
+  {
+    "id": "tycoon",
+    "title": "鬼島大亨",
+    "description": "你的銀行 App 數字後面要捲三下螢幕才看得完。同事看你的眼神已經不一樣了，但你也忘了他們的名字。",
+    "priority": 75,
+    "condition": { "money": { "gte": 500000 }, "day": { "gte": 15 } },
+    "hidden": true,
+    "hint": "錢、很多很多錢"
+  },
+  {
+    "id": "emigration",
+    "title": "潤了",
+    "description": "機票訂了。你最後一次回看辦公室那扇窗，覺得也沒什麼好留戀的。新加坡的薪水比較高，雖然連杯珍奶都比較貴。",
+    "priority": 70,
+    "condition": { "money": { "gte": 200000 }, "happiness": { "gte": 70 }, "day": { "gte": 20 } },
+    "hidden": true,
+    "hint": "錢有了、心也有了"
+  },
+  {
+    "id": "side_hustle_success",
+    "title": "斜槓青年",
+    "description": "白天上班、晚上接案、週末擺攤，你的人脈紙鈔一起厚了起來。你已經兩年沒看到月亮，但你買得起會員制健身房。",
+    "priority": 68,
+    "condition": { "reputation": { "gte": 80 }, "money": { "gte": 100000 } },
+    "hidden": true,
+    "hint": "白天上班晚上副業"
+  },
+  {
+    "id": "influencer",
+    "title": "鬼島網紅出道",
+    "description": "你的限動上熱門。粉絲叫你不要去上班、留下來陪他們聊天。業配排到三個月後，你的爸媽終於不問你「真正的工作」是什麼。",
+    "priority": 67,
+    "condition": { "reputation": { "gte": 95 }, "day": { "lte": 20 } },
+    "hidden": true,
+    "hint": "短時間內爆紅"
   },
   {
     "id": "civil_servant_dream",
     "title": "考上公務員",
     "description": "你終於上岸了。鐵飯碗、年終、月退——爸媽在社區走路有風。你坐在辦公室裡看著窗外的雲，覺得人生好像就這樣了。",
     "priority": 60,
-    "condition": { "day": { "gte": 30 }, "career": { "gte": 70 }, "happiness": { "gte": 60 } }
+    "condition": { "day": { "gte": 30 }, "career": { "gte": 70 }, "happiness": { "gte": 60 } },
+    "hint": "穩定 + 還算開心"
+  },
+  {
+    "id": "startup_crash",
+    "title": "創業失敗回去打工",
+    "description": "你燒了爸媽的退休金、燒了自己的青春、燒了三個合夥人的友誼。最後你帶著「至少我試過了」這六個字，回去投履歷。",
+    "priority": 55,
+    "condition": { "career": { "gte": 80 }, "money": { "lte": -30000 } },
+    "hidden": true,
+    "hint": "高成就 + 燒光錢"
+  },
+  {
+    "id": "enlightenment",
+    "title": "中庸頓悟",
+    "description": "你終於明白——不要努力、也不要放棄。不要快樂、也不要悲傷。在這座鬼島上活得不上不下，才是真正的勝利。",
+    "priority": 50,
+    "condition": {
+      "stress": { "gte": 40, "lte": 60 },
+      "health": { "gte": 40, "lte": 60 },
+      "happiness": { "gte": 40, "lte": 60 },
+      "career": { "gte": 40, "lte": 60 },
+      "reputation": { "gte": 40, "lte": 60 },
+      "day": { "gte": 30 }
+    },
+    "hidden": true,
+    "hint": "所有數值都中庸（40–60）"
   },
   {
     "id": "survivor",
     "title": "社畜倖存者",
     "description": "30 天過去，你還活著。沒有發財、沒有出名、沒有崩潰——這已經是這個鬼島上最了不起的成就。",
     "priority": 10,
-    "condition": { "day": { "gte": 30 } }
+    "condition": { "day": { "gte": 30 } },
+    "hint": "撐到第 30 天還沒爆"
   }
 ]

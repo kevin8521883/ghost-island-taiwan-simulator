@@ -5,6 +5,7 @@ import type {
   GameEvent,
   LogEntry,
   PlayerStats,
+  ScheduledEvent,
   StatKey,
 } from '~/types/game'
 
@@ -15,6 +16,7 @@ interface GameState {
   stats: PlayerStats
   currentEvent: GameEvent | null
   seenEventIds: string[]
+  scheduledEvents: ScheduledEvent[]
   endingId: string | null
   log: LogEntry[]
 }
@@ -35,6 +37,7 @@ export const useGameStore = defineStore('game', {
     stats: emptyStats(),
     currentEvent: null,
     seenEventIds: [],
+    scheduledEvents: [],
     endingId: null,
     log: [],
   }),
@@ -57,6 +60,7 @@ export const useGameStore = defineStore('game', {
       }
       this.currentEvent = null
       this.seenEventIds = []
+      this.scheduledEvents = []
       this.endingId = null
       this.log = []
       this.persist()
@@ -83,6 +87,19 @@ export const useGameStore = defineStore('game', {
         effects: choice.effects,
       })
       this.seenEventIds.push(this.currentEvent.id)
+      if (choice.trigger) {
+        this.scheduledEvents.push({
+          eventId: choice.trigger.eventId,
+          triggerDay: this.stats.day + choice.trigger.afterDays,
+        })
+      }
+      this.persist()
+    },
+
+    consumeScheduledEvent(eventId: string) {
+      this.scheduledEvents = this.scheduledEvents.filter(
+        (s) => s.eventId !== eventId
+      )
       this.persist()
     },
 
@@ -102,6 +119,7 @@ export const useGameStore = defineStore('game', {
       this.stats = emptyStats()
       this.currentEvent = null
       this.seenEventIds = []
+      this.scheduledEvents = []
       this.endingId = null
       this.log = []
       if (import.meta.client) localStorage.removeItem(STORAGE_KEY)
@@ -114,6 +132,7 @@ export const useGameStore = defineStore('game', {
         stats: this.stats,
         currentEvent: this.currentEvent,
         seenEventIds: this.seenEventIds,
+        scheduledEvents: this.scheduledEvents,
         endingId: this.endingId,
         log: this.log,
       }
@@ -130,6 +149,7 @@ export const useGameStore = defineStore('game', {
         this.stats = { ...emptyStats(), ...(data.stats ?? {}) }
         this.currentEvent = data.currentEvent ?? null
         this.seenEventIds = data.seenEventIds ?? []
+        this.scheduledEvents = data.scheduledEvents ?? []
         this.endingId = data.endingId ?? null
         this.log = data.log ?? []
       } catch (_) {

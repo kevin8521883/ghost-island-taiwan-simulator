@@ -54,7 +54,7 @@
     "tags": ["scam", "phone"],
     "weight": 8,
     "choices": [
-      { "text": "好奇點開看看", "effects": { "money": -15000, "stress": 20, "happiness": -10 } },
+      { "text": "好奇點開看看", "effects": { "money": -15000, "stress": 20, "happiness": -10 }, "trigger": { "eventId": "scam_realize", "afterDays": 2 } },
       { "text": "刪除、封鎖", "effects": { "stress": -3, "reputation": 1 } },
       { "text": "回傳『我是警察』", "effects": { "stress": -2, "happiness": 6 } }
     ]
@@ -174,7 +174,7 @@
     "tags": ["work", "boss"],
     "weight": 6,
     "choices": [
-      { "text": "鼓掌、繼續相信", "effects": { "stress": 5, "career": 3, "happiness": -3 } },
+      { "text": "鼓掌、繼續相信", "effects": { "stress": 5, "career": 3, "happiness": -3 }, "trigger": { "eventId": "company_news_bad", "afterDays": 5 } },
       { "text": "私下打聽財報", "effects": { "stress": 8, "career": 2 } },
       { "text": "心想又畫餅，準時下班", "effects": { "stress": -5, "happiness": 8, "career": -2, "reputation": -1 } }
     ]
@@ -294,7 +294,7 @@
     "tags": ["money", "scam"],
     "weight": 5,
     "choices": [
-      { "text": "ALL IN 10 萬", "effects": { "money": -50000, "stress": 20, "happiness": -5 } },
+      { "text": "ALL IN 10 萬", "effects": { "money": -50000, "stress": 20, "happiness": -5 }, "trigger": { "eventId": "crypto_disaster", "afterDays": 3 } },
       { "text": "投 5000 玩玩", "effects": { "money": -3000, "stress": 3 } },
       { "text": "勸他別玩了", "effects": { "stress": -2, "reputation": 2 } }
     ]
@@ -537,6 +537,269 @@
       { "text": "趁亂下單到爆", "effects": { "money": -100, "stress": -3, "happiness": 12, "health": -3 } },
       { "text": "截圖回報客服", "effects": { "money": -520, "reputation": 3, "stress": -2 } },
       { "text": "再 reload 一次看看", "effects": { "money": -520, "stress": 2 } }
+    ]
+  },
+  {
+    "id": "ow_coffee_machine_dead",
+    "title": "公司咖啡機壞了，總務說「自己花錢買濾掛」",
+    "description": "這台機器你貢獻過 200 個杯子的清洗時間。",
+    "tags": ["work", "office"],
+    "weight": 5,
+    "characters": ["office_worker"],
+    "choices": [
+      { "text": "認命去全聯買濾掛", "effects": { "money": -200, "stress": 3 } },
+      { "text": "假裝沒看到、買 7-11", "effects": { "money": -65, "stress": -2 } },
+      { "text": "在 IG 限動公審總務", "effects": { "stress": -3, "happiness": 5, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "ow_boss_line_22pm",
+    "title": "主管晚上 10 點 LINE：『明天簡報的數字幫忙再對一下』",
+    "description": "你已經洗澡、躺床上滑手機準備睡了。",
+    "tags": ["work", "boss"],
+    "weight": 7,
+    "characters": ["office_worker"],
+    "choices": [
+      { "text": "馬上開電腦處理", "effects": { "stress": 12, "career": 4, "health": -5 } },
+      { "text": "回『明天一早就改』", "effects": { "stress": 5 } },
+      { "text": "已讀不回繼續睡", "effects": { "stress": -3, "career": -3, "reputation": -2 } }
+    ]
+  },
+  {
+    "id": "eng_oncall_2am",
+    "title": "凌晨 2 點 PagerDuty 響了——prod 掛了",
+    "description": "你睡眼惺忪打開 laptop，error log 是英文的、紅的、很多的。",
+    "tags": ["work", "tech"],
+    "weight": 8,
+    "characters": ["engineer"],
+    "choices": [
+      { "text": "30 分鐘搞定回去睡", "effects": { "stress": 8, "career": 8, "health": -3, "money": 1500 } },
+      { "text": "搞 3 小時搞不定，叫 senior", "effects": { "stress": 20, "career": 2, "reputation": -3 } },
+      { "text": "靜音手機假裝沒看到", "effects": { "stress": -3, "career": -8, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "eng_pr_50_comments",
+    "title": "你的 PR 被 senior 留了 50 條 review",
+    "description": "標題寫『nit:』的有 30 條，剩下都是『可以再思考一下』。",
+    "tags": ["work", "tech"],
+    "weight": 6,
+    "characters": ["engineer"],
+    "choices": [
+      { "text": "每一條都認真改", "effects": { "stress": 12, "career": 6, "health": -3 } },
+      { "text": "重要的改、其他標 wontfix", "effects": { "stress": 5, "career": -2, "reputation": -3 } },
+      { "text": "直接 close PR 重寫", "effects": { "stress": 8, "career": 2 } }
+    ]
+  },
+  {
+    "id": "dr_flood_street",
+    "title": "暴雨來襲，水淹過機車排氣管",
+    "description": "外送 app 還在跳單，餐點在你後座等。",
+    "tags": ["weather", "transport"],
+    "weight": 7,
+    "characters": ["delivery_rider"],
+    "choices": [
+      { "text": "硬騎過去，這單照賺", "effects": { "money": 180, "health": -10, "stress": 5 } },
+      { "text": "棄單、回家換衣服", "effects": { "stress": -3, "money": -100, "reputation": -3 } },
+      { "text": "牽車到便利商店避雨", "effects": { "stress": 3 } }
+    ]
+  },
+  {
+    "id": "dr_5star_tip",
+    "title": "客人留 200 元小費 + 五星好評",
+    "description": "備註寫『辛苦了，麻煩買杯飲料喝』。",
+    "tags": ["positive", "social"],
+    "weight": 5,
+    "characters": ["delivery_rider"],
+    "choices": [
+      { "text": "感動到截圖發限動", "effects": { "money": 200, "happiness": 14, "reputation": 3 } },
+      { "text": "默默繼續接下一單", "effects": { "money": 200, "happiness": 6 } },
+      { "text": "回訊息感謝、加 LINE", "effects": { "money": 200, "happiness": 10, "reputation": -1 } }
+    ]
+  },
+  {
+    "id": "fg_weird_interview",
+    "title": "面試第三輪，問你『你能加班到幾點』",
+    "description": "薪資寫的是 28K，沒寫加班費。",
+    "tags": ["career", "interview"],
+    "weight": 7,
+    "characters": ["fresh_graduate"],
+    "choices": [
+      { "text": "謊稱『沒問題、隨叫隨到』", "effects": { "stress": 8, "career": 6, "happiness": -3 } },
+      { "text": "誠實『有加班費就 OK』", "effects": { "stress": 3, "career": -3, "reputation": 3 } },
+      { "text": "起身走人，這家不錄取也罷", "effects": { "stress": -5, "happiness": 8, "career": -2 } }
+    ]
+  },
+  {
+    "id": "fg_ghosted_intern",
+    "title": "投了 20 個實習，0 個回覆",
+    "description": "104 通知欄一片乾涸，IG 同學已經貼出職場新人合照。",
+    "tags": ["career", "social"],
+    "weight": 6,
+    "characters": ["fresh_graduate"],
+    "choices": [
+      { "text": "繼續海投，每天 5 份", "effects": { "stress": 10, "career": 3, "happiness": -3 } },
+      { "text": "回老家擺爛一個月", "effects": { "stress": -8, "happiness": 6, "money": -2000, "career": -5 } },
+      { "text": "找學長姐喬內推", "effects": { "stress": 3, "career": 6, "reputation": 3 } }
+    ]
+  },
+  {
+    "id": "scam_realize",
+    "title": "165 反詐騙專線打給你：『您可能遭遇詐騙』",
+    "description": "你前兩天匯出去的 15,000 元，他們說有機會追回部分。",
+    "tags": ["scam", "phone", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "報警立案，配合調查", "effects": { "stress": 8, "reputation": 3, "money": 5000 } },
+      { "text": "認賠，避免麻煩", "effects": { "stress": 5, "happiness": -5 } },
+      { "text": "反問『你怎麼證明你不是詐騙』", "effects": { "stress": 5, "happiness": 5 } }
+    ]
+  },
+  {
+    "id": "company_news_bad",
+    "title": "新聞：『XX 科技財報虛報，董事長遭約談』",
+    "description": "那不就是你們公司嗎。同事群組炸開。",
+    "tags": ["work", "news", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "馬上更新履歷投出去", "effects": { "stress": 12, "career": -3 } },
+      { "text": "繼續上班，假裝沒事", "effects": { "stress": 18 } },
+      { "text": "在 LinkedIn 公開抱怨", "effects": { "stress": 5, "career": -5, "reputation": 3 } }
+    ]
+  },
+  {
+    "id": "crypto_disaster",
+    "title": "你 ALL IN 的那檔幣，跌剩 5%",
+    "description": "朋友群組已讀不回，他自己也虧到一半。",
+    "tags": ["scam", "money", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認賠出場、不再碰幣圈", "effects": { "stress": 18, "happiness": -8 } },
+      { "text": "拗下去，會回本的", "effects": { "stress": 15, "happiness": -5 } },
+      { "text": "去揍那個朋友", "effects": { "stress": -5, "happiness": 8, "health": -5, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "luck_scooter_hit",
+    "title": "走人行道被機車從後面撞",
+    "description": "你還沒看清楚車牌，騎士已經閃進巷子裡。",
+    "tags": ["luck", "bad"],
+    "weight": 4,
+    "choices": [
+      { "text": "扶起來、罵一句髒話", "effects": { "money": -800, "health": -10, "stress": 15 } }
+    ]
+  },
+  {
+    "id": "luck_fridge_blackout",
+    "title": "半夜停電 8 小時，冰箱裡食物全爛了",
+    "description": "你回家聞到那個味道就知道完了。",
+    "tags": ["luck", "bad"],
+    "weight": 3,
+    "choices": [
+      { "text": "全部丟掉、叫外送", "effects": { "money": -800, "health": -3, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "luck_phone_crack",
+    "title": "雨天滑倒，手機螢幕碎成蜘蛛網",
+    "description": "你比心痛還痛的是剛繳完車貸。",
+    "tags": ["luck", "bad"],
+    "weight": 3,
+    "choices": [
+      { "text": "Google『螢幕維修 多少錢』", "effects": { "money": -3500, "stress": 12 } }
+    ]
+  },
+  {
+    "id": "luck_mom_scam_group",
+    "title": "媽 LINE：『兒子！這個股票群超賺！』",
+    "description": "你打開一看，群名是『XX 投資老師 V12 群』。",
+    "tags": ["luck", "bad", "family"],
+    "weight": 3,
+    "choices": [
+      { "text": "死命勸退、但她已經匯了", "effects": { "money": -10000, "stress": 15, "reputation": -2 } }
+    ]
+  },
+  {
+    "id": "luck_dog_poop",
+    "title": "低頭滑手機走路，左腳踩到狗大便",
+    "description": "新買的鞋。",
+    "tags": ["luck", "bad"],
+    "weight": 5,
+    "choices": [
+      { "text": "邊走邊在路邊草地擦", "effects": { "happiness": -5, "stress": 5 } }
+    ]
+  },
+  {
+    "id": "luck_bus_brake",
+    "title": "公車司機急煞，你撞到前面的扶手",
+    "description": "嘴巴磕到 + 鼻血一條。",
+    "tags": ["luck", "bad"],
+    "weight": 4,
+    "choices": [
+      { "text": "假裝沒事拿出衛生紙", "effects": { "health": -5, "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "luck_neighbor_leak",
+    "title": "樓上漏水滲到你家天花板",
+    "description": "壁紙開花、床墊半濕。鄰居說『這你自己處理』。",
+    "tags": ["luck", "bad", "housing"],
+    "weight": 3,
+    "choices": [
+      { "text": "拍照、聯絡管委會、流淚", "effects": { "money": -5000, "stress": 15 } }
+    ]
+  },
+  {
+    "id": "luck_pick_up_500",
+    "title": "捷運手扶梯下發現一張 500 塊",
+    "description": "四下無人。",
+    "tags": ["luck", "good"],
+    "weight": 4,
+    "choices": [
+      { "text": "快速塞進口袋、走人", "effects": { "money": 500, "happiness": 8 } }
+    ]
+  },
+  {
+    "id": "luck_free_drink",
+    "title": "飲料店店員：『送你一杯、剛做壞的』",
+    "description": "芒果綠茶無糖少冰，剛好你想喝的。",
+    "tags": ["luck", "good"],
+    "weight": 4,
+    "choices": [
+      { "text": "謝謝阿姨", "effects": { "happiness": 10, "reputation": 2 } }
+    ]
+  },
+  {
+    "id": "luck_lottery_200",
+    "title": "對發票對中 200",
+    "description": "你已經放棄希望的那張。",
+    "tags": ["luck", "good"],
+    "weight": 4,
+    "choices": [
+      { "text": "截圖傳給媽炫耀", "effects": { "money": 200, "happiness": 8 } }
+    ]
+  },
+  {
+    "id": "luck_landlord_miscalc",
+    "title": "房東 LINE：『不好意思上個月多收你 1500』",
+    "description": "他真的把 1500 轉回來了。",
+    "tags": ["luck", "good", "housing"],
+    "weight": 3,
+    "choices": [
+      { "text": "謝謝、人間還有溫情", "effects": { "money": 1500, "happiness": 10 } }
+    ]
+  },
+  {
+    "id": "luck_boss_lunch_treat",
+    "title": "主管：『今天我請客，大家點』",
+    "description": "他點了八方雲集。",
+    "tags": ["luck", "good", "work"],
+    "weight": 4,
+    "choices": [
+      { "text": "點便宜的、不要不識相", "effects": { "happiness": 5, "reputation": 3, "career": 2 } }
     ]
   }
 ]

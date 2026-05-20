@@ -50,7 +50,7 @@ const statLabel: Record<string, string> = {
 </script>
 
 <template>
-  <div class="min-h-dvh p-4 max-w-md mx-auto space-y-4">
+  <div class="min-h-dvh pt-14 px-4 pb-4 max-w-md mx-auto space-y-4">
     <GameStatusBar :stats="store.stats" />
 
     <template v-if="!showOutcome && store.currentEvent">

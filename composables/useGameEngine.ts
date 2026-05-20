@@ -5,8 +5,9 @@ const CHARACTERS = charactersData as Character[]
 
 export const useGameEngine = () => {
   const store = useGameStore()
-  const { pickNextEvent } = useEvents()
+  const { pickNext } = useEvents()
   const { checkEnding } = useEndings()
+  const dex = useEndingDex()
 
   const startGame = (character: Character) => {
     store.startNewLife(character)
@@ -14,7 +15,15 @@ export const useGameEngine = () => {
   }
 
   const rollNextEvent = () => {
-    const event = pickNextEvent(store.seenEventIds)
+    const { event, fromSchedule } = pickNext({
+      seenIds: store.seenEventIds,
+      scheduled: store.scheduledEvents,
+      currentDay: store.stats.day,
+      characterId: store.selectedCharacter?.id ?? null,
+    })
+    if (fromSchedule && event) {
+      store.consumeScheduledEvent(event.id)
+    }
     store.setCurrentEvent(event)
   }
 
@@ -26,6 +35,7 @@ export const useGameEngine = () => {
     const ending = checkEnding(store.stats)
     if (ending) {
       store.setEnding(ending.id)
+      dex.recordUnlock(ending.id)
       return true
     }
     store.advanceDay()
