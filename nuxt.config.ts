@@ -20,6 +20,7 @@ export default defineNuxtConfig({
         { property: 'og:image', content: '/pwa-512x512.png' },
       ],
       link: [
+        { rel: 'manifest', href: '/manifest.webmanifest' },
         { rel: 'icon', type: 'image/svg+xml', href: '/pwa-icon-source.svg' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
