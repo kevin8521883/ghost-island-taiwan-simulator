@@ -130,29 +130,45 @@ const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
   ctx.fillText('ghost-island-taiwan-simulator.vercel.app', W / 2, H - 90)
 }
 
+const dataUrlToBlob = (dataUrl: string): Blob => {
+  const [header, base64] = dataUrl.split(',')
+  const mime = header.match(/data:([^;]+);/)?.[1] ?? 'image/png'
+  const binary = atob(base64)
+  const len = binary.length
+  const buffer = new Uint8Array(len)
+  for (let i = 0; i < len; i++) {
+    buffer[i] = binary.charCodeAt(i)
+  }
+  return new Blob([buffer], { type: mime })
+}
+
 export const useShareCard = () => {
   const generating = useState<boolean>('share-card-generating', () => false)
+  const lastError = useState<string>('share-card-error', () => '')
 
-  const generate = async (opts: CardOptions): Promise<Blob | null> => {
+  const generate = (opts: CardOptions): Blob | null => {
     if (!import.meta.client) return null
 
     generating.value = true
+    lastError.value = ''
     try {
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready
-      }
-
       const canvas = document.createElement('canvas')
       canvas.width = W
       canvas.height = H
       const ctx = canvas.getContext('2d')
-      if (!ctx) return null
+      if (!ctx) {
+        lastError.value = '無法建立 canvas context'
+        return null
+      }
 
       drawCard(ctx, opts)
 
-      return await new Promise<Blob | null>((resolve) => {
-        canvas.toBlob((blob) => resolve(blob), 'image/png', 0.92)
-      })
+      const dataUrl = canvas.toDataURL('image/png')
+      return dataUrlToBlob(dataUrl)
+    } catch (e) {
+      lastError.value = e instanceof Error ? e.message : String(e)
+      console.error('[shareCard]', e)
+      return null
     } finally {
       generating.value = false
     }
@@ -170,7 +186,7 @@ export const useShareCard = () => {
   }
 
   const share = async (opts: CardOptions): Promise<'shared' | 'downloaded' | 'failed'> => {
-    const blob = await generate(opts)
+    const blob = generate(opts)
     if (!blob) return 'failed'
 
     const filename = `ghost-island-${opts.ending.id}-day${opts.stats.day}.png`
@@ -193,7 +209,6 @@ export const useShareCard = () => {
         await navigator.share(shareData)
         return 'shared'
       } catch (e) {
-        // user cancelled — don't fall back to download
         return 'failed'
       }
     }
@@ -202,12 +217,12 @@ export const useShareCard = () => {
     return 'downloaded'
   }
 
-  const download = async (opts: CardOptions): Promise<boolean> => {
-    const blob = await generate(opts)
+  const download = (opts: CardOptions): boolean => {
+    const blob = generate(opts)
     if (!blob) return false
     downloadBlob(blob, `ghost-island-${opts.ending.id}-day${opts.stats.day}.png`)
     return true
   }
 
-  return { generating, generate, share, download }
+  return { generating, lastError, generate, share, download }
 }

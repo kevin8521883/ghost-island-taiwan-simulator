@@ -82,26 +82,32 @@ const handleShare = async () => {
     character: store.selectedCharacter,
   })
   if (result === 'downloaded') {
-    shareToast.value = '已下載結局圖到相簿 / 下載資料夾'
+    shareToast.value = '已下載結局圖'
   } else if (result === 'shared') {
     shareToast.value = '已開啟分享'
+  } else if (shareCard.lastError) {
+    shareToast.value = `產生失敗：${shareCard.lastError}`
   }
   if (shareToast.value) {
-    setTimeout(() => (shareToast.value = ''), 2500)
+    setTimeout(() => (shareToast.value = ''), 3500)
   }
 }
 
-const handleDownload = async () => {
+const handleDownload = () => {
   if (!ending.value) return
   sfx.play('click')
-  const ok = await shareCard.download({
+  const ok = shareCard.download({
     ending: ending.value,
     stats: store.stats,
     character: store.selectedCharacter,
   })
   if (ok) {
     shareToast.value = '已下載到本機'
-    setTimeout(() => (shareToast.value = ''), 2500)
+  } else if (shareCard.lastError) {
+    shareToast.value = `產生失敗：${shareCard.lastError}`
+  }
+  if (shareToast.value) {
+    setTimeout(() => (shareToast.value = ''), 3500)
   }
 }
 </script>
