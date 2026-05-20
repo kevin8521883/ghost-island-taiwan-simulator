@@ -57,10 +57,20 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,ico,wav,mp3,json,woff2,woff}'],
+      globPatterns: ['**/*.{js,css,html,svg,png,ico,wav,json,woff2,woff}'],
+      globIgnores: ['**/audio/bgm.mp3'],
       navigateFallback: '/',
       cleanupOutdatedCaches: true,
       runtimeCaching: [
+        {
+          urlPattern: /\/audio\/.*\.(mp3|wav|ogg)$/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'audio-cache',
+            expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            rangeRequests: true,
+          },
+        },
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
           handler: 'CacheFirst',
