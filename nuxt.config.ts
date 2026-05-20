@@ -3,6 +3,12 @@ export default defineNuxtConfig({
   ssr: false,
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@vite-pwa/nuxt'],
   css: ['~/assets/css/main.css'],
+  nitro: {
+    prerender: {
+      routes: ['/'],
+      failOnError: false,
+    },
+  },
   app: {
     head: {
       title: '鬼島台灣模擬器：社畜篇',
