@@ -2,6 +2,7 @@
 const store = useGameStore()
 const { findEnding } = useEndings()
 const sfx = useSfx()
+const shareCard = useShareCard()
 
 const ending = computed(() => findEnding(store.endingId))
 
@@ -70,22 +71,37 @@ const playAgain = () => {
   navigateTo('/character')
 }
 
-const shareText = computed(() => {
-  if (!ending.value) return ''
-  return `我在《鬼島台灣模擬器：社畜篇》第 ${store.stats.day} 天迎來「${ending.value.title}」結局。`
-})
+const shareToast = ref<string>('')
 
-const share = async () => {
+const handleShare = async () => {
+  if (!ending.value) return
   sfx.play('click')
-  if (typeof navigator !== 'undefined' && navigator.share) {
-    try {
-      await navigator.share({ title: '鬼島台灣模擬器', text: shareText.value })
-    } catch (_) {
-      // user cancelled
-    }
-  } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-    await navigator.clipboard.writeText(shareText.value)
-    alert('結果已複製到剪貼簿')
+  const result = await shareCard.share({
+    ending: ending.value,
+    stats: store.stats,
+    character: store.selectedCharacter,
+  })
+  if (result === 'downloaded') {
+    shareToast.value = '已下載結局圖到相簿 / 下載資料夾'
+  } else if (result === 'shared') {
+    shareToast.value = '已開啟分享'
+  }
+  if (shareToast.value) {
+    setTimeout(() => (shareToast.value = ''), 2500)
+  }
+}
+
+const handleDownload = async () => {
+  if (!ending.value) return
+  sfx.play('click')
+  const ok = await shareCard.download({
+    ending: ending.value,
+    stats: store.stats,
+    character: store.selectedCharacter,
+  })
+  if (ok) {
+    shareToast.value = '已下載到本機'
+    setTimeout(() => (shareToast.value = ''), 2500)
   }
 }
 </script>
@@ -127,8 +143,22 @@ const share = async () => {
       <Transition name="fade">
         <div v-if="descDone" class="space-y-2">
           <PixelButton variant="primary" @click="playAgain">再玩一次</PixelButton>
-          <PixelButton @click="share">分享結果</PixelButton>
+          <PixelButton :disabled="shareCard.generating" @click="handleShare">
+            {{ shareCard.generating ? '產生圖片中…' : '分享結局圖' }}
+          </PixelButton>
+          <PixelButton :disabled="shareCard.generating" @click="handleDownload">
+            下載結局圖
+          </PixelButton>
           <PixelButton to="/">回到首頁</PixelButton>
+        </div>
+      </Transition>
+
+      <Transition name="fade">
+        <div
+          v-if="shareToast"
+          class="fixed bottom-6 left-1/2 -translate-x-1/2 pixel-card text-xs whitespace-nowrap z-50"
+        >
+          {{ shareToast }}
         </div>
       </Transition>
     </template>
