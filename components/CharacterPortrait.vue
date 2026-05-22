@@ -21,7 +21,13 @@ const sizeClass = computed(() => {
   return 'w-14 h-14 text-3xl'
 })
 
-const portraitSrc = computed(() => `/portraits/${props.character.id}.png`)
+const portraitSrc = computed(() => {
+  const id = props.character.id
+  // 依 mood 切表情圖：happy / sad 有專屬、stressed 用 sad、normal 用 base
+  if (props.mood === 'happy') return `/portraits/${id}_happy.webp`
+  if (props.mood === 'sad' || props.mood === 'stressed') return `/portraits/${id}_sad.webp`
+  return `/portraits/${id}.webp`
+})
 const showImage = computed(() => !imgErr.value)
 
 // idle 動畫類別依 mood 切換

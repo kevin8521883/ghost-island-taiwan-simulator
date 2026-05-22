@@ -3,6 +3,7 @@ import type { Character } from '~/types/game'
 
 const { characters, startGame } = useGameEngine()
 const dex = useEndingDex()
+const history = useRunHistory()
 const sfx = useSfx()
 
 const selected = ref<Character | null>(null)
@@ -13,9 +14,29 @@ const settled = ref(false)
 const spinUnlockedRichKid = ref(false)
 const spinResult = ref<Character | null>(null)
 
+const NGP_KEY = 'ghost-island-ngp-enabled'
+const ngPlusEnabled = ref(false)
+const ngPlusAvailable = computed(() => history.totalRuns >= 1)
+const NGP_BONUS = 5000
+
 onMounted(() => {
   dex.refresh()
+  history.refresh()
+  if (import.meta.client) {
+    ngPlusEnabled.value = localStorage.getItem(NGP_KEY) === 'true'
+  }
 })
+
+watch(ngPlusEnabled, (v) => {
+  if (import.meta.client) {
+    localStorage.setItem(NGP_KEY, v ? 'true' : 'false')
+  }
+})
+
+const applyNgPlus = (c: Character): Character => {
+  if (!ngPlusEnabled.value || !ngPlusAvailable.value) return c
+  return { ...c, money: c.money + NGP_BONUS }
+}
 
 const visibleCharacters = computed(() => {
   return characters.filter((c) => !c.hidden || dex.isCharUnlocked(c.id))
@@ -23,7 +44,7 @@ const visibleCharacters = computed(() => {
 
 const confirmAndStart = () => {
   if (!selected.value) return
-  startGame(selected.value)
+  startGame(applyNgPlus(selected.value))
   navigateTo('/game')
 }
 
@@ -85,7 +106,7 @@ const spinAndStart = async () => {
   await new Promise((r) => setTimeout(r, spinUnlockedRichKid.value ? 2200 : 1200))
 
   spinning.value = false
-  startGame(result)
+  startGame(applyNgPlus(result))
   navigateTo('/game')
 }
 </script>
@@ -120,6 +141,21 @@ const spinAndStart = async () => {
     </div>
 
     <div class="pt-4 space-y-2 sticky bottom-2 z-20">
+      <label
+        v-if="ngPlusAvailable"
+        class="pixel-card flex items-center gap-3 cursor-pointer text-xs"
+      >
+        <input
+          v-model="ngPlusEnabled"
+          type="checkbox"
+          class="w-4 h-4 accent-amber-400"
+        />
+        <span class="flex-1">
+          <span class="text-amber-400">NG+ 繼承上場</span>
+          <span class="text-muted text-[10px] block">起始金錢 +5,000</span>
+        </span>
+        <span class="text-[10px] text-muted">已通關 {{ history.totalRuns }} 場</span>
+      </label>
       <PixelButton
         variant="primary"
         :disabled="!selected"

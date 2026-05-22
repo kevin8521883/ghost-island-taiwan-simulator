@@ -72,6 +72,7 @@ export const useGameEngine = () => {
       scheduled: store.scheduledEvents,
       currentDay: store.stats.day,
       characterId: store.selectedCharacter?.id ?? null,
+      stats: store.stats,
       // timeOfDay 暫不傳 → pickNext 不過濾、所有事件隨機抽
     })
     if (fromSchedule && event) {

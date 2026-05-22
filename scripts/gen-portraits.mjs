@@ -68,9 +68,30 @@ const CHARACTERS = [
 
 const MODEL = 'google/gemini-2.5-flash-image'
 
-const callOpenRouter = async (prompt) => {
+const POSE_DESCRIPTIONS = {
+  normal: 'with a calm neutral face',
+  happy: 'with a big grin, eyes wide and sparkling, arms slightly raised in joy',
+  sad: 'with a downcast frown, eyes half-closed, shoulders slumped, looking defeated',
+}
+
+// image-to-image 模式：吃既有 base webp、只改表情、保留角色一致性
+const POSE_EDIT_PROMPTS = {
+  happy:
+    'Same exact character as the input image. Same hair, same clothes, same body. ' +
+    'But change the face to show EXTREME JOY: wide open mouth grinning ear-to-ear showing teeth, ' +
+    'eyes turned into upturned curves like ^_^ or with star sparkles, blush on cheeks. ' +
+    'The character looks ecstatic, just won the lottery happy. Keep everything else exactly the same.',
+  sad:
+    'Same exact character as the input image. Same hair, same clothes, same body. ' +
+    'But change the face to show DEEP SADNESS: mouth turned down in a frown, ' +
+    'eyes half-closed or with tears welling, eyebrows angled down inward, shoulders slumped slightly. ' +
+    'The character looks utterly defeated, like just lost everything. Keep everything else exactly the same.',
+}
+
+const callOpenRouter = async (basePrompt, pose = 'normal') => {
+  const poseDesc = POSE_DESCRIPTIONS[pose] ?? POSE_DESCRIPTIONS.normal
   const fullPrompt =
-    'NES Famicom retro pixel art sprite of ' + prompt +
+    'NES Famicom retro pixel art sprite of ' + basePrompt + ', ' + poseDesc +
     '. Chibi proportions with big head and small body. Standing front view facing camera. ' +
     'IMPORTANT: place the character on a solid bright magenta background (pure RGB 255,0,255 / hex FF00FF). ' +
     'The entire area around the character must be filled with this exact magenta color, ' +
@@ -100,6 +121,53 @@ const callOpenRouter = async (prompt) => {
   const json = await res.json()
   const images = json.choices?.[0]?.message?.images
   const dataUrl = images?.[0]?.image_url?.url
+  if (!dataUrl) throw new Error(`no image in response: ${JSON.stringify(json).slice(0, 300)}`)
+  return dataUrl
+}
+
+/**
+ * image-to-image：餵既有 base 圖、只改表情、保留角色一致性
+ * pose 必須是 happy 或 sad
+ */
+const callOpenRouterFromBase = async (basePath, pose) => {
+  const editPrompt = POSE_EDIT_PROMPTS[pose]
+  if (!editPrompt) throw new Error(`no edit prompt for pose: ${pose}`)
+
+  const buf = await fs.readFile(basePath)
+  const baseDataUrl = `data:image/webp;base64,${buf.toString('base64')}`
+
+  const fullPrompt =
+    editPrompt +
+    ' Place on pure solid magenta background (RGB 255,0,255 / hex FF00FF) — no black, no transparent.'
+
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${OPENROUTER_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://ghost-island-taiwan-simulator.vercel.app',
+      'X-Title': 'Ghost Island Taiwan Simulator',
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: fullPrompt },
+            { type: 'image_url', image_url: { url: baseDataUrl } },
+          ],
+        },
+      ],
+      modalities: ['image', 'text'],
+    }),
+  })
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`OpenRouter ${res.status}: ${text.slice(0, 300)}`)
+  }
+  const json = await res.json()
+  const dataUrl = json.choices?.[0]?.message?.images?.[0]?.image_url?.url
   if (!dataUrl) throw new Error(`no image in response: ${JSON.stringify(json).slice(0, 300)}`)
   return dataUrl
 }
@@ -154,12 +222,33 @@ const saveDataUrl = async (dataUrl, dest) => {
   const rawBuf = Buffer.from(m[2], 'base64')
   const transparentBuf = await chromaKeyMagenta(rawBuf)
   await fs.writeFile(dest, transparentBuf)
+  // 額外輸出 .webp（壓縮 80% 給 production 用）
+  const webpDest = dest.replace(/\.png$/, '.webp')
+  await sharp(transparentBuf)
+    .webp({ quality: 90, effort: 6, nearLossless: true, alphaQuality: 100 })
+    .toFile(webpDest)
   return transparentBuf.byteLength
 }
 
 const PORTRAITS_DIR = path.join(process.cwd(), 'public', 'portraits')
 
-const filter = process.argv.slice(2)
+// 解析 args：--pose normal|happy|sad、其餘是 character id filter
+const args = process.argv.slice(2)
+let pose = 'normal'
+const filter = []
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--pose' && args[i + 1]) {
+    pose = args[i + 1]
+    i++
+  } else {
+    filter.push(args[i])
+  }
+}
+if (!POSE_DESCRIPTIONS[pose]) {
+  console.error(`❌ 無效 pose: ${pose}、可用: normal / happy / sad`)
+  process.exit(1)
+}
+
 const targets = filter.length > 0
   ? CHARACTERS.filter((c) => filter.includes(c.id))
   : CHARACTERS
@@ -169,16 +258,32 @@ if (filter.length > 0 && targets.length === 0) {
   process.exit(1)
 }
 
-console.log(`📐 生成 ${targets.length} 張 portrait...`)
+console.log(`📐 生成 ${targets.length} 張 portrait（pose: ${pose}）...`)
 await fs.mkdir(PORTRAITS_DIR, { recursive: true })
+
+const suffix = pose === 'normal' ? '' : `_${pose}`
+// happy / sad 走 image-to-image（從 base webp 改表情、保留角色一致性）
+const useFromBase = pose === 'happy' || pose === 'sad'
 
 let okCount = 0
 let failCount = 0
 for (const char of targets) {
-  const dest = path.join(PORTRAITS_DIR, `${char.id}.png`)
-  process.stdout.write(`  ${char.name.padEnd(12)} (${char.id}) ... `)
+  const dest = path.join(PORTRAITS_DIR, `${char.id}${suffix}.png`)
+  const basePath = path.join(PORTRAITS_DIR, `${char.id}.webp`)
+  process.stdout.write(`  ${char.name.padEnd(12)} (${char.id}${suffix}) ... `)
   try {
-    const dataUrl = await callOpenRouter(char.prompt)
+    let dataUrl
+    if (useFromBase) {
+      // 確認 base 存在
+      try {
+        await fs.access(basePath)
+      } catch {
+        throw new Error(`base 圖不存在: ${char.id}.webp、先跑 --pose normal 生 base`)
+      }
+      dataUrl = await callOpenRouterFromBase(basePath, pose)
+    } else {
+      dataUrl = await callOpenRouter(char.prompt, pose)
+    }
     const size = await saveDataUrl(dataUrl, dest)
     console.log(`✅ ${(size / 1024).toFixed(0)} KB`)
     okCount++

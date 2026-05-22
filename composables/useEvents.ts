@@ -1,5 +1,5 @@
 import eventsData from '~/data/events.json'
-import type { GameEvent, ScheduledEvent, TimeSlot } from '~/types/game'
+import type { ChoiceCondition, GameEvent, PlayerStats, Range, ScheduledEvent, TimeSlot } from '~/types/game'
 
 const ALL_EVENTS = eventsData as GameEvent[]
 const EVENTS_BY_ID = new Map(ALL_EVENTS.map((e) => [e.id, e]))
@@ -10,6 +10,29 @@ interface PickContext {
   currentDay?: number
   characterId?: string | null
   timeOfDay?: TimeSlot
+  stats?: PlayerStats
+}
+
+const matchesRange = (value: number, range: Range): boolean => {
+  if (range.gte !== undefined && value < range.gte) return false
+  if (range.lte !== undefined && value > range.lte) return false
+  return true
+}
+
+const meetsCondition = (
+  cond: ChoiceCondition | undefined,
+  stats: PlayerStats | undefined
+): boolean => {
+  if (!cond) return true
+  if (!stats) return false
+  for (const key of Object.keys(cond) as (keyof ChoiceCondition)[]) {
+    const range = cond[key]
+    if (!range) continue
+    const value = stats[key as keyof PlayerStats]
+    if (typeof value !== 'number') return false
+    if (!matchesRange(value, range)) return false
+  }
+  return true
 }
 
 interface PickResult {
@@ -30,9 +53,12 @@ export const useEvents = () => {
       currentDay = 1,
       characterId = null,
       timeOfDay,
+      stats,
     } = ctx
     const matchTime = (e: GameEvent) =>
       !e.timeOfDay || !timeOfDay || e.timeOfDay === timeOfDay
+    const matchCondition = (e: GameEvent) =>
+      !e.condition || meetsCondition(e.condition, stats)
 
     // 1. chain event 到期
     const due = scheduled.find((s) => s.triggerDay <= currentDay)
@@ -65,16 +91,17 @@ export const useEvents = () => {
       if (e.requiredDay) return false
       if (e.characters && characterId && !e.characters.includes(characterId)) return false
       if (!matchTime(e)) return false
+      if (!matchCondition(e)) return false
       if (seenIds.includes(e.id)) return false
       return true
     })
     if (pool.length === 0) {
-      // 都看過了，重置（但仍排除 chain only / requiredDay / 不符 timeOfDay）
       pool = ALL_EVENTS.filter((e) => {
         if (e.chainOnly) return false
         if (e.requiredDay) return false
         if (e.characters && characterId && !e.characters.includes(characterId)) return false
         if (!matchTime(e)) return false
+        if (!matchCondition(e)) return false
         return true
       })
     }

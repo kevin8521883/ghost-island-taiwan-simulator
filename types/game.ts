@@ -61,12 +61,25 @@ export interface EventTrigger {
   outcomes?: EventOutcome[]
 }
 
+export interface PlayerBuff {
+  /** buff 唯一 id（通常對應 item id）*/
+  id: string
+  name: string
+  icon: string
+  /** 剩餘天數、-1 = 永久 */
+  daysRemaining: number
+  /** 每天 advanceDay 時套用的 effects */
+  perDayEffects: EventEffect
+}
+
 export interface EventChoice {
   text: string
   effects: EventEffect
   trigger?: EventTrigger
   /** 解鎖條件、未滿足則選項不出現 */
   condition?: ChoiceCondition
+  /** 選擇後獲得的 buff（會加進 stats.buffs）*/
+  grantBuff?: PlayerBuff
 }
 
 export type TimeSlot = 'morning' | 'noon' | 'evening'
@@ -85,6 +98,8 @@ export interface GameEvent {
   requiredDay?: number
   /** 限定時段（undefined = 任何時段都可抽）*/
   timeOfDay?: TimeSlot
+  /** 解鎖條件、stats 達標才會出現在隨機池（chain 觸發不受影響）*/
+  condition?: ChoiceCondition
   /** 這個事件是 AI 即時產生的（影響 UI 顯示） */
   aiGenerated?: boolean
   choices: EventChoice[]
@@ -117,6 +132,8 @@ export interface PlayerStats {
   coworker: number
   /** 跟家人的關係（0-100，預設 50）*/
   family: number
+  /** 已持有的 buff（道具效果）*/
+  buffs: PlayerBuff[]
 }
 
 export interface Range {

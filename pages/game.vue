@@ -7,6 +7,7 @@ const { rollNextEvent, chooseOption, advanceDay, aiLoading } = useGameEngine()
 const lastEffects = ref<EventEffect | null>(null)
 const lastChoiceText = ref('')
 const showOutcome = ref(false)
+const portraitReactKey = ref(0)
 
 const matchesRange = (value: number, range: Range): boolean => {
   if (range.gte !== undefined && value < range.gte) return false
@@ -58,6 +59,7 @@ const handleChoice = (index: number) => {
   lastEffects.value = { ...choice.effects }
   chooseOption(index)
   showOutcome.value = true
+  portraitReactKey.value++
 }
 
 const quitRun = () => {
@@ -84,11 +86,27 @@ const statLabel: Record<string, string> = {
   coworker: '🧑‍🤝‍🧑 同事關係',
   family: '🏠 家人關係',
 }
+
+// 對玩家是好還是壞？stress 是反向（增加 = 壞）、其他正向（增加 = 好）
+const isBeneficial = (key: string, value: number): boolean => {
+  if (value === 0) return false
+  if (key === 'stress') return value < 0
+  return value > 0
+}
+const isHarmful = (key: string, value: number): boolean => {
+  if (value === 0) return false
+  if (key === 'stress') return value > 0
+  return value < 0
+}
 </script>
 
 <template>
   <div class="min-h-dvh pt-14 px-4 pb-4 max-w-md mx-auto space-y-4">
-    <GameStatusBar :stats="store.stats" :character="store.selectedCharacter" />
+    <GameStatusBar
+      :stats="store.stats"
+      :character="store.selectedCharacter"
+      :react-key="portraitReactKey"
+    />
 
     <template v-if="aiLoading">
       <div class="ai-loading-card pixel-card space-y-3 text-center py-8">
@@ -133,13 +151,13 @@ const statLabel: Record<string, string> = {
           >
             <span>{{ statLabel[key] ?? key }}</span>
             <span
-              :class="
-                value > 0
-                  ? 'text-green-400'
-                  : value < 0
-                  ? 'text-red-400'
-                  : 'text-muted'
-              "
+              class="relative"
+              :class="[
+                isBeneficial(key, value) ? 'text-green-400 stat-value-positive' : isHarmful(key, value) ? 'text-red-400 stat-value-negative' : 'text-muted',
+                isBeneficial(key, value) && Math.abs(value) >= 10 ? 'stat-sparkle' : '',
+                isHarmful(key, value) && Math.abs(value) >= 10 ? 'stat-break' : '',
+              ]"
+              :style="{ animationDelay: idx * 0.08 + 0.2 + 's' }"
             >
               {{ value > 0 ? '+' : '' }}{{ value }}
             </span>
@@ -149,6 +167,37 @@ const statLabel: Record<string, string> = {
             class="text-muted"
           >
             （人生沒什麼變化）
+          </li>
+        </ul>
+      </div>
+      <div
+        v-if="store.stats.buffs && store.stats.buffs.length > 0"
+        class="pixel-card space-y-2 event-enter text-xs"
+        style="animation-delay: 0.3s"
+      >
+        <p class="text-amber-400 text-[11px]">💼 道具持續中（每天結算）</p>
+        <ul class="space-y-1">
+          <li
+            v-for="buff in store.stats.buffs"
+            :key="buff.id"
+            class="flex justify-between items-center"
+          >
+            <span class="flex items-center gap-2">
+              <span>{{ buff.icon }}</span>
+              <span class="text-paper">{{ buff.name }}</span>
+              <span class="text-muted text-[10px]">
+                {{ buff.daysRemaining < 0 ? '∞' : '剩 ' + buff.daysRemaining + ' 天' }}
+              </span>
+            </span>
+            <span class="flex gap-2 text-[10px]">
+              <span
+                v-for="(val, k) in buff.perDayEffects"
+                :key="k"
+                :class="val > 0 ? 'text-green-400' : val < 0 ? 'text-red-400' : 'text-muted'"
+              >
+                {{ statLabel[k] ?? k }} {{ val > 0 ? '+' : '' }}{{ val }}
+              </span>
+            </span>
           </li>
         </ul>
       </div>

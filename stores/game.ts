@@ -4,6 +4,7 @@ import type {
   EventEffect,
   GameEvent,
   LogEntry,
+  PlayerBuff,
   PlayerStats,
   ScheduledEvent,
   StatKey,
@@ -35,6 +36,7 @@ const emptyStats = (): PlayerStats => ({
   boss: 50,
   coworker: 50,
   family: 50,
+  buffs: [],
 })
 
 const SLOT_ORDER: ('morning' | 'noon' | 'evening')[] = ['morning', 'noon', 'evening']
@@ -73,6 +75,7 @@ export const useGameStore = defineStore('game', {
         boss: 50,
         coworker: 50,
         family: 50,
+        buffs: [],
       }
       this.currentEvent = null
       this.seenEventIds = []
@@ -114,6 +117,12 @@ export const useGameStore = defineStore('game', {
         effects: choice.effects,
       })
       this.seenEventIds.push(this.currentEvent.id)
+      // 賦予 buff（道具）
+      if (choice.grantBuff) {
+        // 同 id 已存在則覆蓋（不疊加、簡化邏輯）
+        const filtered = this.stats.buffs.filter((b) => b.id !== choice.grantBuff!.id)
+        this.stats.buffs = [...filtered, { ...choice.grantBuff }]
+      }
       if (choice.trigger) {
         let triggerEventId: string | undefined
         if (choice.trigger.outcomes && choice.trigger.outcomes.length > 0) {
@@ -157,6 +166,25 @@ export const useGameStore = defineStore('game', {
       this.stats.day += 1
       this.stats.timeOfDay = 'morning'
       this.currentEvent = null
+      // 套用所有 active buff 的 perDayEffects、然後遞減 daysRemaining
+      const relationKeys: StatKey[] = ['boss', 'coworker', 'family']
+      const remaining: PlayerBuff[] = []
+      for (const buff of this.stats.buffs) {
+        const keys = Object.keys(buff.perDayEffects) as StatKey[]
+        for (const key of keys) {
+          const delta = buff.perDayEffects[key] ?? 0
+          this.stats[key] += delta
+          if (relationKeys.includes(key)) {
+            this.stats[key] = clampRelation(this.stats[key])
+          }
+        }
+        if (buff.daysRemaining < 0) {
+          remaining.push(buff)
+        } else if (buff.daysRemaining > 1) {
+          remaining.push({ ...buff, daysRemaining: buff.daysRemaining - 1 })
+        }
+      }
+      this.stats.buffs = remaining
       this.persist()
     },
 
@@ -227,8 +255,9 @@ export const useGameStore = defineStore('game', {
         const data = JSON.parse(raw)
         this.selectedCharacter = data.selectedCharacter ?? null
         const base = emptyStats()
-        // 舊存檔沒有 boss/coworker/family，用預設 50 補
+        // 舊存檔沒有 buffs / 關係欄位，用預設補
         this.stats = { ...base, ...(data.stats ?? {}) }
+        if (!Array.isArray(this.stats.buffs)) this.stats.buffs = []
         this.currentEvent = data.currentEvent ?? null
         this.seenEventIds = data.seenEventIds ?? []
         this.scheduledEvents = data.scheduledEvents ?? []

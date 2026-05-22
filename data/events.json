@@ -2465,5 +2465,327 @@
       { "text": "吃完便當再處理", "effects": { "stress": 12, "career": 2, "coworker": -5 } },
       { "text": "假裝沒看到、讓 senior 弄", "effects": { "stress": 3, "career": -5, "coworker": -8 } }
     ]
+  },
+  {
+    "id": "kevin_arc_01",
+    "title": "主管 Kevin 拍你肩膀：『下班後喝一杯』",
+    "description": "辦公室只剩你跟他。他眼睛紅紅的、不像是電腦看太久那種紅。",
+    "tags": ["npc", "kevin", "work"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
+    "condition": { "boss": { "gte": 60 } },
+    "weight": 5,
+    "choices": [
+      {
+        "text": "答應、聽他講",
+        "effects": { "money": -300, "stress": 8, "boss": 5 },
+        "trigger": { "afterDays": 3, "outcomes": [{ "eventId": "kevin_arc_02", "weight": 100 }] }
+      },
+      { "text": "婉拒、回家陪家人", "effects": { "boss": -10, "family": 5 } },
+      {
+        "text": "反問他『怎麼了』",
+        "effects": { "stress": 5, "boss": 3 },
+        "trigger": { "afterDays": 3, "outcomes": [{ "eventId": "kevin_arc_02", "weight": 100 }] }
+      }
+    ]
+  },
+  {
+    "id": "kevin_arc_02",
+    "title": "第三杯 Highball 後、Kevin 哭著說『我老婆要跟我離婚』",
+    "description": "他一直問你『我是不是真的很差勁』。你的烤雞翅還沒上。",
+    "tags": ["npc", "kevin", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      {
+        "text": "安慰他、結帳買單",
+        "effects": { "money": -800, "stress": 8, "boss": 12 },
+        "trigger": { "afterDays": 4, "outcomes": [{ "eventId": "kevin_arc_03", "weight": 100 }] }
+      },
+      {
+        "text": "認真給建議",
+        "effects": { "stress": 5, "boss": 5 },
+        "trigger": { "afterDays": 4, "outcomes": [{ "eventId": "kevin_arc_03", "weight": 100 }] }
+      },
+      { "text": "假裝接電話離席", "effects": { "boss": -15 } }
+    ]
+  },
+  {
+    "id": "kevin_arc_03",
+    "title": "Kevin 每天 LINE 你 30 條訊息抱怨老婆",
+    "description": "已讀不回他會發瘋。但你已經分不清是上班還是諮商。",
+    "tags": ["npc", "kevin", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      {
+        "text": "耐心當情緒導護",
+        "effects": { "stress": 15, "happiness": -10, "boss": 8 },
+        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "kevin_arc_04", "weight": 100 }] }
+      },
+      {
+        "text": "設邊界、跟他講你也很累",
+        "effects": { "stress": -5, "reputation": 3, "boss": -3 },
+        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "kevin_arc_04", "weight": 100 }] }
+      },
+      { "text": "直接封鎖他", "effects": { "boss": -25, "stress": -3 } }
+    ]
+  },
+  {
+    "id": "kevin_arc_04",
+    "title": "Kevin 召集你：『下個月離職、要不要跟我走』",
+    "description": "他開的新公司在內湖、薪水多 30% 但要 996。",
+    "tags": ["npc", "kevin", "chain", "ending"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "答應跟他走", "effects": { "career": 15, "money": 8000, "stress": 15, "boss": 20 } },
+      { "text": "委婉拒絕", "effects": { "career": -3, "boss": -5, "happiness": 3 } },
+      { "text": "反勸他別衝動", "effects": { "boss": 10, "reputation": 3 } }
+    ]
+  },
+  {
+    "id": "amy_arc_01",
+    "title": "同事 Amy 私訊：『中午一起吃午餐、有事跟你商量』",
+    "description": "她平常不太私訊你。",
+    "tags": ["npc", "amy", "work"],
+    "characters": ["office_worker", "engineer", "civil_servant"],
+    "condition": { "coworker": { "gte": 60 } },
+    "weight": 5,
+    "choices": [
+      {
+        "text": "答應、一起去",
+        "effects": { "money": -200, "coworker": 5 },
+        "trigger": { "afterDays": 1, "outcomes": [{ "eventId": "amy_arc_02", "weight": 100 }] }
+      },
+      { "text": "今天有事推掉", "effects": { "coworker": -3 } },
+      { "text": "改天再說", "effects": { "coworker": -1 } }
+    ]
+  },
+  {
+    "id": "amy_arc_02",
+    "title": "Amy 壓低聲音：『我在面 Google』",
+    "description": "她瞳孔在發光。叫你絕對不能跟主管說。",
+    "tags": ["npc", "amy", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      {
+        "text": "替她保密、祝她順利",
+        "effects": { "coworker": 10, "reputation": 3 },
+        "trigger": { "afterDays": 7, "outcomes": [{ "eventId": "amy_arc_03", "weight": 100 }] }
+      },
+      { "text": "勸她別走、留下來", "effects": { "coworker": -3 } },
+      { "text": "偷偷告訴主管邀功", "effects": { "coworker": -25, "boss": 15, "reputation": -10 } }
+    ]
+  },
+  {
+    "id": "amy_arc_03",
+    "title": "Amy LINE：『我這組缺人、我幫你內推』",
+    "description": "她已經 onboarding 兩週、現在發來一個 JD。",
+    "tags": ["npc", "amy", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      {
+        "text": "接受內推、準備面試",
+        "effects": { "stress": 12, "career": 8, "coworker": 5 },
+        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "amy_arc_04", "weight": 100 }] }
+      },
+      { "text": "婉拒、現職還 OK", "effects": { "coworker": 3, "boss": 3 } },
+      {
+        "text": "問薪水級距再說",
+        "effects": { "coworker": -3, "stress": 5 },
+        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "amy_arc_04", "weight": 100 }] }
+      }
+    ]
+  },
+  {
+    "id": "amy_arc_04",
+    "title": "Google offer 信來了、120K + 股票",
+    "description": "30 天內 onboard。但你還記得跟現主管簽的 90 天通知條款。",
+    "tags": ["npc", "amy", "chain", "ending"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "接受、立刻離職", "effects": { "career": 12, "money": 30000, "stress": 20, "happiness": 15, "boss": -15 } },
+      { "text": "用 offer 跟現公司談加薪", "effects": { "career": 5, "money": 15000, "boss": -10, "stress": 10 } },
+      { "text": "婉拒、留現公司", "effects": { "coworker": -5, "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "mom_arc_01",
+    "title": "媽 LINE：『你爸最近常喘、要不要回來看看』",
+    "description": "她沒問你週末有沒有空、只說『有空就好』。",
+    "tags": ["npc", "mom", "family"],
+    "condition": { "family": { "gte": 60 } },
+    "weight": 5,
+    "choices": [
+      {
+        "text": "馬上請假回家",
+        "effects": { "money": -1000, "career": -3, "family": 12 },
+        "trigger": { "afterDays": 2, "outcomes": [{ "eventId": "mom_arc_02", "weight": 100 }] }
+      },
+      {
+        "text": "週末回去",
+        "effects": { "money": -500, "family": 5 },
+        "trigger": { "afterDays": 4, "outcomes": [{ "eventId": "mom_arc_02", "weight": 100 }] }
+      },
+      { "text": "回『最近忙』", "effects": { "family": -10, "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "mom_arc_02",
+    "title": "醫生：『建議裝心臟支架、自費 30 萬』",
+    "description": "爸笑：『沒事啦、我自己處理』。媽在後面紅了眼眶。",
+    "tags": ["npc", "mom", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      {
+        "text": "出錢幫爸裝、自己扛",
+        "effects": { "money": -300000, "family": 20, "stress": 15 },
+        "trigger": { "afterDays": 6, "outcomes": [{ "eventId": "mom_arc_03", "weight": 100 }] }
+      },
+      {
+        "text": "跟爸媽湊一湊",
+        "effects": { "money": -100000, "family": 10, "stress": 5 },
+        "trigger": { "afterDays": 6, "outcomes": [{ "eventId": "mom_arc_03", "weight": 100 }] }
+      },
+      { "text": "說自己手頭也緊", "effects": { "family": -15, "happiness": -8 } }
+    ]
+  },
+  {
+    "id": "mom_arc_03",
+    "title": "爸出院後 LINE：『下週六回來吃飯、媽燉了人蔘雞』",
+    "description": "你已經半年沒在家吃週末晚餐。",
+    "tags": ["npc", "mom", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      {
+        "text": "認真陪一天",
+        "effects": { "family": 15, "happiness": 12, "stress": -8 },
+        "trigger": { "afterDays": 3, "outcomes": [{ "eventId": "mom_arc_04", "weight": 100 }] }
+      },
+      {
+        "text": "吃完飯就走",
+        "effects": { "family": 3, "happiness": 3 },
+        "trigger": { "afterDays": 3, "outcomes": [{ "eventId": "mom_arc_04", "weight": 100 }] }
+      },
+      { "text": "推說有事不回去", "effects": { "family": -10, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "mom_arc_04",
+    "title": "飯後爸突然認真說：『我這輩子做你爸真的很幸運』",
+    "description": "那是你聽他講過最直接的話。媽在洗碗、假裝沒在聽。",
+    "tags": ["npc", "mom", "chain", "ending"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "認真回應、第一次擁抱爸", "effects": { "family": 25, "happiness": 20, "reputation": 5 } },
+      { "text": "笑著轉移話題", "effects": { "family": 5, "happiness": 5 } },
+      { "text": "假裝沒聽到", "effects": { "family": -5, "happiness": -10 } }
+    ]
+  },
+  {
+    "id": "shop_vitamin_aisle",
+    "title": "全聯維他命專櫃促銷『買一送一』",
+    "description": "你已經連續一週只吃 7-11。",
+    "tags": ["shop", "health"],
+    "weight": 5,
+    "choices": [
+      {
+        "text": "買綜合維他命套組",
+        "effects": { "money": -500, "happiness": 2 },
+        "grantBuff": {
+          "id": "vitamin",
+          "name": "維他命套組",
+          "icon": "💊",
+          "daysRemaining": 7,
+          "perDayEffects": { "health": 3 }
+        }
+      },
+      { "text": "拿了又放回去", "effects": { "stress": 3 } },
+      { "text": "改買滷蛋當早餐", "effects": { "money": -30, "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "shop_gym_promo",
+    "title": "World Gym 業務追了你 3 個禮拜",
+    "description": "他終於拿出『限時 60 折』那張單子。",
+    "tags": ["shop", "health"],
+    "weight": 4,
+    "choices": [
+      {
+        "text": "簽下去、半年方案",
+        "effects": { "money": -3000, "stress": -3 },
+        "grantBuff": {
+          "id": "gym_membership",
+          "name": "健身房會員",
+          "icon": "🏋️",
+          "daysRemaining": 14,
+          "perDayEffects": { "health": 4, "money": -50, "stress": -2 }
+        }
+      },
+      { "text": "說再考慮", "effects": { "reputation": -1 } },
+      { "text": "封鎖他", "effects": { "stress": -2, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "shop_therapy",
+    "title": "心理諮商所開幕特惠：1 次 1500",
+    "description": "Google 評論 5 顆星。但你媽會覺得你瘋了才需要諮商。",
+    "tags": ["shop", "stress"],
+    "weight": 4,
+    "choices": [
+      { "text": "預約 4 次套組", "effects": { "money": -6000, "stress": -25, "happiness": 8 } },
+      { "text": "先試 1 次體驗", "effects": { "money": -1500, "stress": -12, "happiness": 3 } },
+      { "text": "覺得太貴、回家睡覺", "effects": { "stress": -3 } }
+    ]
+  },
+  {
+    "id": "shop_coffee_sub",
+    "title": "便利商店咖啡訂閱：30 天 = $800",
+    "description": "你算了一下、每天買 1 杯本來就 $40 × 30 = 1200。",
+    "tags": ["shop", "stress"],
+    "weight": 5,
+    "choices": [
+      {
+        "text": "訂下去、每天領 1 杯",
+        "effects": { "money": -800, "happiness": 3 },
+        "grantBuff": {
+          "id": "coffee_sub",
+          "name": "咖啡訂閱",
+          "icon": "☕",
+          "daysRemaining": 30,
+          "perDayEffects": { "stress": -3 }
+        }
+      },
+      { "text": "繼續每天現買", "effects": { "money": -40, "stress": -1 } },
+      { "text": "改喝公司茶水間", "effects": { "stress": 2 } }
+    ]
+  },
+  {
+    "id": "shop_ps5",
+    "title": "PChome 限量 PS5 還有貨",
+    "description": "你存了半年就為了等這台。",
+    "tags": ["shop", "happy"],
+    "weight": 3,
+    "choices": [
+      {
+        "text": "直接買、明天送到",
+        "effects": { "money": -15000, "happiness": 25, "stress": -5 },
+        "grantBuff": {
+          "id": "ps5",
+          "name": "PS5 主機",
+          "icon": "🎮",
+          "daysRemaining": -1,
+          "perDayEffects": { "happiness": 3, "money": -150, "stress": -1 }
+        }
+      },
+      { "text": "再存一個月", "effects": { "stress": 5 } },
+      { "text": "改買 Switch 二手", "effects": { "money": -6000, "happiness": 12, "stress": -3 } }
+    ]
   }
 ]

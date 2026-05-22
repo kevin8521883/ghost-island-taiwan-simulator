@@ -193,10 +193,11 @@ export const useShareCard = () => {
     const file = new File([blob], filename, { type: 'image/png' })
     const text = `我在《鬼島台灣模擬器：社畜篇》第 ${opts.stats.day} 天迎來「${opts.ending.title}」結局。`
 
+    // 分享 URL 用 /share/<ending> — 社群 bot 抓到對應結局 OG
     const shareData: ShareData = {
       title: '鬼島台灣模擬器',
       text,
-      url: 'https://ghost-island-taiwan-simulator.vercel.app/',
+      url: `https://ghost-island-taiwan-simulator.vercel.app/share/${opts.ending.id}`,
       files: [file],
     }
 
