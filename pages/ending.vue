@@ -5,7 +5,9 @@ const sfx = useSfx()
 const shareCard = useShareCard()
 const dex = useEndingDex()
 
-const ending = computed(() => findEnding(store.endingId))
+const ending = computed(() =>
+  findEnding(store.endingId, store.selectedCharacter?.id ?? null)
+)
 const wasNewUnlock = ref(false)
 const newCharUnlock = ref<{ id: string; name: string } | null>(null)
 
@@ -14,6 +16,52 @@ const descShown = ref('')
 const titleDone = ref(false)
 const descDone = ref(false)
 let cancelToken = { stop: false }
+
+const aiNarrativeLoading = ref(false)
+const aiNarrativeError = ref(false)
+const aiNarrative = computed(() => store.endingNarrative)
+
+const fetchAiNarrative = async () => {
+  if (!ending.value || !store.selectedCharacter) return
+  if (store.endingNarrative) return
+  aiNarrativeLoading.value = true
+  aiNarrativeError.value = false
+  try {
+    const res = await $fetch<{ narrative: string | null; error?: string }>(
+      '/api/generate-ending',
+      {
+        method: 'POST',
+        body: {
+          character: {
+            id: store.selectedCharacter.id,
+            name: store.selectedCharacter.name,
+            description: store.selectedCharacter.description,
+          },
+          ending: {
+            id: ending.value.id,
+            title: ending.value.title,
+            description: ending.value.description,
+          },
+          stats: store.stats,
+          log: store.log.map((l) => ({
+            day: l.day,
+            eventTitle: l.eventTitle,
+            choiceText: l.choiceText,
+          })),
+        },
+      }
+    )
+    if (res.narrative) {
+      store.setEndingNarrative(res.narrative)
+    } else {
+      aiNarrativeError.value = true
+    }
+  } catch (_e) {
+    aiNarrativeError.value = true
+  } finally {
+    aiNarrativeLoading.value = false
+  }
+}
 
 const typewrite = async (
   text: string,
@@ -47,6 +95,8 @@ const playAnimation = async () => {
     cancelToken
   )
   descDone.value = true
+  // 描述跑完才 fetch AI 個人化敘述（避免一進頁面就 spinner）
+  fetchAiNarrative()
 }
 
 const skip = () => {
@@ -67,7 +117,10 @@ onMounted(() => {
     return
   }
   // 紀錄到圖鑑（如果是第一次拿到此結局或連動解鎖角色，標記新解鎖）
-  const result = dex.recordUnlock(store.endingId)
+  const result = dex.recordUnlock(
+    store.endingId,
+    store.selectedCharacter?.id ?? null
+  )
   wasNewUnlock.value = result.newEnding
   if (result.newChar) {
     newCharUnlock.value = { id: result.newChar.id, name: result.newChar.name }
@@ -126,7 +179,18 @@ const handleDownload = () => {
     <EndingEffect :ending-id="store.endingId" />
     <template v-if="ending">
       <div class="pixel-card-accent space-y-3" @click="skip">
-        <p class="text-[11px] text-amber-400">第 {{ store.stats.day }} 天 · 結局</p>
+        <div class="flex items-center gap-3">
+          <CharacterPortrait
+            v-if="store.selectedCharacter"
+            :character="store.selectedCharacter"
+            size="md"
+            :mood="ending?.mood ?? 'normal'"
+          />
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] text-muted">{{ store.selectedCharacter?.name }}</p>
+            <p class="text-[11px] text-amber-400">第 {{ store.stats.day }} 天 · 結局</p>
+          </div>
+        </div>
         <h1 class="text-xl text-amber-400 leading-relaxed min-h-[2em]">
           {{ titleShown }}<span
             v-if="!titleDone"
@@ -143,6 +207,30 @@ const handleDownload = () => {
           點擊跳過
         </p>
       </div>
+
+      <Transition name="fade">
+        <div
+          v-if="descDone && (aiNarrativeLoading || aiNarrative)"
+          class="pixel-card-accent space-y-2"
+        >
+          <p class="text-[11px] text-purple-300">⚡ 你的故事</p>
+          <div
+            v-if="aiNarrativeLoading"
+            class="flex items-center gap-2 text-xs text-muted"
+          >
+            <span class="ai-dot-bounce">·</span>
+            <span class="ai-dot-bounce" style="animation-delay: 0.15s">·</span>
+            <span class="ai-dot-bounce" style="animation-delay: 0.3s">·</span>
+            <span class="pl-2">回顧你的 30 天…</span>
+          </div>
+          <p
+            v-else-if="aiNarrative"
+            class="text-sm leading-relaxed text-paper"
+          >
+            {{ aiNarrative }}
+          </p>
+        </div>
+      </Transition>
 
       <Transition name="fade">
         <div v-if="descDone" class="pixel-card text-xs space-y-1">

@@ -1,14 +1,42 @@
 <script setup lang="ts">
-import type { EventEffect } from '~/types/game'
+import type { ChoiceCondition, EventEffect, PlayerStats, Range } from '~/types/game'
 
 const store = useGameStore()
-const { rollNextEvent, chooseOption, advanceDay } = useGameEngine()
+const { rollNextEvent, chooseOption, advanceDay, aiLoading } = useGameEngine()
 
 const lastEffects = ref<EventEffect | null>(null)
 const lastChoiceText = ref('')
 const showOutcome = ref(false)
 
-onMounted(() => {
+const matchesRange = (value: number, range: Range): boolean => {
+  if (range.gte !== undefined && value < range.gte) return false
+  if (range.lte !== undefined && value > range.lte) return false
+  return true
+}
+
+const meetsCondition = (
+  cond: ChoiceCondition | undefined,
+  stats: PlayerStats
+): boolean => {
+  if (!cond) return true
+  for (const key of Object.keys(cond) as (keyof ChoiceCondition)[]) {
+    const range = cond[key]
+    if (!range) continue
+    const value = stats[key as keyof PlayerStats]
+    if (typeof value !== 'number') return false
+    if (!matchesRange(value, range)) return false
+  }
+  return true
+}
+
+const visibleChoices = computed(() => {
+  if (!store.currentEvent) return []
+  return store.currentEvent.choices
+    .map((choice, originalIdx) => ({ choice, originalIdx }))
+    .filter(({ choice }) => meetsCondition(choice.condition, store.stats))
+})
+
+onMounted(async () => {
   store.hydrate()
   if (!store.selectedCharacter) {
     navigateTo('/character')
@@ -19,7 +47,7 @@ onMounted(() => {
     return
   }
   if (!store.currentEvent) {
-    rollNextEvent()
+    await rollNextEvent()
   }
 })
 
@@ -38,10 +66,10 @@ const quitRun = () => {
   navigateTo('/character')
 }
 
-const nextDay = () => {
+const nextDay = async () => {
   showOutcome.value = false
   lastEffects.value = null
-  const ended = advanceDay()
+  const ended = await advanceDay()
   if (ended) navigateTo('/ending')
 }
 
@@ -52,6 +80,9 @@ const statLabel: Record<string, string> = {
   happiness: '😊 快樂',
   career: '📈 職涯',
   reputation: '👥 評價',
+  boss: '👔 主管關係',
+  coworker: '🧑‍🤝‍🧑 同事關係',
+  family: '🏠 家人關係',
 }
 </script>
 
@@ -59,15 +90,28 @@ const statLabel: Record<string, string> = {
   <div class="min-h-dvh pt-14 px-4 pb-4 max-w-md mx-auto space-y-4">
     <GameStatusBar :stats="store.stats" :character="store.selectedCharacter" />
 
-    <template v-if="!showOutcome && store.currentEvent">
+    <template v-if="aiLoading">
+      <div class="ai-loading-card pixel-card space-y-3 text-center py-8">
+        <p class="text-xs text-purple-300 tracking-widest">⚡ AI 命運降臨</p>
+        <p class="text-base text-paper">命運在凝視你…</p>
+        <div class="flex justify-center gap-2 pt-2">
+          <span class="ai-dot ai-dot-1">●</span>
+          <span class="ai-dot ai-dot-2">●</span>
+          <span class="ai-dot ai-dot-3">●</span>
+        </div>
+        <p class="text-[10px] text-muted pt-2">命運生成中、預計 2-3 秒</p>
+      </div>
+    </template>
+
+    <template v-else-if="!showOutcome && store.currentEvent">
       <div :key="store.currentEvent.id" class="event-enter space-y-4">
         <EventCard :event="store.currentEvent" />
         <div class="space-y-2 pt-2">
           <ChoiceButton
-            v-for="(choice, idx) in store.currentEvent.choices"
-            :key="idx"
+            v-for="{ choice, originalIdx } in visibleChoices"
+            :key="originalIdx"
             :choice="choice"
-            :index="idx"
+            :index="originalIdx"
             @select="handleChoice"
           />
         </div>

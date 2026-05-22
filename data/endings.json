@@ -4,14 +4,50 @@
     "title": "過勞邊緣人",
     "description": "你成功把公司當家，但家沒有把你當人。在 7-11 結帳時手指停在悠遊卡上，你已經想不起來自己昨天有沒有吃飯。",
     "priority": 100,
+    "mood": "sad",
     "condition": { "stress": { "gte": 100 } },
-    "hint": "壓力衝破天花板"
+    "hint": "壓力衝破天花板",
+    "variants": {
+      "engineer": {
+        "title": "工程師爆肝",
+        "description": "你的 commit 比心跳還規律。腦中除了 stack trace 沒別的東西。同事看你眼睛在 build 圈、不敢打擾。"
+      },
+      "delivery_rider": {
+        "title": "外送爆騎",
+        "description": "你已經連跑 18 小時、雨衣濕透、手在抖。下一單跳出來、你還是接了——因為這單比剛剛多 5 塊。"
+      },
+      "fresh_graduate": {
+        "title": "新鮮人變鹹魚",
+        "description": "你才剛畢業 1 個月、已經失眠 30 天。學長姐說『新人本來就這樣』、你開始懷疑是不是只能這樣。"
+      },
+      "rich_kid": {
+        "title": "富二代的虛無",
+        "description": "你不缺錢、不缺愛、不缺機會——但你 30 天裡沒一天真正開心過。坐在私人沙發上你想：『這就是人生嗎？』"
+      },
+      "civil_servant": {
+        "title": "公務員崩潰",
+        "description": "你不是被工作壓垮、是被『大家都覺得你很閒』壓垮。每個民眾都覺得你拖延、其實你手上有 12 個案子。"
+      },
+      "freelancer": {
+        "title": "接案族斷線",
+        "description": "你連續 28 天工作、客戶第 9 次說『最後一次修改』時你的手在發抖。你已經分不清是自由還是奴隸。"
+      },
+      "influencer_char": {
+        "title": "網紅倦怠",
+        "description": "你笑著開箱第 47 個產品。粉絲說你變了、廠商說你不夠紅、媽說你該找正常工作。鏡頭關掉後你不知道要去哪。"
+      },
+      "homemaker": {
+        "title": "家庭主婦崩潰",
+        "description": "你 30 天沒睡超過 5 小時、家事永遠做不完、沒人說一聲謝謝。你想起 5 年前自己也曾想過要做什麼大事。"
+      }
+    }
   },
   {
     "id": "health_collapse",
     "title": "急診室一日遊",
     "description": "胃食道逆流、自律神經失調、慢性疲勞——醫生唸了一串病名，你只想知道能不能請病假。",
     "priority": 95,
+    "mood": "sad",
     "condition": { "health": { "lte": 0 } },
     "hint": "把身體當提款機"
   },
@@ -20,6 +56,7 @@
     "title": "卡債人生",
     "description": "你打開銀行 App，看著紅色數字發呆。爸媽 LINE 傳訊息：『你最近還好嗎』，你已讀不回。",
     "priority": 90,
+    "mood": "sad",
     "condition": { "money": { "lte": -50000 } },
     "hint": "亂花錢、亂投資、亂貪心"
   },
@@ -28,6 +65,7 @@
     "title": "躺平大師",
     "description": "你關掉手機通知、退追蹤所有前同事、把履歷檔案改名為「再見」。世界很吵，但你終於安靜下來了。",
     "priority": 80,
+    "mood": "sad",
     "condition": { "happiness": { "lte": 0 } },
     "hint": "失去所有熱情"
   },
@@ -36,6 +74,7 @@
     "title": "鬼島大亨",
     "description": "你的銀行 App 數字後面要捲三下螢幕才看得完。同事看你的眼神已經不一樣了，但你也忘了他們的名字。",
     "priority": 75,
+    "mood": "happy",
     "condition": { "money": { "gte": 500000 }, "day": { "gte": 15 } },
     "hidden": true,
     "hint": "錢、很多很多錢"
@@ -45,6 +84,7 @@
     "title": "潤了",
     "description": "機票訂了。你最後一次回看辦公室那扇窗，覺得也沒什麼好留戀的。新加坡的薪水比較高，雖然連杯珍奶都比較貴。",
     "priority": 70,
+    "mood": "happy",
     "condition": { "money": { "gte": 200000 }, "happiness": { "gte": 70 }, "day": { "gte": 20 } },
     "hidden": true,
     "hint": "錢有了、心也有了"
@@ -54,6 +94,7 @@
     "title": "斜槓青年",
     "description": "白天上班、晚上接案、週末擺攤，你的人脈紙鈔一起厚了起來。你已經兩年沒看到月亮，但你買得起會員制健身房。",
     "priority": 68,
+    "mood": "happy",
     "condition": { "reputation": { "gte": 80 }, "money": { "gte": 100000 } },
     "hidden": true,
     "hint": "白天上班晚上副業"
@@ -63,6 +104,7 @@
     "title": "鬼島網紅出道",
     "description": "你的限動上熱門。粉絲叫你不要去上班、留下來陪他們聊天。業配排到三個月後，你的爸媽終於不問你「真正的工作」是什麼。",
     "priority": 67,
+    "mood": "happy",
     "condition": { "reputation": { "gte": 95 }, "day": { "lte": 20 } },
     "hidden": true,
     "hint": "短時間內爆紅"
@@ -72,6 +114,7 @@
     "title": "考上公務員",
     "description": "你終於上岸了。鐵飯碗、年終、月退——爸媽在社區走路有風。你坐在辦公室裡看著窗外的雲，覺得人生好像就這樣了。",
     "priority": 60,
+    "mood": "normal",
     "condition": { "day": { "gte": 30 }, "career": { "gte": 70 }, "happiness": { "gte": 60 } },
     "hint": "穩定 + 還算開心"
   },
@@ -80,15 +123,51 @@
     "title": "創業失敗回去打工",
     "description": "你燒了爸媽的退休金、燒了自己的青春、燒了三個合夥人的友誼。最後你帶著「至少我試過了」這六個字，回去投履歷。",
     "priority": 55,
+    "mood": "sad",
     "condition": { "career": { "gte": 80 }, "money": { "lte": -30000 } },
     "hidden": true,
-    "hint": "高成就 + 燒光錢"
+    "hint": "高成就 + 燒光錢",
+    "variants": {
+      "engineer": {
+        "title": "技術合夥人散場",
+        "description": "你的 SaaS 燒了 3 輪、tech stack 換了 5 次、最後一個合夥人在群組裡只留下『先這樣』。你準備重新投 LinkedIn。"
+      },
+      "delivery_rider": {
+        "title": "車隊老闆破產",
+        "description": "你曾經買 10 台機車租給外送員。3 個月後 5 台被偷、2 個騎士跑路、1 個出車禍。你又回去自己跑單。"
+      },
+      "fresh_graduate": {
+        "title": "畢業創業翻車",
+        "description": "你說服爸媽『我不去上班、要創業』。3 個月後爸媽不問你業績、只問你『下個月房租繳了沒』。你準備去面試。"
+      },
+      "rich_kid": {
+        "title": "敗光家裡 200 萬",
+        "description": "爸把你關進書房 3 小時。媽哭著說『早叫你聽你爸的』。你簽下『以後不碰生意』的家規、開始每天去家族企業上班。"
+      },
+      "civil_servant": {
+        "title": "辭職創業翻車",
+        "description": "你辭掉鐵飯碗去做 podcast、燒光退休金、4 個月後 podcast 還沒上排行榜。你準備重考公務員。"
+      },
+      "freelancer": {
+        "title": "接案族開公司翻車",
+        "description": "你以為自己接案手感好就能開公司。請了 3 個員工、3 個都更會接案。客戶被搶走、你變成自己的員工。"
+      },
+      "influencer_char": {
+        "title": "網紅創品牌敗",
+        "description": "你開了自己的服飾品牌、辦發表會。3 個月後庫存堆滿車庫、粉絲問為什麼不再 PO 穿搭、你關掉品牌 IG。"
+      },
+      "homemaker": {
+        "title": "家庭主婦創業失敗",
+        "description": "你想證明自己不只能做家務、開了線上烘焙課。3 個月後學生剩 2 個、老公說『回來顧小孩吧』。你關掉粉專、洗碗時眼淚一直掉。"
+      }
+    }
   },
   {
     "id": "enlightenment",
     "title": "中庸頓悟",
     "description": "你終於明白——不要努力、也不要放棄。不要快樂、也不要悲傷。在這座鬼島上活得不上不下，才是真正的勝利。",
     "priority": 50,
+    "mood": "normal",
     "condition": {
       "stress": { "gte": 40, "lte": 60 },
       "health": { "gte": 40, "lte": 60 },
@@ -105,7 +184,42 @@
     "title": "社畜倖存者",
     "description": "30 天過去，你還活著。沒有發財、沒有出名、沒有崩潰——這已經是這個鬼島上最了不起的成就。",
     "priority": 10,
+    "mood": "normal",
     "condition": { "day": { "gte": 30 } },
-    "hint": "撐到第 30 天還沒爆"
+    "hint": "撐到第 30 天還沒爆",
+    "variants": {
+      "engineer": {
+        "title": "竹科肝倖存",
+        "description": "30 天過去、頭髮少了一搓、眼睛多了散光、薪水照樣月光。但你還活著、這就夠了。"
+      },
+      "delivery_rider": {
+        "title": "外送跑完一個月",
+        "description": "30 天過去、機車跑了 800 公里、雨衣破了 2 件、最辛苦那單 35 元。但你撐下來了。"
+      },
+      "fresh_graduate": {
+        "title": "菜鳥度過第一個月",
+        "description": "30 天過去、學長姐還沒記得你的名字、薪水單第一次落袋還有點害羞。鬼島工作初體驗、總算沒被吃掉。"
+      },
+      "rich_kid": {
+        "title": "平凡的鬼二代",
+        "description": "30 天過去、信用卡帳單沒爆、爸沒生氣、媽沒哭——這個月對你來說、就是『什麼都沒發生』。也算成就。"
+      },
+      "civil_servant": {
+        "title": "鐵飯碗倖存者",
+        "description": "30 天過去、考績還沒下來、櫃台沒被民眾砸、機關沒被裁併。一個 boring 但安穩的月、剛剛好。"
+      },
+      "freelancer": {
+        "title": "接案族撐過淡季",
+        "description": "30 天過去、3 個客戶轉介、2 個爽約、1 個拖款。但你還在接案、戶頭數字也還沒見紅。"
+      },
+      "influencer_char": {
+        "title": "網紅度過流量荒",
+        "description": "30 天過去、觸及率掉了 30%、粉絲沒掉太多、業配還能接到一兩個。這個演算法時代、活著就是贏家。"
+      },
+      "homemaker": {
+        "title": "家庭支柱倖存者",
+        "description": "30 天過去、家人都活著、冰箱沒空、小孩沒受傷、老公沒外遇。沒有人會頒獎、但你知道自己撐住了這個家。"
+      }
+    }
   }
 ]

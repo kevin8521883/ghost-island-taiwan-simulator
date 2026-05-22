@@ -460,3 +460,41 @@ html.theme-retro .pixel-button-primary {
 }
 html.theme-retro .pixel-button-primary:hover { background: #ff99cc !important; }
 html.theme-retro .danger-stat { color: #ff4488 !important; }
+
+/* ─────────  AI 事件卡片 + Loading  ───────── */
+.ai-event-card {
+  background: #1a0d2e;
+  border: 3px solid #a855f7;
+  box-shadow: 4px 4px 0 #6b21a8, 0 0 24px rgba(168, 85, 247, 0.3);
+  position: relative;
+}
+
+@keyframes ai-loading-pulse {
+  0%, 100% {
+    border-color: #a855f7;
+    box-shadow: 4px 4px 0 #6b21a8, 0 0 12px rgba(168, 85, 247, 0.4);
+  }
+  50% {
+    border-color: #c084fc;
+    box-shadow: 4px 4px 0 #6b21a8, 0 0 24px rgba(168, 85, 247, 0.7);
+  }
+}
+.ai-loading-card {
+  background: #1a0d2e !important;
+  border-color: #a855f7 !important;
+  animation: ai-loading-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ai-dot-bounce {
+  0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-6px); }
+}
+.ai-dot {
+  display: inline-block;
+  color: #c084fc;
+  font-size: 1rem;
+  animation: ai-dot-bounce 1.2s ease-in-out infinite;
+}
+.ai-dot-1 { animation-delay: 0s; }
+.ai-dot-2 { animation-delay: 0.2s; }
+.ai-dot-3 { animation-delay: 0.4s; }

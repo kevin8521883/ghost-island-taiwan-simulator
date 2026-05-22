@@ -107,7 +107,7 @@ const spinAndStart = async () => {
       <div v-for="c in visibleCharacters" :key="c.id" class="relative">
         <span
           v-if="c.hidden"
-          class="absolute top-2 right-2 z-10 text-[9px] bg-amber-400 text-black px-2 py-0.5 font-bold"
+          class="absolute top-2 right-2 text-[9px] bg-amber-400 text-black px-2 py-0.5 font-bold"
         >
           隱藏
         </span>
@@ -119,7 +119,7 @@ const spinAndStart = async () => {
       </div>
     </div>
 
-    <div class="pt-4 space-y-2 sticky bottom-2">
+    <div class="pt-4 space-y-2 sticky bottom-2 z-20">
       <PixelButton
         variant="primary"
         :disabled="!selected"

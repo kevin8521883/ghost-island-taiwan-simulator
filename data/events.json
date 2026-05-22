@@ -7,9 +7,9 @@
     "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 10,
     "choices": [
-      { "text": "留下來加班", "effects": { "stress": 12, "health": -5, "career": 5 } },
-      { "text": "準時下班", "effects": { "stress": -3, "happiness": 8, "career": -5, "reputation": -3 } },
-      { "text": "假裝去廁所躲到他走", "effects": { "stress": -2, "happiness": 3, "reputation": -2 } }
+      { "text": "留下來加班", "effects": { "stress": 12, "health": -5, "career": 5, "boss": 8, "family": -3 } },
+      { "text": "準時下班", "effects": { "stress": -3, "happiness": 8, "career": -5, "reputation": -3, "boss": -8 } },
+      { "text": "假裝去廁所躲到他走", "effects": { "stress": -2, "happiness": 3, "reputation": -2, "boss": -3, "coworker": -2 } }
     ]
   },
   {
@@ -17,6 +17,7 @@
     "title": "房東 LINE：『下個月房租漲 2000』",
     "description": "你看著訊息發呆 30 秒。外面正在下雨，套房的牆壁也在滲水。",
     "tags": ["housing", "money"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char"],
     "weight": 9,
     "choices": [
       { "text": "默默簽下去", "effects": { "money": -2000, "stress": 8, "happiness": -5 } },
@@ -42,6 +43,7 @@
     "title": "捷運卡在隧道裡 20 分鐘",
     "description": "車廂廣播第三次重複：『因前方號誌故障』。旁邊大叔的耳機聲音蓋過廣播。",
     "tags": ["transport", "city"],
+    "characters": ["office_worker", "engineer", "fresh_graduate", "civil_servant"],
     "weight": 6,
     "choices": [
       { "text": "深呼吸、滑手機", "effects": { "stress": 2 } },
@@ -90,6 +92,7 @@
     "title": "機車違停被開單",
     "description": "你只停 5 分鐘進去買飲料，紅單已經夾在椅墊上。",
     "tags": ["transport", "fine"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 6,
     "choices": [
       { "text": "認命繳錢", "effects": { "money": -900, "stress": 5 } },
@@ -102,6 +105,7 @@
     "title": "新聞：『健保費明年將調漲』",
     "description": "薪轉戶又要再少一點。",
     "tags": ["news", "money", "health"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 5,
     "choices": [
       { "text": "嘆氣繼續工作", "effects": { "stress": 3, "money": -800 } },
@@ -116,9 +120,9 @@
     "tags": ["family", "pressure"],
     "weight": 7,
     "choices": [
-      { "text": "敷衍微笑：『再看看啦』", "effects": { "stress": 6, "happiness": -3 } },
-      { "text": "解釋現在年輕人壓力大", "effects": { "stress": 12, "reputation": -2 } },
-      { "text": "假裝接電話離席", "effects": { "stress": -3, "happiness": 5, "reputation": -3 } }
+      { "text": "敷衍微笑：『再看看啦』", "effects": { "stress": 6, "happiness": -3, "family": -2 } },
+      { "text": "解釋現在年輕人壓力大", "effects": { "stress": 12, "reputation": -2, "family": 3 } },
+      { "text": "假裝接電話離席", "effects": { "stress": -3, "happiness": 5, "reputation": -3, "family": -8 } }
     ]
   },
   {
@@ -151,6 +155,7 @@
     "title": "雞蛋一顆 12 塊",
     "description": "全聯架上空了一半。新聞昨天才說『缺蛋緩解』。",
     "tags": ["price", "news"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 5,
     "choices": [
       { "text": "買一盒回家", "effects": { "money": -140, "happiness": 2 } },
@@ -166,9 +171,10 @@
     "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 7,
     "choices": [
-      { "text": "幫忙接下來", "effects": { "stress": 15, "career": 8, "money": 2000 } },
-      { "text": "拒絕、要求加薪再說", "effects": { "stress": 8, "career": -3, "reputation": -3 } },
-      { "text": "問她公司缺不缺人", "effects": { "stress": -5, "happiness": 8, "career": 3, "reputation": 2 } }
+      { "text": "幫忙接下來", "effects": { "stress": 15, "career": 8, "money": 2000, "boss": 8, "coworker": 5 } },
+      { "text": "拒絕、要求加薪再說", "effects": { "stress": 8, "career": -3, "reputation": -3, "boss": -10 } },
+      { "text": "問她公司缺不缺人", "effects": { "stress": -5, "happiness": 8, "career": 3, "reputation": 2, "coworker": 5 } },
+      { "text": "拜託 Amy 幫你也內推、一起跳槽", "effects": { "stress": -8, "happiness": 12, "career": 10, "coworker": 8, "boss": -15 }, "condition": { "coworker": { "gte": 70 } } }
     ]
   },
   {
@@ -189,6 +195,7 @@
     "title": "房東：『等等過去看一下水費表』",
     "description": "你的房間有點亂。垃圾袋已經兩天沒丟了。",
     "tags": ["housing"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 5,
     "choices": [
       { "text": "10 分鐘極速大掃除", "effects": { "stress": 8, "health": -2, "happiness": -3 } },
@@ -214,6 +221,7 @@
     "title": "對發票季",
     "description": "你掏出抽屜裡那疊三個月沒整理的發票。",
     "tags": ["money", "luck"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 4,
     "choices": [
       { "text": "認真對到底", "effects": { "stress": 3, "money": 200, "happiness": 3 } },
@@ -226,11 +234,13 @@
     "title": "爸打來：『媽住院了，沒事，你不用回來』",
     "description": "他越說沒事，你越覺得有事。",
     "tags": ["family", "health"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "rich_kid"],
     "weight": 5,
     "choices": [
-      { "text": "請假馬上回家", "effects": { "money": -3000, "career": -5, "stress": 8, "reputation": 5, "happiness": -3 } },
-      { "text": "下班再回去", "effects": { "stress": 15, "happiness": -10, "reputation": -3 } },
-      { "text": "轉帳 1 萬給爸", "effects": { "money": -10000, "stress": 3, "reputation": 3 } }
+      { "text": "請假馬上回家", "effects": { "money": -3000, "career": -5, "stress": 8, "reputation": 5, "happiness": -3, "family": 15 } },
+      { "text": "下班再回去", "effects": { "stress": 15, "happiness": -10, "reputation": -3, "family": -8 } },
+      { "text": "轉帳 1 萬給爸", "effects": { "money": -10000, "stress": 3, "reputation": 3, "family": 5 } },
+      { "text": "請長假回去住院陪 5 天", "effects": { "money": -8000, "career": -15, "stress": -5, "happiness": 10, "family": 20 }, "condition": { "family": { "gte": 70 } } }
     ]
   },
   {
@@ -277,9 +287,9 @@
     "characters": ["office_worker", "engineer", "civil_servant"],
     "weight": 5,
     "choices": [
-      { "text": "包 2200 出席", "effects": { "money": -2200, "stress": 3, "reputation": 3 } },
-      { "text": "包 1200 不出席", "effects": { "money": -1200, "reputation": -1 } },
-      { "text": "假裝沒收到", "effects": { "reputation": -8, "stress": 3 } }
+      { "text": "包 2200 出席", "effects": { "money": -2200, "stress": 3, "reputation": 3, "coworker": 5 } },
+      { "text": "包 1200 不出席", "effects": { "money": -1200, "reputation": -1, "coworker": -3 } },
+      { "text": "假裝沒收到", "effects": { "reputation": -8, "stress": 3, "coworker": -15 } }
     ]
   },
   {
@@ -287,6 +297,7 @@
     "title": "FB 廣告：『在家月入 10 萬』",
     "description": "看起來像詐騙。但你薪水真的不夠。",
     "tags": ["money", "scam"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant"],
     "weight": 5,
     "choices": [
       { "text": "點進去看", "effects": { "stress": 6, "money": -5000 } },
@@ -301,7 +312,7 @@
     "tags": ["money", "scam"],
     "weight": 5,
     "choices": [
-      { "text": "ALL IN 10 萬", "effects": { "money": -50000, "stress": 20, "happiness": -5 }, "trigger": { "eventId": "crypto_disaster", "afterDays": 3 } },
+      { "text": "ALL IN 10 萬", "effects": { "money": -50000, "stress": 20, "happiness": -5 }, "trigger": { "afterDays": 3, "outcomes": [{ "eventId": "crypto_jackpot", "weight": 30 }, { "eventId": "crypto_breakeven", "weight": 20 }, { "eventId": "crypto_disaster", "weight": 50 }] } },
       { "text": "投 5000 玩玩", "effects": { "money": -3000, "stress": 3 } },
       { "text": "勸他別玩了", "effects": { "stress": -2, "reputation": 2 } }
     ]
@@ -311,6 +322,7 @@
     "title": "交友軟體配對到一個會員",
     "description": "頭像很正、自介寫『真誠交友』。",
     "tags": ["social"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char"],
     "weight": 5,
     "choices": [
       { "text": "約出來吃飯", "effects": { "money": -800, "stress": -3, "happiness": 12 } },
@@ -323,6 +335,7 @@
     "title": "5 月報稅季",
     "description": "你打開系統，看見一個你從沒看過的數字。",
     "tags": ["money", "annual"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "rich_kid"],
     "weight": 4,
     "choices": [
       { "text": "認命刷卡分期", "effects": { "money": -15000, "stress": 6 } },
@@ -349,9 +362,9 @@
     "tags": ["family", "food"],
     "weight": 5,
     "choices": [
-      { "text": "週末回家吃", "effects": { "money": -200, "stress": -8, "happiness": 14, "reputation": 3, "career": -2 } },
-      { "text": "回『好』然後忘記", "effects": { "stress": 2, "happiness": -3, "reputation": -2 } },
-      { "text": "視訊跟媽聊 30 分鐘", "effects": { "stress": -5, "happiness": 8 } }
+      { "text": "週末回家吃", "effects": { "money": -200, "stress": -8, "happiness": 14, "reputation": 3, "career": -2, "family": 12 } },
+      { "text": "回『好』然後忘記", "effects": { "stress": 2, "happiness": -3, "reputation": -2, "family": -8 } },
+      { "text": "視訊跟媽聊 30 分鐘", "effects": { "stress": -5, "happiness": 8, "family": 5 } }
     ]
   },
   {
@@ -409,9 +422,9 @@
     "tags": ["rest", "family"],
     "weight": 4,
     "choices": [
-      { "text": "在沙發放空一整天", "effects": { "money": -400, "stress": -15, "happiness": 12, "career": -2 } },
-      { "text": "幫阿嬤拔菜，聽她講以前的事", "effects": { "money": -400, "stress": -10, "happiness": 14, "reputation": 3 } },
-      { "text": "回去滑手機到睡著", "effects": { "money": -400, "stress": -3, "happiness": 3, "reputation": -2 } }
+      { "text": "在沙發放空一整天", "effects": { "money": -400, "stress": -15, "happiness": 12, "career": -2, "family": 5 } },
+      { "text": "幫阿嬤拔菜，聽她講以前的事", "effects": { "money": -400, "stress": -10, "happiness": 14, "reputation": 3, "family": 12 } },
+      { "text": "回去滑手機到睡著", "effects": { "money": -400, "stress": -3, "happiness": 3, "reputation": -2, "family": -3 } }
     ]
   },
   {
@@ -444,7 +457,7 @@
     "title": "新聞：『AI 將取代 70% 文書工作』",
     "description": "圖表上你的職位剛好在紅色區塊。底下留言：『被取代是活該』。",
     "tags": ["ai", "news", "career"],
-    "characters": ["office_worker", "engineer", "civil_servant", "freelancer", "fresh_graduate", "influencer_char"],
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate"],
     "weight": 7,
     "choices": [
       { "text": "報名 Coursera 學新技能", "effects": { "money": -2000, "stress": 5, "career": 6 } },
@@ -461,7 +474,7 @@
     "weight": 7,
     "choices": [
       { "text": "也偷偷開始用", "effects": { "stress": -8, "happiness": 5, "career": 5 } },
-      { "text": "去跟主管反映", "effects": { "stress": 10, "reputation": -5, "career": -2 } },
+      { "text": "去跟主管反映", "effects": { "stress": 10, "reputation": -5, "career": -2, "boss": 3, "coworker": -15 } },
       { "text": "賭氣自己寫到更好", "effects": { "stress": 15, "health": -5, "career": 3 } }
     ]
   },
@@ -532,6 +545,7 @@
     "title": "政府宣布『普發現金 6000』",
     "description": "新聞跑馬燈三天都在報這件事。系統一開放就當機。",
     "tags": ["news", "money", "weekend"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 5,
     "choices": [
       { "text": "凌晨 12 點就上網搶登記", "effects": { "money": 6000, "stress": 5, "happiness": 6 } },
@@ -572,9 +586,10 @@
     "weight": 7,
     "characters": ["office_worker"],
     "choices": [
-      { "text": "馬上開電腦處理", "effects": { "stress": 12, "career": 4, "health": -5 } },
-      { "text": "回『明天一早就改』", "effects": { "stress": 5 } },
-      { "text": "已讀不回繼續睡", "effects": { "stress": -3, "career": -3, "reputation": -2 } }
+      { "text": "馬上開電腦處理", "effects": { "stress": 12, "career": 4, "health": -5, "boss": 10 } },
+      { "text": "回『明天一早就改』", "effects": { "stress": 5, "boss": -3 } },
+      { "text": "已讀不回繼續睡", "effects": { "stress": -3, "career": -3, "reputation": -2, "boss": -12 } },
+      { "text": "回『今晚累、明早一定改好』", "effects": { "stress": 3, "boss": 2, "career": 2 }, "condition": { "boss": { "gte": 70 } } }
     ]
   },
   {
@@ -699,6 +714,7 @@
     "title": "走人行道被機車從後面撞",
     "description": "你還沒看清楚車牌，騎士已經閃進巷子裡。",
     "tags": ["luck", "bad"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 4,
     "choices": [
       { "text": "扶起來、罵一句髒話", "effects": { "money": -800, "health": -10, "stress": 15 } }
@@ -749,6 +765,7 @@
     "title": "公車司機急煞，你撞到前面的扶手",
     "description": "嘴巴磕到 + 鼻血一條。",
     "tags": ["luck", "bad"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 4,
     "choices": [
       { "text": "假裝沒事拿出衛生紙", "effects": { "health": -5, "happiness": -3 } }
@@ -769,6 +786,7 @@
     "title": "捷運手扶梯下發現一張 500 塊",
     "description": "四下無人。",
     "tags": ["luck", "good"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 4,
     "choices": [
       { "text": "快速塞進口袋、走人", "effects": { "money": 500, "happiness": 8 } }
@@ -789,6 +807,7 @@
     "title": "對發票對中 200",
     "description": "你已經放棄希望的那張。",
     "tags": ["luck", "good"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 4,
     "choices": [
       { "text": "截圖傳給媽炫耀", "effects": { "money": 200, "happiness": 8 } }
@@ -799,6 +818,7 @@
     "title": "房東 LINE：『不好意思上個月多收你 1500』",
     "description": "他真的把 1500 轉回來了。",
     "tags": ["luck", "good", "housing"],
+    "characters": ["office_worker", "engineer", "delivery_rider", "fresh_graduate", "civil_servant", "freelancer", "influencer_char", "homemaker"],
     "weight": 3,
     "choices": [
       { "text": "謝謝、人間還有溫情", "effects": { "money": 1500, "happiness": 10 } }
@@ -879,6 +899,1571 @@
       { "text": "認命刷分期", "effects": { "money": -15000, "stress": 12 } },
       { "text": "跟爸媽周轉一萬", "effects": { "money": -10000, "stress": 5, "reputation": -3 } },
       { "text": "動用緊急基金", "effects": { "money": -18000, "stress": -3, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "rk_dad_board_seat",
+    "title": "爸 LINE：『下週開始去公司掛個董事』",
+    "description": "他附了一張會議室照片，桌牌上已經印好你的名字。爸最後說：『不接的話，這個月起金援自理。』",
+    "tags": ["family", "career", "rich"],
+    "characters": ["rich_kid"],
+    "weight": 8,
+    "choices": [
+      { "text": "認命接下、明天去報到", "effects": { "career": 12, "stress": 10, "happiness": -8, "reputation": 5 } },
+      { "text": "推掉、說想自己創業", "effects": { "money": -50000, "career": -3, "stress": 15, "happiness": 10, "reputation": 8 } },
+      { "text": "答應了、每次開會都遲到", "effects": { "stress": -3, "career": 2, "reputation": -10, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "rk_black_card_bill",
+    "title": "黑卡月帳單 32 萬，媽：『你自己想辦法』",
+    "description": "明細 8 頁，半夜的酒吧帳列了 4 次。爸出差中。媽冷冷說：『不是想學獨立嗎？』",
+    "tags": ["money", "family", "rich"],
+    "characters": ["rich_kid"],
+    "weight": 7,
+    "choices": [
+      { "text": "賣掉保時捷、認賬", "effects": { "money": 0, "happiness": -15, "stress": 8, "reputation": -3 } },
+      { "text": "求爸救一次、下不為例", "effects": { "money": 0, "reputation": -10, "career": -8, "happiness": -8, "stress": 3 } },
+      { "text": "找銀行談分期、自己撐", "effects": { "money": -150000, "stress": 20, "career": 10, "reputation": 5 } }
+    ]
+  },
+  {
+    "id": "rk_class_reunion_master",
+    "title": "國中同學會、整桌叫你「少爺」、笑容很僵",
+    "description": "你穿了刻意低調的 Uniqlo。學長還是說：『欸你那台車多少？』全桌停下來等答案。",
+    "tags": ["social", "rich", "awkward"],
+    "characters": ["rich_kid"],
+    "weight": 6,
+    "choices": [
+      { "text": "老實說價錢、然後沈默", "effects": { "stress": 8, "happiness": -8, "reputation": -3 } },
+      { "text": "包整桌的單、笑著結帳", "effects": { "money": -30000, "happiness": -3, "reputation": 6, "stress": 3 } },
+      { "text": "說明天有事、提早離開", "effects": { "stress": -5, "happiness": 3, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "rk_cousin_loan",
+    "title": "表弟：『跟你借 20 萬，我有個 idea 想做』",
+    "description": "他開過 3 次公司、3 次都收掉。但媽在旁邊看著你，等你的反應。",
+    "tags": ["family", "money", "rich"],
+    "characters": ["rich_kid"],
+    "weight": 6,
+    "choices": [
+      { "text": "借了、當幫家裡的忙", "effects": { "money": -200000, "stress": 8, "happiness": -3, "reputation": 5 } },
+      { "text": "拒絕、給他 5 萬叫他先打工", "effects": { "money": -50000, "stress": 5, "reputation": -3, "career": 3 } },
+      { "text": "答應但要他簽合約跟你", "effects": { "money": -200000, "career": 10, "reputation": 3, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "rk_private_fund",
+    "title": "私人銀行：『新私募 100 萬起跳、找你嗎』",
+    "description": "西裝專員把茶端過來。『年化 18%、3 年閉鎖、上週 Karen 投了 500 萬。』茶杯下壓著爸的名片。",
+    "tags": ["money", "rich", "investment"],
+    "characters": ["rich_kid"],
+    "weight": 6,
+    "choices": [
+      { "text": "跟爸開口要 100 萬投", "effects": { "career": 6, "reputation": 3, "stress": 5 } },
+      { "text": "找朋友湊 100 萬、自己出 30 萬", "effects": { "money": -300000, "stress": 15, "career": 5, "reputation": -3 } },
+      { "text": "婉拒、說想自己看市場", "effects": { "reputation": -3, "stress": -3, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "rk_arranged_tea",
+    "title": "媽：『跟陳家小姐喝個下午茶』",
+    "description": "陳家是做礦泉水的、餐廳訂在文華東方。媽 LINE 加了陳小姐 IG、3000 個粉絲全是名媛。",
+    "tags": ["family", "social", "rich"],
+    "characters": ["rich_kid"],
+    "weight": 6,
+    "choices": [
+      { "text": "認命去、戴上家族戒指", "effects": { "reputation": 8, "happiness": -8, "career": 3, "stress": 8 } },
+      { "text": "裝感冒推掉、媽會唸一週", "effects": { "reputation": -8, "stress": 5, "happiness": 3 } },
+      { "text": "去了但全程聊自己興趣", "effects": { "happiness": 5, "reputation": 3, "stress": 5 } }
+    ]
+  },
+  {
+    "id": "rk_niseko_ski",
+    "title": "大學同學揪日本滑雪、人均 12 萬",
+    "description": "Niseko 5 天 4 夜、含直升機接送跟米其林餐。LINE 群組已經接龍到 9 個人。",
+    "tags": ["social", "rich", "travel"],
+    "characters": ["rich_kid"],
+    "weight": 5,
+    "choices": [
+      { "text": "開心報名、全程跟", "effects": { "money": -120000, "happiness": 15, "reputation": 5, "stress": -5 } },
+      { "text": "推說最近忙、不去", "effects": { "happiness": -5, "reputation": -5, "stress": -3 } },
+      { "text": "報名但只去 2 天", "effects": { "money": -60000, "happiness": 8, "reputation": 2 } }
+    ]
+  },
+  {
+    "id": "rk_trust_locked",
+    "title": "律師：『信託基金 30 歲前不能動本金』",
+    "description": "爸把合約推到你面前。每月零用金 5 萬、本金 5000 萬。『你想要的不就是這個自由嗎？』他笑著問。",
+    "tags": ["family", "money", "rich"],
+    "characters": ["rich_kid"],
+    "weight": 5,
+    "choices": [
+      { "text": "找律師看條款、找漏洞", "effects": { "money": -50000, "stress": 15, "career": 8 } },
+      { "text": "認命、繼續用零用金", "effects": { "happiness": -10, "stress": 5, "career": -3 } },
+      { "text": "跟爸大吵、要他放權", "effects": { "reputation": -10, "stress": 20, "happiness": 5 } }
+    ]
+  },
+  {
+    "id": "cs_angry_citizen",
+    "title": "櫃台民眾大吼：『我等 40 分鐘了！』",
+    "description": "他資料只填一半。後面排隊還有 12 個人。",
+    "tags": ["civil", "service"],
+    "characters": ["civil_servant"],
+    "weight": 7,
+    "choices": [
+      { "text": "深呼吸、跟他說明流程", "effects": { "stress": 10, "reputation": 3, "career": 2 } },
+      { "text": "請他先把資料填完再來", "effects": { "stress": 5, "reputation": -3, "happiness": 3 } },
+      { "text": "叫主管出來處理", "effects": { "stress": -5, "career": -3, "reputation": -2 } }
+    ]
+  },
+  {
+    "id": "cs_political_favor",
+    "title": "立委助理 LINE：『這個案子幫忙看一下』",
+    "description": "附件是某廠商的審查文件。落款是上級長官的名字。",
+    "tags": ["civil", "politics"],
+    "characters": ["civil_servant"],
+    "weight": 6,
+    "choices": [
+      { "text": "照流程走、不特別關照", "effects": { "stress": 12, "career": -5, "reputation": 5 } },
+      { "text": "幫忙加快、不留痕跡", "effects": { "stress": 8, "career": 5, "reputation": -3, "happiness": -5 } },
+      { "text": "已讀不回、裝沒看到", "effects": { "stress": 10, "career": -3 } }
+    ]
+  },
+  {
+    "id": "cs_inspection",
+    "title": "局長突襲視察、整層樓在打掃",
+    "description": "你桌上的零食袋、馬克杯、貼紙、私人物品要在 10 分鐘內消失。",
+    "tags": ["civil", "boss"],
+    "characters": ["civil_servant"],
+    "weight": 6,
+    "choices": [
+      { "text": "全部塞進抽屜、嚴肅坐好", "effects": { "stress": 8, "career": 3 } },
+      { "text": "拍照偷傳 PTT 公務員版", "effects": { "stress": -3, "happiness": 10, "reputation": -3 } },
+      { "text": "假裝去上廁所躲過", "effects": { "stress": 3, "career": -2 } }
+    ]
+  },
+  {
+    "id": "cs_grade_b",
+    "title": "考績通知：你今年乙等",
+    "description": "你今年加班最多、被科長嫌話最少。但隔壁老王連續 5 年甲等。",
+    "tags": ["civil", "career"],
+    "characters": ["civil_servant"],
+    "weight": 6,
+    "choices": [
+      { "text": "去問科長、要說法", "effects": { "stress": 15, "career": -3, "reputation": 3 } },
+      { "text": "認命、明年再說", "effects": { "stress": 8, "happiness": -8, "money": -8000 } },
+      { "text": "申請調單位", "effects": { "stress": 5, "career": 3, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "cs_senior_delays_retire",
+    "title": "前輩王哥又延後退休 3 年",
+    "description": "你原本以為他走你就能升科長。年終公布欄貼出他的續聘公文。",
+    "tags": ["civil", "career"],
+    "characters": ["civil_servant"],
+    "weight": 5,
+    "choices": [
+      { "text": "認命等下去", "effects": { "stress": 10, "happiness": -5, "career": -2 } },
+      { "text": "私下找處長談調動", "effects": { "stress": 8, "career": 5, "reputation": -3 } },
+      { "text": "下班去喝酒、明天再說", "effects": { "money": -500, "stress": -8, "health": -3 } }
+    ]
+  },
+  {
+    "id": "fl_5th_revision",
+    "title": "客戶第 5 次修改：『這次真的最後一次』",
+    "description": "他第 3 次也說過。合約寫只能改 2 次。",
+    "tags": ["freelance", "client"],
+    "characters": ["freelancer"],
+    "weight": 7,
+    "choices": [
+      { "text": "再改一次、不收加費", "effects": { "stress": 12, "reputation": 3 } },
+      { "text": "回『超過 2 次要加 50%』", "effects": { "money": 3000, "stress": 5, "reputation": -3 } },
+      { "text": "改一改但偷偷加價", "effects": { "money": 2000, "stress": 8, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "fl_zero_income_month",
+    "title": "翻開帳單、這個月接案 0 件",
+    "description": "上個月還 4 件。客戶都消失了、PChome 跟蝦皮的廣告變得很刺眼。",
+    "tags": ["freelance", "money"],
+    "characters": ["freelancer"],
+    "weight": 6,
+    "choices": [
+      { "text": "海撒履歷找正職", "effects": { "stress": 12, "career": -3, "happiness": -5 } },
+      { "text": "降價在接案網求單", "effects": { "money": 5000, "stress": 8, "reputation": -5 } },
+      { "text": "躺平接 Uber Eats 撐", "effects": { "money": 8000, "stress": 3, "career": -3, "health": -3 } }
+    ]
+  },
+  {
+    "id": "fl_no_labor_insurance",
+    "title": "媽：『你都沒勞保啊、生病怎麼辦』",
+    "description": "電話那頭她剛從健保署回來。你以為自己投國保就夠了。",
+    "tags": ["freelance", "family", "health"],
+    "characters": ["freelancer"],
+    "weight": 5,
+    "choices": [
+      { "text": "去公會掛勞保", "effects": { "money": -3500, "stress": -3, "health": 3 } },
+      { "text": "投私人保險省一點", "effects": { "money": -2000, "stress": 3 } },
+      { "text": "回媽『沒事啦、健保夠了』", "effects": { "stress": 5, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "fl_speculative_work",
+    "title": "客戶：『先做做看、做得好再付錢』",
+    "description": "提案要 3 天工時。他連訂金都不願意給。",
+    "tags": ["freelance", "client"],
+    "characters": ["freelancer"],
+    "weight": 6,
+    "choices": [
+      { "text": "硬著頭皮做、賭一把", "effects": { "stress": 15, "career": 3 } },
+      { "text": "回『需要 30% 訂金』", "effects": { "money": 5000, "reputation": 3, "stress": 3 } },
+      { "text": "直接拒絕、不接", "effects": { "stress": -5, "money": -3000, "reputation": 5 } }
+    ]
+  },
+  {
+    "id": "fl_mom_civil_servant",
+    "title": "媽（第 8 次）：『你還是去考公務員吧』",
+    "description": "你上週才接到一個 4 萬的案子。媽說：『但有保障嗎？』",
+    "tags": ["freelance", "family"],
+    "characters": ["freelancer"],
+    "weight": 5,
+    "choices": [
+      { "text": "認真考慮、買考試書", "effects": { "money": -1500, "stress": 8, "career": -3 } },
+      { "text": "解釋自己現況、媽繼續唸", "effects": { "stress": 10, "happiness": -5 } },
+      { "text": "假裝在考慮、敷衍過去", "effects": { "stress": 3, "reputation": -2 } }
+    ]
+  },
+  {
+    "id": "in_lowball_sponsor",
+    "title": "業配邀約：『預算 8000、會幫妳曝光』",
+    "description": "對方公司是台股上市。她說『曝光值很高喔』。",
+    "tags": ["influencer", "money"],
+    "characters": ["influencer_char"],
+    "weight": 7,
+    "choices": [
+      { "text": "接了、賺一筆是一筆", "effects": { "money": 8000, "reputation": -3, "happiness": -3 } },
+      { "text": "回『至少要 30K』", "effects": { "stress": 5, "career": 3 } },
+      { "text": "已讀不回", "effects": { "stress": -3, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "in_hater_dm",
+    "title": "私訊：『妳又老又醜、整天賺廠商錢』",
+    "description": "頭貼是迪士尼動畫角色。底下附了一張你 5 年前的照片。",
+    "tags": ["influencer", "social"],
+    "characters": ["influencer_char"],
+    "weight": 6,
+    "choices": [
+      { "text": "截圖公審、流量大爆", "effects": { "stress": 8, "happiness": 5, "reputation": 8, "career": 3 } },
+      { "text": "封鎖、靜音、繼續吃飯", "effects": { "stress": -5, "reputation": 2 } },
+      { "text": "私訊回酸他、引戰", "effects": { "stress": 12, "happiness": 8, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "in_algo_death",
+    "title": "演算法死亡：3 天觸及掉 70%",
+    "description": "你昨天明明發了同款 reels。後台數字像被刪掉一半。",
+    "tags": ["influencer", "platform"],
+    "characters": ["influencer_char"],
+    "weight": 7,
+    "choices": [
+      { "text": "拼命發新片、衝量挽回", "effects": { "stress": 18, "health": -5, "career": 3 } },
+      { "text": "課金買廣告硬推", "effects": { "money": -8000, "stress": 8, "reputation": 3 } },
+      { "text": "放假一週、躺平等回升", "effects": { "stress": -10, "happiness": 8, "career": -5 } }
+    ]
+  },
+  {
+    "id": "in_sponsor_disaster",
+    "title": "廠商：『產品零庫存、麻煩照樣推』",
+    "description": "你已經錄好開箱。粉絲開始私訊問哪裡買。",
+    "tags": ["influencer", "reputation"],
+    "characters": ["influencer_char"],
+    "weight": 6,
+    "choices": [
+      { "text": "誠實澄清、自己賠合作", "effects": { "money": -10000, "reputation": 8, "stress": 12 } },
+      { "text": "照樣推、賺完跑路", "effects": { "money": 15000, "reputation": -15, "happiness": -8 } },
+      { "text": "限動模糊帶過、刪原片", "effects": { "stress": 8, "reputation": -5, "career": -3 } }
+    ]
+  },
+  {
+    "id": "in_cross_promo",
+    "title": "同行私訊：『我們互推一下？』",
+    "description": "她粉絲跟你差不多。但她最近被自家粉絲炎上。",
+    "tags": ["influencer", "social"],
+    "characters": ["influencer_char"],
+    "weight": 5,
+    "choices": [
+      { "text": "答應、互相導流", "effects": { "reputation": 5, "career": 3, "stress": 3 } },
+      { "text": "婉拒、說最近有合作", "effects": { "stress": -3, "reputation": -2 } },
+      { "text": "拒絕、私下講她炎上", "effects": { "stress": 5, "reputation": -5, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "in_brand_caught",
+    "title": "限動拍到別牌、廠商來電",
+    "description": "那是你自己最愛的牌子。但合約寫『不得露出競品』。",
+    "tags": ["influencer", "work"],
+    "characters": ["influencer_char"],
+    "weight": 5,
+    "choices": [
+      { "text": "刪限動、道歉", "effects": { "stress": 8, "reputation": 3 } },
+      { "text": "賠違約金 2 萬", "effects": { "money": -20000, "stress": 5 } },
+      { "text": "辯說『只是日常』", "effects": { "stress": 12, "reputation": -8, "career": -3 } }
+    ]
+  },
+  {
+    "id": "hm_partner_late",
+    "title": "晚餐冷掉、老公 10 點才到家",
+    "description": "他丟一句『公司聚餐忘了講』就進去洗澡。鹹魚也跟著冷了。",
+    "tags": ["family", "home"],
+    "characters": ["homemaker"],
+    "weight": 7,
+    "choices": [
+      { "text": "重熱一次、不抱怨", "effects": { "stress": 8, "happiness": -5, "reputation": 3 } },
+      { "text": "把飯倒掉、自己吃泡麵", "effects": { "stress": -3, "happiness": 3, "health": -3 } },
+      { "text": "等他出來、大吵一架", "effects": { "stress": -5, "happiness": -8, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "hm_mother_in_law_nag",
+    "title": "婆婆：『妳什麼時候要去工作』",
+    "description": "節日聚餐第 5 次被問。老公在旁邊低頭夾菜。",
+    "tags": ["family", "pressure"],
+    "characters": ["homemaker"],
+    "weight": 6,
+    "choices": [
+      { "text": "笑著解釋帶小孩多忙", "effects": { "stress": 12, "happiness": -3, "reputation": 3 } },
+      { "text": "回『等媽幫忙顧我就去』", "effects": { "stress": -3, "happiness": 5, "reputation": -8 } },
+      { "text": "假裝去廚房幫忙、躲開", "effects": { "stress": 3, "reputation": -1 } }
+    ]
+  },
+  {
+    "id": "hm_school_fee",
+    "title": "小孩學校群組：『明天校外教學 300』",
+    "description": "你早上才買菜花了 1500。LINE 群組已經 8 個媽媽回『收到』。",
+    "tags": ["family", "money"],
+    "characters": ["homemaker"],
+    "weight": 6,
+    "choices": [
+      { "text": "包好給小孩、不說", "effects": { "money": -300, "happiness": 3, "stress": 3 } },
+      { "text": "跟老公開口要錢", "effects": { "money": -300, "stress": 5, "reputation": -3 } },
+      { "text": "跟班導說小孩不去", "effects": { "happiness": -8, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "hm_neighbor_envy",
+    "title": "鄰居陳太太：『妳都不用上班好好喔』",
+    "description": "她剛跟老公從健身房回來、手上拎著鼎泰豐外帶。你正在曬全家的衣服。",
+    "tags": ["social"],
+    "characters": ["homemaker"],
+    "weight": 5,
+    "choices": [
+      { "text": "微笑說『對啊很爽』", "effects": { "stress": 8, "happiness": -5, "reputation": 3 } },
+      { "text": "認真解釋家務多累", "effects": { "stress": 5, "happiness": -3, "reputation": -2 } },
+      { "text": "回『要不要交換看看』", "effects": { "stress": -3, "happiness": 5, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "hm_reunion_silence",
+    "title": "同學會、別人都在聊工作",
+    "description": "Jenny 升 senior、Vicky 跳槽外商加 30%。她們轉頭問你：『妳最近呢？』",
+    "tags": ["social"],
+    "characters": ["homemaker"],
+    "weight": 5,
+    "choices": [
+      { "text": "笑說『顧小孩比上班累』", "effects": { "stress": 8, "happiness": -5, "reputation": 3 } },
+      { "text": "假裝接電話、提早離席", "effects": { "stress": -3, "happiness": -3, "reputation": -3 } },
+      { "text": "說『最近想重回職場』", "effects": { "stress": 5, "career": 3, "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "fg_first_paycheck",
+    "title": "第一份薪水入帳：28,500",
+    "description": "扣完勞健保跟稅。你打開銀行 App 滑了 3 次確定數字沒看錯。",
+    "tags": ["fresh_grad", "money"],
+    "characters": ["fresh_graduate"],
+    "weight": 6,
+    "choices": [
+      { "text": "請家人吃飯慶祝", "effects": { "money": -3000, "happiness": 12, "reputation": 5 } },
+      { "text": "全部存起來、繼續省", "effects": { "stress": 3, "happiness": -3 } },
+      { "text": "犒賞自己、買 AirPods", "effects": { "money": -7900, "happiness": 15, "stress": -3 } }
+    ]
+  },
+  {
+    "id": "fg_student_loan",
+    "title": "學貸繳款日：每月扣 4500",
+    "description": "薪水入帳第 5 天、自動扣款通知就跳出來。",
+    "tags": ["fresh_grad", "money"],
+    "characters": ["fresh_graduate"],
+    "weight": 6,
+    "choices": [
+      { "text": "認命付、繼續省吃儉用", "effects": { "money": -4500, "stress": 5 } },
+      { "text": "申請延期、晚點再繳", "effects": { "money": -4800, "stress": -3, "reputation": -2 } },
+      { "text": "跟爸媽借幫付這個月", "effects": { "stress": 3, "reputation": -3, "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "fg_grandma_asks",
+    "title": "阿嬤過年問：『有沒有找到工作』",
+    "description": "你的工作其實是約聘 6 個月。阿嬤聽不懂。她只想知道你過得好不好。",
+    "tags": ["fresh_grad", "family"],
+    "characters": ["fresh_graduate"],
+    "weight": 5,
+    "choices": [
+      { "text": "說『找到了、很穩定』", "effects": { "stress": 5, "happiness": 3, "reputation": 3 } },
+      { "text": "誠實說『約聘、不確定』", "effects": { "stress": 8, "happiness": -3, "reputation": -2 } },
+      { "text": "轉移話題問阿嬤身體", "effects": { "happiness": 8, "reputation": 5, "stress": -3 } }
+    ]
+  },
+  {
+    "id": "special_typhoon_water_off",
+    "title": "颱風前社區管理員：『預計停水 48 小時』",
+    "description": "你家裡只剩半瓶礦泉水。全聯 24 小時排隊到門外。",
+    "tags": ["special", "weather"],
+    "weight": 1,
+    "requiredDay": 7,
+    "choices": [
+      { "text": "衝去全聯囤水", "effects": { "money": -800, "stress": 3, "happiness": 3 } },
+      { "text": "接水龍頭裝臉盆", "effects": { "health": -3, "stress": 5 } },
+      { "text": "搬去朋友家避難", "effects": { "money": -200, "stress": -5, "reputation": -3, "happiness": 5 } }
+    ]
+  },
+  {
+    "id": "special_typhoon_balcony",
+    "title": "風大雨大、你想起陽台衣架沒收",
+    "description": "鄰居 LINE 群組：『誰家衣架剛飛下來、砸到我的車』。",
+    "tags": ["special", "weather", "neighbor"],
+    "weight": 1,
+    "requiredDay": 7,
+    "choices": [
+      { "text": "衝下樓賠錢、道歉", "effects": { "money": -3000, "stress": 10, "reputation": 3 } },
+      { "text": "假裝沒看 LINE", "effects": { "stress": 8, "reputation": -8, "happiness": 3 } },
+      { "text": "認領但說不是自己撞的", "effects": { "stress": 5, "reputation": -3, "money": -1500 } }
+    ]
+  },
+  {
+    "id": "special_typhoon_grocery_rush",
+    "title": "颱風前夜、全聯泡麵架像被搶劫",
+    "description": "你站在空架前面、阿姨從旁邊推走最後一箱礦泉水。",
+    "tags": ["special", "weather"],
+    "weight": 1,
+    "requiredDay": 7,
+    "choices": [
+      { "text": "改買肉鬆罐頭加白米", "effects": { "money": -600, "happiness": 3 } },
+      { "text": "跟阿姨議價買半箱", "effects": { "money": -500, "happiness": 5, "reputation": -2 } },
+      { "text": "空手離開、餓兩天再說", "effects": { "stress": 8, "health": -5 } }
+    ]
+  },
+  {
+    "id": "special_typhoon_holiday_call",
+    "title": "颱風假爭議：北市上班、新北放假",
+    "description": "你住北市、公司在新北。LINE 群組炸開。",
+    "tags": ["special", "weather", "work"],
+    "weight": 1,
+    "requiredDay": 7,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate"],
+    "choices": [
+      { "text": "認命出門上班", "effects": { "stress": 12, "career": 3, "money": -200 } },
+      { "text": "直接請假在家", "effects": { "stress": -5, "happiness": 5, "career": -3 } },
+      { "text": "等公司公告再決定", "effects": { "stress": 8, "career": 1 } }
+    ]
+  },
+  {
+    "id": "special_typhoon_streamer",
+    "title": "一整天 24h 新聞主播站在風雨中",
+    "description": "你已經看完 6 個風雨小巨蛋的直擊報導。同一個畫面。",
+    "tags": ["special", "weather", "rest"],
+    "weight": 1,
+    "requiredDay": 7,
+    "choices": [
+      { "text": "邊看邊滑手機追劇", "effects": { "stress": -8, "happiness": 5, "health": -3 } },
+      { "text": "拿出筆電工作", "effects": { "stress": 8, "career": 5, "money": 1000 } },
+      { "text": "跟室友一起吐槽政論", "effects": { "stress": -5, "happiness": 8, "health": -3 } }
+    ]
+  },
+  {
+    "id": "special_double_11_singles",
+    "title": "光棍節：媽 LINE 第 7 次催你交對象",
+    "description": "她截圖隔壁陳太太女兒的婚紗照給你看。",
+    "tags": ["special", "family", "social"],
+    "weight": 1,
+    "requiredDay": 11,
+    "choices": [
+      { "text": "認命下載交友 App", "effects": { "stress": 5, "happiness": 3, "money": -300 } },
+      { "text": "回媽『自由很好不急』", "effects": { "stress": 8, "reputation": -3, "happiness": 5 } },
+      { "text": "隨便編一個對象唬媽", "effects": { "stress": 10, "reputation": -5, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "special_double_11_couple_envy",
+    "title": "IG 限動：30 個朋友都在貼情侶照",
+    "description": "Karen 男友送她 LV。你的對話框最新是『請領取包裹』。",
+    "tags": ["special", "social"],
+    "weight": 1,
+    "requiredDay": 11,
+    "choices": [
+      { "text": "自己買禮物送自己", "effects": { "money": -3000, "happiness": 10, "stress": -5 } },
+      { "text": "全部已讀不回", "effects": { "stress": 3, "happiness": -3 } },
+      { "text": "留言酸『早晚分手』", "effects": { "stress": -3, "happiness": 5, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "special_double_11_shopee_cart",
+    "title": "蝦皮購物車：123 件、總價 47,800",
+    "description": "你今早只打開一次 App。中間發生了什麼？",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 11,
+    "choices": [
+      { "text": "一鼓作氣全結帳", "effects": { "money": -47800, "happiness": 20, "stress": 8 } },
+      { "text": "只買必需品其他刪", "effects": { "money": -3500, "happiness": 5 } },
+      { "text": "全部刪光、關 App", "effects": { "stress": -3, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "special_double_11_pchome_glitch",
+    "title": "PChome 雙 11 系統當機 4 小時",
+    "description": "你想買的限量商品早就 sold out。客服也打不通。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 11,
+    "choices": [
+      { "text": "怒罵客服 LINE", "effects": { "stress": -5, "happiness": 5, "reputation": -2 } },
+      { "text": "改去 momo 搜同款", "effects": { "money": -3000, "happiness": 3 } },
+      { "text": "認命睡覺、明天再說", "effects": { "stress": -3 } }
+    ]
+  },
+  {
+    "id": "special_double_11_partner_buy",
+    "title": "另一半：『幫我刷一下、月底還你』",
+    "description": "5800 塊的東西。他上次說的『月底』是 7 個月前。",
+    "tags": ["special", "money", "social"],
+    "weight": 1,
+    "requiredDay": 11,
+    "choices": [
+      { "text": "認命刷下去", "effects": { "money": -5800, "stress": 5, "happiness": -3 } },
+      { "text": "拒絕、講道理", "effects": { "stress": 12, "happiness": -5, "reputation": -3 } },
+      { "text": "刷 + 偷偷記帳", "effects": { "money": -5800, "stress": 8, "reputation": 2 } }
+    ]
+  },
+  {
+    "id": "special_mid_autumn_grill_choke",
+    "title": "鄰居敲門：『你們烤肉煙飄進我家』",
+    "description": "你才剛擺好烤肉架。隔壁阿伯臉很臭。",
+    "tags": ["special", "neighbor"],
+    "weight": 1,
+    "requiredDay": 15,
+    "choices": [
+      { "text": "道歉、搬去公園烤", "effects": { "stress": 5, "money": -500, "reputation": 5 } },
+      { "text": "撐著繼續、關窗戶", "effects": { "stress": 8, "reputation": -8 } },
+      { "text": "烤一片肉送他解圍", "effects": { "money": -100, "reputation": 8 } }
+    ]
+  },
+  {
+    "id": "special_mid_autumn_moon_cake",
+    "title": "LINE 收到 8 盒月餅、3 盒同一家",
+    "description": "你打開冰箱、上禮拜的月餅還沒吃完。",
+    "tags": ["special", "food"],
+    "weight": 1,
+    "requiredDay": 15,
+    "choices": [
+      { "text": "帶去公司／聚會分掉", "effects": { "reputation": 5, "stress": -3 } },
+      { "text": "全部塞冰箱裝忙", "effects": { "stress": 5, "happiness": -3, "health": -3 } },
+      { "text": "上 Carousell 轉賣", "effects": { "money": 1500, "stress": 5, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "special_mid_autumn_family_drama",
+    "title": "家族烤肉、舅舅又開始講選舉",
+    "description": "阿嬤連忙夾豬肉給你。你的雞肉烤到第 7 分鐘。",
+    "tags": ["special", "family"],
+    "weight": 1,
+    "requiredDay": 15,
+    "choices": [
+      { "text": "附和兩句討好舅舅", "effects": { "stress": 8, "reputation": 3 } },
+      { "text": "開始反駁、對嗆", "effects": { "stress": 15, "happiness": 5, "reputation": -8 } },
+      { "text": "假裝接電話離席", "effects": { "stress": -3, "happiness": 3, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "special_mid_autumn_alone",
+    "title": "中秋夜你打開 Netflix、外面飄烤肉味",
+    "description": "IG 所有人都在烤肉、你的對話框最後一則是外送 App。",
+    "tags": ["special", "rest", "lonely"],
+    "weight": 1,
+    "requiredDay": 15,
+    "choices": [
+      { "text": "自己點烤肉外送", "effects": { "money": -800, "stress": -3, "happiness": 8, "health": -3 } },
+      { "text": "視訊家人 1 小時", "effects": { "stress": -8, "happiness": 12, "reputation": 5 } },
+      { "text": "直接睡覺、明天再說", "effects": { "stress": -5, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "special_mid_autumn_typhoon_warn",
+    "title": "中秋連假第一天、氣象局發布陸警",
+    "description": "全家烤肉爐已經點好。爸說『沒事繼續烤』。",
+    "tags": ["special", "weather", "family"],
+    "weight": 1,
+    "requiredDay": 15,
+    "choices": [
+      { "text": "全家擠進客廳烤", "effects": { "reputation": 5, "happiness": 10, "health": -3, "money": -300 } },
+      { "text": "取消、改室內火鍋", "effects": { "money": -1500, "happiness": 5, "reputation": -2 } },
+      { "text": "烤完一輪就收", "effects": { "stress": 5, "happiness": 3, "health": -2 } }
+    ]
+  },
+  {
+    "id": "special_new_year_alone_couch",
+    "title": "跨年夜你打開電視、101 直播",
+    "description": "IG 95% 朋友都在信義區。你穿著 5 年前的睡衣。",
+    "tags": ["special", "rest", "lonely"],
+    "weight": 1,
+    "requiredDay": 22,
+    "choices": [
+      { "text": "開瓶啤酒慶祝", "effects": { "money": -200, "happiness": 8, "health": -3 } },
+      { "text": "打電話跟阿嬤聊", "effects": { "stress": -8, "happiness": 12, "reputation": 3 } },
+      { "text": "直接 11 點睡覺", "effects": { "stress": -5, "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "special_new_year_uber_surge",
+    "title": "跨年夜 11:50、Uber 估價 1850",
+    "description": "平常 380。你穿高跟鞋、走路要 1.5 小時。",
+    "tags": ["special", "transport"],
+    "weight": 1,
+    "requiredDay": 22,
+    "choices": [
+      { "text": "認命叫車回家", "effects": { "money": -1850, "stress": 3, "health": 3 } },
+      { "text": "走到最近捷運站", "effects": { "health": -8, "stress": 8, "money": -65 } },
+      { "text": "找路人合搭一台", "effects": { "money": -700, "stress": 5, "reputation": 3 } }
+    ]
+  },
+  {
+    "id": "special_new_year_resolution",
+    "title": "朋友 IG：『2027 要瘦 10 公斤』",
+    "description": "你想了 5 分鐘、想不出自己有什麼願望。",
+    "tags": ["special", "social"],
+    "weight": 1,
+    "requiredDay": 22,
+    "choices": [
+      { "text": "隨便寫一個 PO", "effects": { "stress": 3, "happiness": 3, "reputation": 1 } },
+      { "text": "認真寫長文願望", "effects": { "stress": 8, "happiness": 5, "reputation": 5 } },
+      { "text": "直接關 IG 不發", "effects": { "stress": -3, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "special_new_year_party_overload",
+    "title": "朋友家跨年趴、你已經第 7 杯",
+    "description": "房間旋轉中。手機螢幕看不清楚。",
+    "tags": ["special", "social", "health"],
+    "weight": 1,
+    "requiredDay": 22,
+    "choices": [
+      { "text": "衝廁所吐完繼續", "effects": { "health": -10, "happiness": 5, "reputation": -3 } },
+      { "text": "早點告退睡覺", "effects": { "stress": -3, "health": -2, "reputation": -2 } },
+      { "text": "倒地直接睡客廳", "effects": { "reputation": -8, "happiness": -3, "health": -3 } }
+    ]
+  },
+  {
+    "id": "special_new_year_work_email",
+    "title": "11:30 PM 主管 LINE：『新年快樂、簡報記得改』",
+    "description": "你還在小酌、突然有點清醒。",
+    "tags": ["special", "work"],
+    "weight": 1,
+    "requiredDay": 22,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate"],
+    "choices": [
+      { "text": "馬上開電腦處理", "effects": { "stress": 12, "career": 5, "health": -5, "happiness": -8 } },
+      { "text": "假裝沒看到", "effects": { "stress": 8, "career": -3 } },
+      { "text": "回『新年快樂上班再說』", "effects": { "stress": 5, "career": -2, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "special_month_end_overdraft",
+    "title": "23:47 銀行 LINE：『您的活存戶頭已透支』",
+    "description": "你下班才剛吃完晚餐。手機跳通知第 3 次。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate", "delivery_rider", "freelancer", "influencer_char"],
+    "choices": [
+      { "text": "信用卡預借現金", "effects": { "money": -3000, "stress": 8 } },
+      { "text": "急著解約定存", "effects": { "stress": 5, "happiness": -5 } },
+      { "text": "已讀不回明天再說", "effects": { "stress": 15, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "special_month_end_credit_pay",
+    "title": "信用卡帳單：本期應繳 38,500",
+    "description": "你前 3 個月都繳最低。利息開始滾。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate", "delivery_rider", "freelancer", "influencer_char"],
+    "choices": [
+      { "text": "全額付清", "effects": { "money": -38500, "stress": -5, "career": 3 } },
+      { "text": "繳最低繼續滾", "effects": { "money": -3850, "stress": 10, "career": -2 } },
+      { "text": "申請分 6 期", "effects": { "money": -7500, "stress": 5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_save_check",
+    "title": "打開記帳 App、本月支出 105% 收入",
+    "description": "你開始懷疑那杯 180 塊的拿鐵是不是真的有意義。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate", "delivery_rider", "freelancer", "influencer_char"],
+    "choices": [
+      { "text": "下載新記帳 App 改變", "effects": { "money": -200, "stress": 5, "career": 2 } },
+      { "text": "刪掉記帳 App 不看", "effects": { "stress": -5, "happiness": 5, "career": -3 } },
+      { "text": "開始計畫副業", "effects": { "stress": 8, "career": 5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_parent_call",
+    "title": "月底爸 LINE：『最近還順利嗎？』",
+    "description": "你猜他是不是要借錢。然後他就講了。",
+    "tags": ["special", "family", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate", "delivery_rider", "freelancer", "influencer_char"],
+    "choices": [
+      { "text": "借爸 5000、不問用途", "effects": { "money": -5000, "stress": 5, "reputation": 5 } },
+      { "text": "解釋自己也很緊", "effects": { "stress": 8, "happiness": -3, "reputation": -3 } },
+      { "text": "反過來跟爸借錢", "effects": { "money": 8000, "stress": 3, "reputation": -5, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_survival",
+    "title": "戶頭剩 312 元、距發薪 5 天",
+    "description": "冰箱有半條吐司、3 顆蛋、半瓶醬油。",
+    "tags": ["special", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["office_worker", "engineer", "fresh_graduate", "delivery_rider", "freelancer", "influencer_char"],
+    "choices": [
+      { "text": "5 天每天吐司蛋", "effects": { "health": -8, "money": -100, "stress": 10 } },
+      { "text": "跟朋友借 1000", "effects": { "money": 1000, "stress": 3, "reputation": -3 } },
+      { "text": "信用卡刷 7-11 度日", "effects": { "money": -1500, "health": -3, "stress": -3 } }
+    ]
+  },
+  {
+    "id": "special_month_end_rk_trust",
+    "title": "信託月撥款 50 萬、爸批註『黑卡有點兇』",
+    "description": "你的零用金。秘書傳訊：『下個月開始減 5 萬』。",
+    "tags": ["special", "money", "rich"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["rich_kid"],
+    "choices": [
+      { "text": "全部存定存、不回應", "effects": { "money": 500000, "career": 3, "happiness": -3 } },
+      { "text": "立刻刷一台新車慶祝", "effects": { "money": -300000, "happiness": 15, "stress": 3 } },
+      { "text": "找朋友合資搞點投資", "effects": { "money": 400000, "career": 8, "stress": 5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_rk_mom_audit",
+    "title": "媽：『妳這個月信用卡刷了 47 萬？』",
+    "description": "她把對帳單列印出來、用紅筆圈了 5 個項目。",
+    "tags": ["special", "family", "rich"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["rich_kid"],
+    "choices": [
+      { "text": "認錯、答應下月控制", "effects": { "stress": 8, "reputation": 3, "happiness": -5 } },
+      { "text": "解釋每筆都很必要", "effects": { "stress": 12, "reputation": -3 } },
+      { "text": "反問媽自己花多少", "effects": { "stress": 5, "reputation": -10, "happiness": 8 } }
+    ]
+  },
+  {
+    "id": "special_month_end_rk_family_meeting",
+    "title": "家族企業月例會、爸要你列席",
+    "description": "你已經 3 個月沒出席。爸 LINE：『這次別再忙了』。",
+    "tags": ["special", "family", "career", "rich"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["rich_kid"],
+    "choices": [
+      { "text": "認命去、準備發言稿", "effects": { "stress": 12, "career": 8, "reputation": 5 } },
+      { "text": "派秘書代替自己", "effects": { "stress": -3, "career": -3, "reputation": -5 } },
+      { "text": "直接說『有事推掉』", "effects": { "stress": 5, "career": -8, "reputation": -8 } }
+    ]
+  },
+  {
+    "id": "special_month_end_rk_capital_call",
+    "title": "私募基金通知：本月再投 100 萬 capital call",
+    "description": "你之前已經投了 300 萬。基金經理說『過了這次沒下次』。",
+    "tags": ["special", "money", "rich"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["rich_kid"],
+    "choices": [
+      { "text": "自己掏 20 萬、剩跟爸要", "effects": { "money": -200000, "career": 6, "stress": 8 } },
+      { "text": "跟爸開口要 100 萬", "effects": { "reputation": -8, "career": -5, "stress": 5 } },
+      { "text": "認賠退出基金", "effects": { "career": -10, "stress": 5, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "special_month_end_rk_social_calendar",
+    "title": "助理：『月底 5 個飯局、要全去嗎』",
+    "description": "紅酒會、董娘下午茶、商會晚宴、家族聚餐、同學會。",
+    "tags": ["special", "social", "rich"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["rich_kid"],
+    "choices": [
+      { "text": "全部去、刷臉刷到底", "effects": { "stress": 15, "reputation": 10, "money": -15000, "happiness": -5 } },
+      { "text": "挑 2 個重要的去", "effects": { "stress": 5, "reputation": 5, "money": -5000 } },
+      { "text": "全部推掉、躲在家", "effects": { "stress": -8, "reputation": -8, "happiness": 5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_hm_partner_salary",
+    "title": "老公薪水入帳、他傳：『記得繳水電』",
+    "description": "帳戶從 8000 跳到 65000。他補一句：『其他要省一點』。",
+    "tags": ["special", "family", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["homemaker"],
+    "choices": [
+      { "text": "認命接過去管", "effects": { "stress": 5, "reputation": 3 } },
+      { "text": "回『下月家用要加』", "effects": { "stress": 10, "reputation": -3, "money": 2000 } },
+      { "text": "偷藏 2000 進私房錢", "effects": { "money": 2000, "stress": 8, "happiness": 5, "reputation": -2 } }
+    ]
+  },
+  {
+    "id": "special_month_end_hm_budget_check",
+    "title": "翻記帳本、本月家用超支 8000",
+    "description": "小孩補習費漲、菜價漲、電費漲。只有你的零用金沒漲。",
+    "tags": ["special", "money", "family"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["homemaker"],
+    "choices": [
+      { "text": "跟老公討論加家用", "effects": { "stress": 10, "reputation": 3, "money": 3000 } },
+      { "text": "自己刷信用卡墊", "effects": { "money": -8000, "stress": 8, "happiness": -5 } },
+      { "text": "砍掉小孩才藝班", "effects": { "money": 3000, "happiness": -10, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_hm_school_fee",
+    "title": "小孩學校 LINE：『註冊費明天截止 22,500』",
+    "description": "你早上才買菜花光本月剩的菜錢。",
+    "tags": ["special", "family", "money"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["homemaker"],
+    "choices": [
+      { "text": "跟老公開口要錢", "effects": { "money": -22500, "stress": 5, "reputation": -3 } },
+      { "text": "動用私房錢墊", "effects": { "money": -22500, "stress": 8, "happiness": -5 } },
+      { "text": "跟學校申請延繳", "effects": { "money": -22500, "stress": 12, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "special_month_end_hm_mother_in_law",
+    "title": "婆婆視訊：『家用是不是有點多』",
+    "description": "她拿出 30 年前的記帳本：『我那時候也是這樣熬過來』。",
+    "tags": ["special", "family"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["homemaker"],
+    "choices": [
+      { "text": "認錯、聽她講當年勇", "effects": { "stress": 12, "reputation": 5, "happiness": -5 } },
+      { "text": "解釋現在物價不同", "effects": { "stress": 8, "reputation": -3, "happiness": 3 } },
+      { "text": "假裝訊號不好掛掉", "effects": { "stress": -3, "reputation": -5, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "special_month_end_hm_grocery_haul",
+    "title": "月底全聯大採購、推車滿出來",
+    "description": "一個月的米、油、衛生紙、洗衣精。結帳顯示 4,820。",
+    "tags": ["special", "money", "food"],
+    "weight": 1,
+    "requiredDay": 28,
+    "characters": ["homemaker"],
+    "choices": [
+      { "text": "認命全結帳", "effects": { "money": -4820, "stress": 5, "reputation": 3 } },
+      { "text": "退一半改 PChome 24h", "effects": { "money": -3500, "happiness": 3, "stress": -3 } },
+      { "text": "改去傳統市場買菜", "effects": { "money": -2800, "stress": 3, "happiness": 5, "reputation": 3 } }
+    ]
+  },
+  {
+    "id": "stock_nvidia_tip",
+    "title": "朋友：『NVDA 內線、現在進場』",
+    "description": "他自稱有半導體業界線人。但他上次帶你買的金鼎股已經歸零。",
+    "tags": ["money", "investment", "luck"],
+    "weight": 4,
+    "choices": [
+      {
+        "text": "All in 5 萬下去",
+        "effects": { "money": -50000, "stress": 8, "happiness": -3 },
+        "trigger": {
+          "afterDays": 3,
+          "outcomes": [
+            { "eventId": "stock_outcome_jackpot", "weight": 20 },
+            { "eventId": "stock_outcome_breakeven", "weight": 30 },
+            { "eventId": "stock_outcome_crash", "weight": 50 }
+          ]
+        }
+      },
+      { "text": "婉拒、看著他賺", "effects": { "stress": -3, "happiness": -2 } },
+      { "text": "罵他『你瘋了』", "effects": { "stress": 3, "reputation": 2, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "stock_outcome_jackpot",
+    "title": "NVDA 暴漲 30%、新聞跳了一整天",
+    "description": "你的 5 萬變 15 萬。朋友 LINE：『早跟你說了』。",
+    "tags": ["money", "investment", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "賣掉、獲利了結", "effects": { "money": 150000, "stress": -5, "happiness": 15 } },
+      { "text": "繼續抱、賭翻倍", "effects": { "money": 100000, "stress": 10, "happiness": 8 } }
+    ]
+  },
+  {
+    "id": "stock_outcome_breakeven",
+    "title": "NVDA 在原地盤整 3 天",
+    "description": "你的 5 萬還是 5 萬。朋友：『短期波動很正常』。",
+    "tags": ["money", "investment", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "賣掉換現金、保本", "effects": { "money": 50000, "stress": -3 } },
+      { "text": "再壓一點、等漲", "effects": { "money": 30000, "stress": 8 } }
+    ]
+  },
+  {
+    "id": "stock_outcome_crash",
+    "title": "NVDA 跌 90%、財報前洩漏壞消息",
+    "description": "你的 5 萬剩 5000。朋友帳號 LINE 已封鎖。",
+    "tags": ["money", "investment", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認賠出場、刪除股票 App", "effects": { "money": 5000, "stress": 15, "happiness": -10 } },
+      { "text": "拗下去、總有一天回本", "effects": { "stress": 20, "happiness": -8 } }
+    ]
+  },
+  {
+    "id": "lottery_weili",
+    "title": "便利店買威力彩、頭獎 8 億",
+    "description": "你只買得起 2 注 = 200 塊。但賣彩券阿伯說『這台機器昨天才開出二獎』。",
+    "tags": ["money", "luck"],
+    "weight": 4,
+    "choices": [
+      {
+        "text": "買 200 塊試試",
+        "effects": { "money": -200, "happiness": 3 },
+        "trigger": {
+          "afterDays": 1,
+          "outcomes": [
+            { "eventId": "lottery_outcome_jackpot", "weight": 1 },
+            { "eventId": "lottery_outcome_small", "weight": 10 },
+            { "eventId": "lottery_outcome_zero", "weight": 89 }
+          ]
+        }
+      },
+      { "text": "嗤之以鼻、走人", "effects": { "stress": -2, "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "lottery_outcome_jackpot",
+    "title": "對到頭獎了。",
+    "description": "你看了 5 次號碼。手在抖。新聞跑馬燈說頭獎 8 億只有一注中。",
+    "tags": ["money", "luck", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "馬上去領、找律師", "effects": { "money": 5000000, "stress": 25, "happiness": 50, "reputation": 10 } },
+      { "text": "先冷靜 24 小時", "effects": { "money": 5000000, "stress": 15, "happiness": 40 } }
+    ]
+  },
+  {
+    "id": "lottery_outcome_small",
+    "title": "對到末 3 碼、中 200 塊",
+    "description": "剛好回本。賣彩券阿伯：『你看吧、有買有機會』。",
+    "tags": ["money", "luck", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "領 200、收手", "effects": { "money": 200, "happiness": 5 } },
+      { "text": "再買 200 塊下一期", "effects": { "money": -200, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "lottery_outcome_zero",
+    "title": "對完、0 個號碼中",
+    "description": "你看著彩券、深吸一口氣。",
+    "tags": ["money", "luck", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認命、撕掉彩券", "effects": { "happiness": -3 } },
+      { "text": "下一期再買大一點", "effects": { "money": -500, "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "crypto_jackpot",
+    "title": "你 ALL IN 的那檔幣、翻 3 倍",
+    "description": "朋友群組炸開。新聞跑馬燈：『某迷因幣大漲 380%』。",
+    "tags": ["money", "investment", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "馬上賣、獲利了結", "effects": { "money": 150000, "stress": -8, "happiness": 20 } },
+      { "text": "拗下去、月亮見", "effects": { "money": 80000, "stress": 12, "happiness": 10 } }
+    ]
+  },
+  {
+    "id": "crypto_breakeven",
+    "title": "你 ALL IN 的那檔幣、剛好回到買進價",
+    "description": "中間下跌 60% 又拉回來。你的心跳跟它一樣劇烈。",
+    "tags": ["money", "investment", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "見好就收、認命賣掉", "effects": { "money": 50000, "stress": -3, "happiness": 3 } },
+      { "text": "再拗一波", "effects": { "money": 30000, "stress": 10 } }
+    ]
+  },
+  {
+    "id": "shopee_seller_open",
+    "title": "朋友揪你開蝦皮賣場：『代購超賺』",
+    "description": "他展示自己上個月對帳 3 萬。但他截圖的好像不是全部。",
+    "tags": ["money", "investment", "side"],
+    "weight": 4,
+    "choices": [
+      {
+        "text": "進貨 3000、開賣場",
+        "effects": { "money": -3000, "stress": 5 },
+        "trigger": {
+          "afterDays": 5,
+          "outcomes": [
+            { "eventId": "shopee_outcome_hit", "weight": 15 },
+            { "eventId": "shopee_outcome_meh", "weight": 40 },
+            { "eventId": "shopee_outcome_flop", "weight": 45 }
+          ]
+        }
+      },
+      { "text": "回他『我太忙』", "effects": { "stress": -2 } },
+      { "text": "勸他別衝、會虧", "effects": { "stress": -3, "reputation": 2 } }
+    ]
+  },
+  {
+    "id": "shopee_outcome_hit",
+    "title": "蝦皮賣爆！3 天清光 100 件",
+    "description": "IG 收到 10 個合作邀請。粉絲私訊問你會不會出補貨。",
+    "tags": ["money", "investment", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "馬上補貨、擴大", "effects": { "money": 25000, "stress": 10, "happiness": 15, "career": 5 } },
+      { "text": "見好就收、結束賣場", "effects": { "money": 18000, "stress": -5, "happiness": 8 } }
+    ]
+  },
+  {
+    "id": "shopee_outcome_meh",
+    "title": "賣場開了 5 天、賣出 30 件",
+    "description": "剛好回本。粉絲不多、但有 3 個常客。",
+    "tags": ["money", "investment", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認命繼續經營", "effects": { "money": 4000, "stress": 5, "career": 2 } },
+      { "text": "出清存貨、收掉", "effects": { "money": 3000, "stress": -3 } }
+    ]
+  },
+  {
+    "id": "shopee_outcome_flop",
+    "title": "賣場 5 天賣 3 件、97 件堆客廳",
+    "description": "媽 LINE：『你那些紙箱可以丟了嗎』。",
+    "tags": ["money", "investment", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "Carousell 半價出清", "effects": { "money": 800, "stress": 10, "happiness": -8 } },
+      { "text": "認賠、送朋友當禮物", "effects": { "stress": 5, "reputation": 3, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "presale_house_deposit",
+    "title": "建商代銷：『最後 3 戶、訂金 10 萬』",
+    "description": "捷運站 5 分鐘、新成屋 2 年後交屋。他遞給你筆。",
+    "tags": ["money", "investment"],
+    "weight": 3,
+    "characters": ["office_worker", "engineer", "civil_servant", "rich_kid", "freelancer", "influencer_char"],
+    "choices": [
+      {
+        "text": "簽下去、付訂金",
+        "effects": { "money": -100000, "stress": 15, "career": 3 },
+        "trigger": {
+          "afterDays": 7,
+          "outcomes": [
+            { "eventId": "presale_outcome_rise", "weight": 20 },
+            { "eventId": "presale_outcome_flat", "weight": 50 },
+            { "eventId": "presale_outcome_drop", "weight": 30 }
+          ]
+        }
+      },
+      { "text": "回家想想、3 天再回覆", "effects": { "stress": 5 } },
+      { "text": "回『現在不適合』走人", "effects": { "stress": -3, "career": -1 } }
+    ]
+  },
+  {
+    "id": "presale_outcome_rise",
+    "title": "捷運開通新聞、建案漲價 8%",
+    "description": "建商打來：『恭喜、現在轉手淨賺 80 萬』。",
+    "tags": ["money", "investment", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "馬上轉手、套利", "effects": { "money": 180000, "stress": -5, "happiness": 20, "reputation": 5 } },
+      { "text": "繼續抱、等交屋", "effects": { "money": 100000, "stress": 5, "career": 5 } }
+    ]
+  },
+  {
+    "id": "presale_outcome_flat",
+    "title": "建商：『目前市場穩定、按合約走』",
+    "description": "你看著訂金收據、心情平靜。沒漲沒跌、就這樣。",
+    "tags": ["money", "investment", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認命等交屋", "effects": { "money": 100000, "stress": 3 } },
+      { "text": "出脫、改買 ETF", "effects": { "money": 98000, "stress": -3, "career": 2 } }
+    ]
+  },
+  {
+    "id": "presale_outcome_drop",
+    "title": "新聞：『預售屋降溫、建案降價賣』",
+    "description": "建商已經貼出『搶救特賣』。同棟有 5 戶在拋售。",
+    "tags": ["money", "investment", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認賠出場、退訂", "effects": { "money": 70000, "stress": 20, "happiness": -10 } },
+      { "text": "硬抱、相信會回升", "effects": { "money": 85000, "stress": 25, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "night_market_stall",
+    "title": "朋友揪你週末擺攤：『假日 3 天賺 2 萬』",
+    "description": "他賣手工皂、你想賣什麼還沒想好。場租 1 天 1500。",
+    "tags": ["money", "investment", "side"],
+    "weight": 4,
+    "choices": [
+      {
+        "text": "進貨 5000、衝一波",
+        "effects": { "money": -5000, "stress": 10, "health": -3 },
+        "trigger": {
+          "afterDays": 3,
+          "outcomes": [
+            { "eventId": "stall_outcome_boom", "weight": 25 },
+            { "eventId": "stall_outcome_ok", "weight": 50 },
+            { "eventId": "stall_outcome_rain", "weight": 25 }
+          ]
+        }
+      },
+      { "text": "說『下次』、推掉", "effects": { "stress": -3, "reputation": -1 } },
+      { "text": "幫他顧攤、收 1500", "effects": { "money": 1500, "stress": 5, "health": -2 } }
+    ]
+  },
+  {
+    "id": "stall_outcome_boom",
+    "title": "夜市攤位生意爆、客人排隊",
+    "description": "你的東西第二天就被同行抄。但你已經賺到了。",
+    "tags": ["money", "investment", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "結算、認真考慮做副業", "effects": { "money": 20000, "career": 5, "happiness": 12, "stress": -3 } },
+      { "text": "下週繼續擺", "effects": { "money": 15000, "stress": 8, "health": -3, "happiness": 8 } }
+    ]
+  },
+  {
+    "id": "stall_outcome_ok",
+    "title": "3 天擺攤、淨賺 3000",
+    "description": "扣掉場租跟材料、賺得不多但也沒虧。手有點僵。",
+    "tags": ["money", "investment", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認命結算、收攤", "effects": { "money": 8000, "stress": 3, "happiness": 3 } },
+      { "text": "下週改賣別的", "effects": { "money": 6000, "stress": 5 } }
+    ]
+  },
+  {
+    "id": "stall_outcome_rain",
+    "title": "週末下大雨、攤位客人 5 個",
+    "description": "你淋雨收攤。庫存還剩 80%、場租已經繳了。",
+    "tags": ["money", "investment", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "蝦皮出清庫存", "effects": { "money": 1000, "stress": 10, "happiness": -8 } },
+      { "text": "認賠、收掉副業夢", "effects": { "stress": 5, "happiness": -5 } }
+    ]
+  },
+  {
+    "id": "stock_insider_tip",
+    "title": "同事神秘 LINE：『內線、明天進場』",
+    "description": "他遞給你紙條、上面寫了股票代號。他說『不能傳訊息』。",
+    "tags": ["money", "investment", "luck"],
+    "weight": 4,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate", "rich_kid", "freelancer", "influencer_char"],
+    "choices": [
+      {
+        "text": "ALL IN 8 萬",
+        "effects": { "money": -80000, "stress": 15, "happiness": -5 },
+        "trigger": {
+          "afterDays": 3,
+          "outcomes": [
+            { "eventId": "stock_insider_crash", "weight": 70 },
+            { "eventId": "stock_insider_lucky", "weight": 30 }
+          ]
+        }
+      },
+      { "text": "小投 2 萬試試", "effects": { "money": -20000, "stress": 5 } },
+      { "text": "婉拒、不碰內線", "effects": { "stress": -3, "career": 1 } }
+    ]
+  },
+  {
+    "id": "stock_insider_lucky",
+    "title": "內線股漲停、3 天 +50%",
+    "description": "你的 8 萬變 12 萬。同事在電梯遇到你眨了眨眼。",
+    "tags": ["money", "investment", "chain", "good"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "馬上獲利了結", "effects": { "money": 120000, "happiness": 15, "stress": -3 } },
+      { "text": "繼續抱、賭翻倍", "effects": { "money": 80000, "stress": 12 } }
+    ]
+  },
+  {
+    "id": "stock_insider_crash",
+    "title": "內線股被檢舉、跌停 3 天、剩 1 萬",
+    "description": "同事 LINE 已封鎖。新聞跑馬燈：『某科技股疑似炒作』。",
+    "tags": ["money", "investment", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "賣車補洞、認賠 7 萬", "effects": { "money": 60000, "stress": 18, "happiness": -8 } },
+      {
+        "text": "找地下錢莊借 5 萬",
+        "effects": { "money": 50000, "stress": 20 },
+        "trigger": {
+          "afterDays": 4,
+          "outcomes": [{ "eventId": "loanshark_pressure", "weight": 100 }]
+        }
+      },
+      { "text": "跟家裡告白、求救", "effects": { "money": 30000, "stress": 5, "reputation": -8, "happiness": -10 } }
+    ]
+  },
+  {
+    "id": "loanshark_pressure",
+    "title": "地下錢莊每天 12 通電話、利息變 50%",
+    "description": "你欠 5 萬、現在要還 7 萬 5。對方說『下週再不還、去你家拜訪』。",
+    "tags": ["money", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "咬牙還清", "effects": { "money": -75000, "stress": 25, "happiness": -8 } },
+      { "text": "報警 165 反詐", "effects": { "stress": 20, "reputation": -5, "happiness": -3 } },
+      {
+        "text": "連夜跑路去台中",
+        "effects": { "stress": 15, "health": -5 },
+        "trigger": {
+          "afterDays": 5,
+          "outcomes": [{ "eventId": "run_away_outcome", "weight": 100 }]
+        }
+      }
+    ]
+  },
+  {
+    "id": "run_away_outcome",
+    "title": "台中便利商店打工、改名換手機",
+    "description": "你住廉價旅館。台灣其實沒有真的能躲的地方。",
+    "tags": ["money", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認命打工慢慢還", "effects": { "money": 25000, "stress": 12, "reputation": -15, "career": -10 } },
+      { "text": "聯絡家人、回家面對", "effects": { "money": 15000, "stress": -5, "reputation": -8, "happiness": 5 } }
+    ]
+  },
+  {
+    "id": "friend_setup_blind_date",
+    "title": "朋友 LINE：『我同事很好、給你介紹』",
+    "description": "他傳了一張 IG 截圖。粉絲 3000、自介寫『喜歡爬山』。",
+    "tags": ["social", "relationship"],
+    "weight": 5,
+    "choices": [
+      {
+        "text": "答應、約週末火鍋",
+        "effects": { "stress": 3, "happiness": 3 },
+        "trigger": {
+          "afterDays": 3,
+          "outcomes": [{ "eventId": "blind_date_first", "weight": 100 }]
+        }
+      },
+      { "text": "回『最近忙』推掉", "effects": { "stress": -3, "reputation": -1 } },
+      { "text": "翻 IG 翻 30 分鐘再說", "effects": { "stress": 3 } }
+    ]
+  },
+  {
+    "id": "blind_date_first",
+    "title": "火鍋店第一次約會、對面坐著陌生人",
+    "description": "對方比 IG 看起來好相處。湯滾了你才想起來自己 30 分鐘沒講話。",
+    "tags": ["social", "relationship", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      {
+        "text": "放鬆聊自己、自然展現",
+        "effects": { "money": -800, "happiness": 10, "stress": -3 },
+        "trigger": {
+          "afterDays": 3,
+          "outcomes": [
+            { "eventId": "relationship_deepens", "weight": 70 },
+            { "eventId": "relationship_ghost", "weight": 30 }
+          ]
+        }
+      },
+      { "text": "緊張到一直滑手機", "effects": { "money": -800, "stress": 12, "happiness": -5, "reputation": -3 } },
+      { "text": "假裝接電話、提早離席", "effects": { "money": -400, "stress": -3, "reputation": -5 } }
+    ]
+  },
+  {
+    "id": "relationship_deepens",
+    "title": "對方 LINE：『要不要試試看交往』",
+    "description": "你已經連續 3 天每天聊到凌晨。",
+    "tags": ["social", "relationship", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      {
+        "text": "馬上答應、改名情侶",
+        "effects": { "happiness": 18, "stress": -5, "reputation": 5 },
+        "trigger": {
+          "afterDays": 5,
+          "outcomes": [{ "eventId": "couple_first_fight", "weight": 100 }]
+        }
+      },
+      { "text": "說『再相處看看』", "effects": { "happiness": 5, "stress": 3 } },
+      { "text": "突然害怕、消失 3 天", "effects": { "stress": 12, "happiness": -8, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "relationship_ghost",
+    "title": "你傳訊息、對方已讀不回 5 天",
+    "description": "朋友傳訊息問：『所以怎麼樣？』你不知道怎麼回。",
+    "tags": ["social", "relationship", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "封鎖、刪除、繼續人生", "effects": { "happiness": -8, "stress": -3 } },
+      { "text": "再傳一次主動約", "effects": { "happiness": -15, "stress": 10, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "couple_first_fight",
+    "title": "為了發票要丟還是要對、第一次大吵",
+    "description": "你說『就 200 塊』。對方說『重點不是錢』。",
+    "tags": ["social", "relationship", "chain"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "道歉服軟、買蛋糕", "effects": { "money": -500, "reputation": 5, "happiness": 3 } },
+      { "text": "堅持自己對、冷戰", "effects": { "stress": 12, "happiness": -8, "reputation": -3 } },
+      {
+        "text": "直接提分手",
+        "effects": { "stress": 18, "happiness": -15 },
+        "trigger": {
+          "afterDays": 3,
+          "outcomes": [{ "eventId": "couple_breakup_aftermath", "weight": 100 }]
+        }
+      }
+    ]
+  },
+  {
+    "id": "couple_breakup_aftermath",
+    "title": "分手 3 天、朋友 LINE 都看你怎麼樣",
+    "description": "對方已經把你們合照從 IG 全刪了。",
+    "tags": ["social", "relationship", "chain", "bad"],
+    "weight": 1,
+    "chainOnly": true,
+    "choices": [
+      { "text": "認真回每個朋友、療傷", "effects": { "stress": -8, "happiness": -5, "reputation": 3 } },
+      { "text": "已讀不回、自己消化", "effects": { "stress": 5, "happiness": -10, "reputation": -3 } },
+      { "text": "馬上下載交友 App", "effects": { "stress": 8, "happiness": 5 } }
+    ]
+  },
+  {
+    "id": "morning_breakfast_choice",
+    "title": "早餐店阿姨：『要不要加蛋』",
+    "description": "你前面那個人點了 5 樣、你還在想要吃啥。",
+    "tags": ["food", "morning"],
+    "timeOfDay": "morning",
+    "weight": 6,
+    "choices": [
+      { "text": "蛋餅 + 大冰奶老樣子", "effects": { "money": -65, "happiness": 3 } },
+      { "text": "今天奢侈、加 50 塊蘿蔔糕", "effects": { "money": -115, "happiness": 8, "stress": -3 } },
+      { "text": "說太貴了、改 7-11 御飯糰", "effects": { "money": -35, "happiness": -2 } }
+    ]
+  },
+  {
+    "id": "morning_mrt_crush",
+    "title": "早上通勤捷運擠到鼻子貼門",
+    "description": "前面阿伯的香水跟後面阿姨的早餐味在你臉前混合。",
+    "tags": ["transport", "morning"],
+    "timeOfDay": "morning",
+    "weight": 5,
+    "characters": ["office_worker", "engineer", "civil_servant", "fresh_graduate"],
+    "choices": [
+      { "text": "閉眼裝睡、撐到忠孝復興", "effects": { "stress": 5 } },
+      { "text": "提前下車走兩站", "effects": { "stress": -3, "health": 3, "career": -1 } },
+      { "text": "讓座位給小妹妹、繼續站", "effects": { "stress": 2, "reputation": 3, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "noon_lunch_decision",
+    "title": "中午同事問：『今天吃什麼』",
+    "description": "你看著外送 App 翻 5 分鐘還沒決定。",
+    "tags": ["food", "noon"],
+    "timeOfDay": "noon",
+    "weight": 6,
+    "choices": [
+      { "text": "便當店 100 塊老樣子", "effects": { "money": -100, "happiness": 3 } },
+      { "text": "午餐奢侈鼎泰豐外送", "effects": { "money": -380, "happiness": 12, "stress": -5 } },
+      { "text": "省錢吃 7-11 御飯糰", "effects": { "money": -45, "happiness": -3, "health": -3 } }
+    ]
+  },
+  {
+    "id": "noon_overtime_lunch",
+    "title": "主管 LINE：『中午簡單便當、繼續開會』",
+    "description": "你的午休消失了。便當還是冷的。",
+    "tags": ["work", "noon", "boss"],
+    "timeOfDay": "noon",
+    "weight": 6,
+    "characters": ["office_worker", "engineer", "civil_servant"],
+    "choices": [
+      { "text": "認命邊吃邊聽", "effects": { "stress": 10, "career": 3, "happiness": -5, "boss": 5 } },
+      { "text": "說『我先去吃』、晚 30 分到", "effects": { "stress": 3, "career": -2, "boss": -5 } },
+      { "text": "假裝沒看 LINE", "effects": { "stress": 5, "boss": -10, "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "evening_night_market",
+    "title": "下班路過夜市、雞排攤香味飄出來",
+    "description": "你今天晚餐還沒吃。錢包剩 500 塊。",
+    "tags": ["food", "evening", "rest"],
+    "timeOfDay": "evening",
+    "weight": 6,
+    "choices": [
+      { "text": "雞排 + 鹹酥雞 + 青蛙撞奶", "effects": { "money": -300, "stress": -8, "happiness": 10, "health": -5 } },
+      { "text": "只買一杯飲料散步", "effects": { "money": -65, "stress": -3, "happiness": 5 } },
+      { "text": "省錢、回家吃泡麵", "effects": { "money": -35, "happiness": -2, "health": -3 } }
+    ]
+  },
+  {
+    "id": "evening_drama_or_sleep",
+    "title": "晚上 11 點、Netflix 跳『繼續看第 6 集』",
+    "description": "你說好今天要早睡。",
+    "tags": ["rest", "evening"],
+    "timeOfDay": "evening",
+    "weight": 5,
+    "choices": [
+      { "text": "追完整季再睡", "effects": { "stress": -10, "happiness": 12, "health": -8 } },
+      { "text": "看一集就關掉", "effects": { "stress": -3, "happiness": 5, "health": -2 } },
+      { "text": "硬關電視、洗澡睡覺", "effects": { "stress": -5, "health": 5 } }
+    ]
+  },
+  {
+    "id": "dr_morning_hotspot",
+    "title": "早上 7 點、外送熱點區已經 10 個騎士在等",
+    "description": "App 顯示『暫時無單』。你的早餐還沒吃。",
+    "tags": ["delivery", "morning"],
+    "timeOfDay": "morning",
+    "weight": 6,
+    "characters": ["delivery_rider"],
+    "choices": [
+      { "text": "繼續等、總會有單", "effects": { "stress": 5, "money": 250 } },
+      { "text": "騎去別區碰運氣", "effects": { "money": -100, "stress": -3, "money": 400 } },
+      { "text": "今天先收工、明天再戰", "effects": { "stress": -8, "money": -200 } }
+    ]
+  },
+  {
+    "id": "dr_noon_eat_order",
+    "title": "客人臨時取消、你後座的便當沒人要",
+    "description": "雞排飯熱呼呼的、客人 LINE：『不用送了』。",
+    "tags": ["delivery", "noon"],
+    "timeOfDay": "noon",
+    "weight": 5,
+    "characters": ["delivery_rider"],
+    "choices": [
+      { "text": "中午賺到、自己吃掉", "effects": { "money": 0, "happiness": 8, "health": 3 } },
+      { "text": "送去附近社工站", "effects": { "reputation": 8, "happiness": 5 } },
+      { "text": "客訴客人、要求賠款", "effects": { "money": 100, "stress": 10, "reputation": -3 } }
+    ]
+  },
+  {
+    "id": "dr_evening_rain_surge",
+    "title": "傍晚下大雨、外送 App 跳 1.8 倍加成",
+    "description": "別人在家躲雨、你在雨裡賺加成。",
+    "tags": ["delivery", "evening", "weather"],
+    "timeOfDay": "evening",
+    "weight": 6,
+    "characters": ["delivery_rider"],
+    "choices": [
+      { "text": "拼一波、跑到收工", "effects": { "money": 800, "stress": 12, "health": -8 } },
+      { "text": "只跑 2 單就回家", "effects": { "money": 250, "stress": 3 } },
+      { "text": "今天放假、回家煮泡麵", "effects": { "stress": -8, "health": -2 } }
+    ]
+  },
+  {
+    "id": "ow_evening_overtime",
+    "title": "晚上 8 點、辦公室只剩你跟主管",
+    "description": "他抬頭看你、笑笑：『辛苦了喔』。然後繼續打字。",
+    "tags": ["work", "evening", "boss"],
+    "timeOfDay": "evening",
+    "weight": 6,
+    "characters": ["office_worker"],
+    "choices": [
+      { "text": "撐到他先走", "effects": { "stress": 15, "health": -5, "career": 5, "boss": 8 } },
+      { "text": "說『不好意思我先』", "effects": { "stress": -3, "career": -2, "boss": -3 } },
+      { "text": "假裝關機、躲廁所滑手機", "effects": { "stress": 5, "happiness": 3, "boss": -2 } }
+    ]
+  },
+  {
+    "id": "eng_morning_standup",
+    "title": "早上 10 點 standup、你昨天 PR 還沒寫完",
+    "description": "PM 等著你 update。你 typing... 已經 3 分鐘。",
+    "tags": ["tech", "morning", "work"],
+    "timeOfDay": "morning",
+    "weight": 6,
+    "characters": ["engineer"],
+    "choices": [
+      { "text": "誠實說『今天完成』", "effects": { "stress": 8, "career": 3 } },
+      { "text": "說『已經 80%、明早 merge』", "effects": { "stress": 12, "career": 5, "coworker": -3 } },
+      { "text": "鎖在會議室、卯起來寫", "effects": { "stress": 15, "health": -5, "career": 8 } }
+    ]
+  },
+  {
+    "id": "eng_noon_outage",
+    "title": "午休 PagerDuty 響了、production 503",
+    "description": "你的雞腿便當開了一半。同組 senior 已經在 Slack 喊你。",
+    "tags": ["tech", "noon", "work"],
+    "timeOfDay": "noon",
+    "weight": 6,
+    "characters": ["engineer"],
+    "choices": [
+      { "text": "丟便當、開 laptop", "effects": { "stress": 18, "health": -5, "career": 8, "boss": 5 } },
+      { "text": "吃完便當再處理", "effects": { "stress": 12, "career": 2, "coworker": -5 } },
+      { "text": "假裝沒看到、讓 senior 弄", "effects": { "stress": 3, "career": -5, "coworker": -8 } }
     ]
   }
 ]

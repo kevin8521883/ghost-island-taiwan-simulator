@@ -3,12 +3,15 @@ const store = useGameStore()
 const bgm = useBgm()
 const dex = useEndingDex()
 const history = useRunHistory()
+const ach = useAchievements()
 const hasSave = ref(false)
 
 onMounted(() => {
   hasSave.value = store.hasSave()
   dex.refresh()
   history.refresh()
+  ach.refresh()
+  ach.checkMeta()
 })
 
 const startNew = () => {
@@ -42,6 +45,9 @@ const continueGame = () => {
         <PixelButton variant="primary" @click="startNew">開始新人生</PixelButton>
         <PixelButton v-if="hasSave" @click="continueGame">繼續遊戲</PixelButton>
         <PixelButton to="/gallery">結局圖鑑（{{ dex.unlockedCount }} / {{ dex.total }}）</PixelButton>
+        <PixelButton to="/achievements">
+          成就（{{ ach.unlockedCount }} / {{ ach.total }}）
+        </PixelButton>
         <PixelButton v-if="history.totalRuns > 0" to="/history">
           歷史紀錄（{{ history.totalRuns }} 局）
         </PixelButton>

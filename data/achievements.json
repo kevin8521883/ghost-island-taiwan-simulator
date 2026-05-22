@@ -1,0 +1,242 @@
+[
+  {
+    "id": "first_burnout",
+    "title": "過勞戰士",
+    "icon": "🔥",
+    "description": "第一次壓力衝到 100 — 終於體驗到「身心都在崩潰」是什麼感覺。",
+    "hint": "壓力滿格",
+    "trigger": { "type": "stat", "key": "stress", "gte": 100 }
+  },
+  {
+    "id": "first_health_collapse",
+    "title": "急診室常客",
+    "icon": "🏥",
+    "description": "把身體當提款機、提到歸零。",
+    "hint": "健康歸零",
+    "trigger": { "type": "stat", "key": "health", "lte": 0 }
+  },
+  {
+    "id": "first_100k",
+    "title": "第一桶金",
+    "icon": "💰",
+    "description": "存款破 10 萬。爸媽 LINE 群組:『最近怎麼了』。",
+    "hint": "戶頭破十萬",
+    "trigger": { "type": "stat", "key": "money", "gte": 100000 }
+  },
+  {
+    "id": "first_million",
+    "title": "百萬富翁",
+    "icon": "💎",
+    "description": "戶頭破百萬。你開始把『不差錢』掛嘴上。",
+    "hint": "存款破百萬",
+    "trigger": { "type": "stat", "key": "money", "gte": 1000000 }
+  },
+  {
+    "id": "first_bankruptcy",
+    "title": "卡奴認證",
+    "icon": "💸",
+    "description": "負債超過 5 萬。半夜接到電話會發抖。",
+    "hint": "負債達標",
+    "trigger": { "type": "stat", "key": "money", "lte": -50000 }
+  },
+  {
+    "id": "max_happy",
+    "title": "快樂使者",
+    "icon": "😊",
+    "description": "快樂值 ≥ 95。也許你只是麻痺了。",
+    "hint": "快樂滿載",
+    "trigger": { "type": "stat", "key": "happiness", "gte": 95 }
+  },
+  {
+    "id": "min_happy",
+    "title": "情緒黑洞",
+    "icon": "🌑",
+    "description": "快樂值 ≤ 5。同事問你週末做什麼、你笑不出來。",
+    "hint": "快樂見底",
+    "trigger": { "type": "stat", "key": "happiness", "lte": 5 }
+  },
+  {
+    "id": "max_career",
+    "title": "職場明星",
+    "icon": "📈",
+    "description": "職涯 ≥ 90。被叫去當業界分享講者那種。",
+    "hint": "職涯巔峰",
+    "trigger": { "type": "stat", "key": "career", "gte": 90 }
+  },
+  {
+    "id": "max_boss",
+    "title": "主管的狗",
+    "icon": "👔",
+    "description": "主管關係達 95。他開始跟你 LINE 聊週末計畫。",
+    "hint": "主管關係極高",
+    "trigger": { "type": "stat", "key": "boss", "gte": 95 }
+  },
+  {
+    "id": "max_coworker",
+    "title": "辦公室核心",
+    "icon": "🧑‍🤝‍🧑",
+    "description": "同事關係達 95。下班大家都揪你。",
+    "hint": "同事關係極高",
+    "trigger": { "type": "stat", "key": "coworker", "gte": 95 }
+  },
+  {
+    "id": "max_family",
+    "title": "孝順子女",
+    "icon": "🏠",
+    "description": "家人關係達 95。媽會炫耀你給隔壁陳太太聽。",
+    "hint": "家人關係極高",
+    "trigger": { "type": "stat", "key": "family", "gte": 95 }
+  },
+  {
+    "id": "min_family",
+    "title": "斷絕往來",
+    "icon": "💔",
+    "description": "家人關係 ≤ 5。媽 30 天沒打給你。",
+    "hint": "家人關係見底",
+    "trigger": { "type": "stat", "key": "family", "lte": 5 }
+  },
+  {
+    "id": "all_in_jackpot",
+    "title": "NVDA 信徒",
+    "icon": "🚀",
+    "description": "NVDA / crypto ALL IN 翻 3 倍。同事開始私訊問你內線。",
+    "hint": "投資翻倍結果",
+    "trigger": { "type": "event_seen", "eventIds": ["stock_outcome_jackpot", "crypto_jackpot"] }
+  },
+  {
+    "id": "lottery_jackpot",
+    "title": "彩券人生勝利組",
+    "icon": "🎰",
+    "description": "威力彩中頭獎。8 億入袋、人生開外掛。",
+    "hint": "中頭獎",
+    "trigger": { "type": "event_seen", "eventIds": ["lottery_outcome_jackpot"] }
+  },
+  {
+    "id": "loanshark_runaway",
+    "title": "台中重新開始",
+    "icon": "🏃",
+    "description": "為了躲地下錢莊、跑路台中。改名、換手機、認命打工。",
+    "hint": "地下錢莊 chain 跑完",
+    "trigger": { "type": "event_seen", "eventIds": ["run_away_outcome"] }
+  },
+  {
+    "id": "breakup_aftermath",
+    "title": "感情陣亡者",
+    "icon": "💔",
+    "description": "戀愛 chain 走到分手結局。IG 合照他都刪了。",
+    "hint": "相親 chain 分手",
+    "trigger": { "type": "event_seen", "eventIds": ["couple_breakup_aftermath"] }
+  },
+  {
+    "id": "shopee_hit",
+    "title": "蝦皮老闆",
+    "icon": "🛒",
+    "description": "蝦皮賣場 3 天清光 100 件、有人問你出補貨。",
+    "hint": "副業大成功",
+    "trigger": { "type": "event_seen", "eventIds": ["shopee_outcome_hit"] }
+  },
+  {
+    "id": "ai_event_unlocked",
+    "title": "命運被 AI 看穿",
+    "icon": "⚡",
+    "description": "Day 13 AI 即興事件第一次觸發。歡迎來到未來。",
+    "hint": "撐到 Day 13",
+    "trigger": { "type": "ai_event" }
+  },
+  {
+    "id": "first_survivor",
+    "title": "鬼島倖存者",
+    "icon": "🎖️",
+    "description": "第一次撐到 Day 30。你還活著、其他都是 bonus。",
+    "hint": "通關 30 天",
+    "trigger": { "type": "ending", "endingIds": ["survivor"] }
+  },
+  {
+    "id": "tycoon_unlocked",
+    "title": "鬼島大亨",
+    "icon": "🏝️",
+    "description": "達成 tycoon 結局。同事眼神都不一樣了。",
+    "hint": "達成大亨結局",
+    "trigger": { "type": "ending", "endingIds": ["tycoon"] }
+  },
+  {
+    "id": "emigration_unlocked",
+    "title": "潤了",
+    "icon": "✈️",
+    "description": "達成 emigration 結局。新加坡的薪水比較香、雖然珍奶貴一倍。",
+    "hint": "達成潤了結局",
+    "trigger": { "type": "ending", "endingIds": ["emigration"] }
+  },
+  {
+    "id": "tragic_trio",
+    "title": "悲劇三冠王",
+    "icon": "☠️",
+    "description": "解鎖過勞、卡債、急診室三個悲劇結局。鬼島生活從此完整。",
+    "hint": "悲劇結局集滿 3 個",
+    "trigger": { "type": "meta_endings_all", "endingIds": ["burnout", "bankruptcy", "health_collapse"] }
+  },
+  {
+    "id": "five_hidden_chars",
+    "title": "多面人生",
+    "icon": "🎭",
+    "description": "解鎖全部 5 個隱藏角色。你看過鬼島每個面向。",
+    "hint": "解鎖所有隱藏角色",
+    "trigger": { "type": "hidden_chars_count", "count": 5 }
+  },
+  {
+    "id": "all_endings",
+    "title": "鬼島大成",
+    "icon": "🏆",
+    "description": "12 個結局全收齊。請點個讚分享、招待玩家來鬼島。",
+    "hint": "全結局收集",
+    "trigger": { "type": "all_endings" }
+  },
+  {
+    "id": "rich_kid_enlightenment",
+    "title": "錢買不到平靜",
+    "icon": "🧘",
+    "description": "用富二代達成中庸頓悟結局。爸的錢還是花不光、但你終於想清楚。",
+    "hint": "用富二代達成中庸頓悟",
+    "trigger": { "type": "ending_with_char", "endingId": "enlightenment", "characterId": "rich_kid" }
+  },
+  {
+    "id": "homemaker_happy",
+    "title": "家庭支柱閃耀",
+    "icon": "✨",
+    "description": "用家庭主婦達成 happy 結局。沒有人會頒獎、但你撐住了。",
+    "hint": "用主婦達成正面結局",
+    "trigger": { "type": "ending_with_char_mood", "characterId": "homemaker", "mood": "happy" }
+  },
+  {
+    "id": "civil_servant_dream",
+    "title": "終於上岸",
+    "icon": "🛟",
+    "description": "達成考上公務員結局。爸媽社區走路有風。",
+    "hint": "達成公務員夢想",
+    "trigger": { "type": "ending", "endingIds": ["civil_servant_dream"] }
+  },
+  {
+    "id": "ten_runs",
+    "title": "鬼島重度玩家",
+    "icon": "♻️",
+    "description": "累積玩 10 場遊戲。你開始懂這座島了。",
+    "hint": "累積遊戲場數",
+    "trigger": { "type": "total_runs", "count": 10 }
+  },
+  {
+    "id": "scam_resister",
+    "title": "詐騙剋星",
+    "icon": "🛡️",
+    "description": "拒絕了詐騙簡訊、地下錢莊、媽的股票群、虛擬幣朋友 4 種詐騙。",
+    "hint": "拒絕多種詐騙",
+    "trigger": { "type": "choice_count", "matches": ["刪除、封鎖", "報警", "嗤之以鼻", "勸他別玩了", "報警 165 反詐"], "count": 4 }
+  },
+  {
+    "id": "perfect_middle",
+    "title": "完美中庸",
+    "icon": "⚖️",
+    "description": "通關時 6 個 stat 全部在 40-60 之間。鬼島生存大師。",
+    "hint": "中庸頓悟條件",
+    "trigger": { "type": "ending", "endingIds": ["enlightenment"] }
+  }
+]

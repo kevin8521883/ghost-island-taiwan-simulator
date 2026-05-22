@@ -13,6 +13,9 @@ const conditionLabels: Record<string, string> = {
   career: '📈 職涯',
   reputation: '👥 評價',
   day: '📅 天數',
+  boss: '👔 主管關係',
+  coworker: '🧑‍🤝‍🧑 同事關係',
+  family: '🏠 家人關係',
 }
 
 const formatRange = (key: string, range: { lte?: number; gte?: number }) => {
@@ -80,6 +83,28 @@ const formatRange = (key: string, range: { lte?: number; gte?: number }) => {
         >
           線索：完成 30 天看看
         </p>
+
+        <div
+          v-if="item.unlocked && item.variants.length > 0"
+          class="pt-1 space-y-1 text-[11px]"
+        >
+          <p class="text-muted">你以這些身分達成：</p>
+          <details
+            v-for="v in item.variants"
+            :key="v.characterId"
+            class="text-paper"
+          >
+            <summary class="cursor-pointer select-none list-none flex items-center gap-1">
+              <span class="text-muted text-[10px]">▸</span>
+              <span class="text-amber-400">{{ v.characterName }}</span>
+              <span class="text-muted">→</span>
+              <span>{{ v.variantTitle }}</span>
+            </summary>
+            <p class="pt-1 pl-4 text-muted leading-relaxed">
+              {{ v.variantDescription }}
+            </p>
+          </details>
+        </div>
 
         <details v-if="item.unlocked" class="text-[11px] text-muted">
           <summary class="cursor-pointer select-none">觸發條件</summary>
