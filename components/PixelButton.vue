@@ -28,7 +28,7 @@ const onClickSfx = () => sfx.play('click')
     :disabled="disabled"
     :class="[
       variant === 'primary' ? 'pixel-button-primary' : 'pixel-button',
-      disabled ? 'opacity-40 pointer-events-none' : '',
+      disabled ? 'pixel-button-disabled' : '',
     ]"
     @click="onClickSfx"
   >

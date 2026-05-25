@@ -4,6 +4,7 @@ const bgm = useBgm()
 const dex = useEndingDex()
 const history = useRunHistory()
 const ach = useAchievements()
+const endingStats = useEndingStats()
 const hasSave = ref(false)
 
 onMounted(() => {
@@ -12,7 +13,10 @@ onMounted(() => {
   history.refresh()
   ach.refresh()
   ach.checkMeta()
+  endingStats.fetchAll()
 })
+
+const globalTotalRuns = computed(() => endingStats.stats.value?.totalRuns ?? 0)
 
 const startNew = () => {
   bgm.play()
@@ -50,6 +54,9 @@ const continueGame = () => {
         </PixelButton>
         <PixelButton v-if="history.totalRuns > 0" to="/history">
           歷史紀錄（{{ history.totalRuns }} 局）
+        </PixelButton>
+        <PixelButton to="/stats">
+          全球統計{{ globalTotalRuns > 0 ? `（${globalTotalRuns.toLocaleString()} 場）` : '' }}
         </PixelButton>
         <PixelButton to="/settings">設定</PixelButton>
       </div>

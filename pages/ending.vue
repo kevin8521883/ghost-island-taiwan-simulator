@@ -4,6 +4,7 @@ const { findEnding } = useEndings()
 const sfx = useSfx()
 const shareCard = useShareCard()
 const dex = useEndingDex()
+const endingStats = useEndingStats()
 
 const ending = computed(() =>
   findEnding(store.endingId, store.selectedCharacter?.id ?? null)
@@ -125,6 +126,11 @@ onMounted(() => {
   if (result.newChar) {
     newCharUnlock.value = { id: result.newChar.id, name: result.newChar.name }
   }
+  // 全球統計：先上報、再抓資料（順序執行讓玩家看到自己 +1 後的數字）
+  ;(async () => {
+    await endingStats.submit(store.endingId!, store.selectedCharacter?.id ?? null)
+    await endingStats.fetchAll()
+  })()
   playAnimation()
 })
 
@@ -230,6 +236,10 @@ const handleDownload = () => {
             {{ aiNarrative }}
           </p>
         </div>
+      </Transition>
+
+      <Transition name="fade">
+        <EndingStatsBar v-if="descDone && ending" :ending="ending" />
       </Transition>
 
       <Transition name="fade">

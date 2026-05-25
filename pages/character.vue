@@ -33,6 +33,15 @@ watch(ngPlusEnabled, (v) => {
   }
 })
 
+// 命運轉盤期間鎖定 body scroll，避免滑動時視口跑掉、overlay 上方露白
+watch(spinning, (active) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = active ? 'hidden' : ''
+})
+onBeforeUnmount(() => {
+  if (import.meta.client) document.body.style.overflow = ''
+})
+
 const applyNgPlus = (c: Character): Character => {
   if (!ngPlusEnabled.value || !ngPlusAvailable.value) return c
   return { ...c, money: c.money + NGP_BONUS }
@@ -140,7 +149,7 @@ const spinAndStart = async () => {
       </div>
     </div>
 
-    <div class="pt-4 space-y-2 sticky bottom-2 z-20">
+    <div class="sticky-actions sticky bottom-0 z-20 space-y-2 pt-6 pb-3 -mx-6 px-6">
       <label
         v-if="ngPlusAvailable"
         class="pixel-card flex items-center gap-3 cursor-pointer text-xs"
@@ -167,36 +176,38 @@ const spinAndStart = async () => {
       <PixelButton to="/">返回首頁</PixelButton>
     </div>
 
-    <Transition name="fade">
-      <div
-        v-if="spinning"
-        class="fixed inset-0 z-50 bg-black/95 crt-scanline flex items-center justify-center px-6"
-      >
+    <Teleport to="body">
+      <Transition name="fade">
         <div
-          class="pixel-card-accent w-full max-w-sm text-center space-y-4 p-8"
-          :class="{ 'celebrate-flash': settled && spinUnlockedRichKid }"
+          v-if="spinning"
+          class="spin-overlay z-[60] crt-scanline flex items-center justify-center px-6"
         >
-          <p class="text-[11px] text-amber-400 tracking-widest">
-            {{ settled ? '◆ 命運已定 ◆' : '抽選中…' }}
-          </p>
-          <h2
-            :key="settled ? 'final' : spinTick"
-            :class="settled ? 'spin-settle' : 'spin-tick'"
-            class="text-3xl text-amber-400 leading-tight min-h-[1.5em] font-bold"
+          <div
+            class="pixel-card-accent w-full max-w-sm text-center space-y-4 p-8"
+            :class="{ 'celebrate-flash': settled && spinUnlockedRichKid }"
           >
-            {{ spinDisplay?.name ?? '?' }}
-          </h2>
-          <p class="text-xs text-paper leading-relaxed min-h-[3.5em] px-2">
-            {{ settled ? (spinDisplay?.description ?? '') : '' }}
-          </p>
-          <p
-            v-if="spinUnlockedRichKid && settled"
-            class="text-xs text-amber-400 pt-2"
-          >
-            🔓 永久解鎖：{{ spinResult?.name }}
-          </p>
+            <p class="text-[11px] text-amber-400 tracking-widest">
+              {{ settled ? '◆ 命運已定 ◆' : '抽選中…' }}
+            </p>
+            <h2
+              :key="settled ? 'final' : spinTick"
+              :class="settled ? 'spin-settle' : 'spin-tick'"
+              class="text-3xl text-amber-400 leading-tight min-h-[1.5em] font-bold"
+            >
+              {{ spinDisplay?.name ?? '?' }}
+            </h2>
+            <p class="text-xs text-paper leading-relaxed min-h-[3.5em] px-2">
+              {{ settled ? (spinDisplay?.description ?? '') : '' }}
+            </p>
+            <p
+              v-if="spinUnlockedRichKid && settled"
+              class="text-xs text-amber-400 pt-2"
+            >
+              🔓 永久解鎖：{{ spinResult?.name }}
+            </p>
+          </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </div>
 </template>

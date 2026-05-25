@@ -63,6 +63,28 @@
     @apply pixel-button text-left;
     word-break: break-word;
   }
+
+  /* disabled：保留實心 bg、用灰階 + 降低文字對比，避免半透明讓底層內容透出來 */
+  .pixel-button-disabled {
+    filter: grayscale(0.85) brightness(0.55);
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  /* sticky 底部按鈕區：實心 bg + 上緣漸層淡出、避免滑動時內容從鈕間隙透出來 */
+  .sticky-actions {
+    background: #0a0a0a;
+  }
+  .sticky-actions::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -32px;
+    height: 32px;
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0), #0a0a0a);
+    pointer-events: none;
+  }
 }
 
 @layer utilities {
@@ -266,6 +288,22 @@
   }
   .spin-settle {
     animation: spin-settle 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  /* 命運轉盤全螢幕遮罩：強制覆蓋安全區域，避免上方/底部漏出 */
+  .spin-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background: #000;
+    /* 蓋掉 iOS notch / Android status bar 區域 */
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   /* CRT 掃描線（spin 背景用）*/
