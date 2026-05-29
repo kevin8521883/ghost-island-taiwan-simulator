@@ -238,5 +238,21 @@
     "description": "通關時 6 個 stat 全部在 40-60 之間。鬼島生存大師。",
     "hint": "中庸頓悟條件",
     "trigger": { "type": "ending", "endingIds": ["enlightenment"] }
+  },
+  {
+    "id": "streak_3",
+    "title": "habitual 社畜",
+    "icon": "📅",
+    "description": "連續 3 天回到鬼島報到。上班都沒這麼準時。",
+    "hint": "連續登入 3 天",
+    "trigger": { "type": "streak", "count": 3 }
+  },
+  {
+    "id": "streak_7",
+    "title": "鬼島釘子戶",
+    "icon": "🔥",
+    "description": "連續 7 天回訪。這座島是真的離不開了。",
+    "hint": "連續登入 7 天",
+    "trigger": { "type": "streak", "count": 7 }
   }
 ]

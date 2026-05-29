@@ -16,6 +16,9 @@ export const useGameEngine = () => {
 
   const startGame = (character: Character) => {
     store.startNewLife(character)
+    // 注入今日運勢 buff（連抽日曆的反差梗）
+    const fortune = useDailyFortune()
+    store.addBuff(fortune.todayFortune.buff)
     rollNextEvent()
   }
 
@@ -24,6 +27,7 @@ export const useGameEngine = () => {
     aiLoading.value = true
     aiError.value = ''
     try {
+      const cb = store.callbackMoment
       const res = await $fetch<{ event: GameEvent | null; error?: string }>(
         '/api/generate-event',
         {
@@ -35,6 +39,15 @@ export const useGameEngine = () => {
               description: store.selectedCharacter.description,
             },
             stats: store.stats,
+            // 回馬槍：把最有戲的過去選擇整筆塞給 AI，讓它續寫成今天的事件
+            callbackMoment: cb
+              ? {
+                  day: cb.day,
+                  eventTitle: cb.eventTitle,
+                  choiceText: cb.choiceText,
+                  effects: cb.effects,
+                }
+              : null,
             lastEventTitles: store.log.slice(-3).map((l) => l.eventTitle),
           },
         }

@@ -1,6 +1,13 @@
 import OpenAI from 'openai'
 import type { GameEvent } from '~/types/game'
 
+interface CallbackMoment {
+  day: number
+  eventTitle: string
+  choiceText: string
+  effects: Record<string, number>
+}
+
 interface RequestBody {
   character: {
     id: string
@@ -17,6 +24,8 @@ interface RequestBody {
     day: number
   }
   lastEventTitles?: string[]
+  /** 回馬槍：要被續寫的過去選擇。null = 一般生成 */
+  callbackMoment?: CallbackMoment | null
 }
 
 const SYSTEM_PROMPT = `你是《鬼島台灣模擬器：社畜篇》的事件生成器，產生符合台灣黑色幽默的單一事件。
@@ -64,6 +73,37 @@ const SYSTEM_PROMPT = `你是《鬼島台灣模擬器：社畜篇》的事件生
 }
 
 請依玩家的身分、當前數值、最近事件，產生 1 個全新的事件。`
+
+// 回馬槍模式：附加在 SYSTEM_PROMPT 之後（移植 generate-ending 的「克制、不生硬複述」規則）
+const CALLBACK_GUIDE = `
+─────────────────────────
+【本次特殊任務：寫一個「回馬槍」事件】
+
+玩家在過去某天做過一個選擇。你要寫的這個事件，是那個選擇在數天後「回來找他」——一個自然的後果、回音、或諷刺的對照。這是整個遊戲最關鍵的一刻：要讓玩家「咦這遊戲記得我做過什麼」。
+
+【回馬槍寫法 — 違反會被 reject 重生】
+✗ 不要出現「還記得你那天…」「當初你…」「上次你選了…」這種生硬回顧
+✗ 不要旁白、不要說教、不要「命運」「報應」「因果」這種大字眼
+✗ 不要直接重複過去那個事件的標題或選項文字
+✓ 直接呈現「現在發生的新情境」，讓它跟過去那個選擇有因果或反差，但連結是「暗示」出來的，玩家自己會 connect
+✓ 具體的人事物：誰說了什麼、在哪、什麼時間、什麼貼圖、哪個群組
+✓ 黑色幽默：後果可以是賭對了（爽）、賭錯了（慘）、或哭笑不得的反差
+
+【範例】
+過去選擇 = Day 5「台積電財報前 ALL IN」→ 選「借錢梭哈」
+✗ 壞：「還記得你 Day 5 全壓台積電嗎？現在股價…」（生硬回顧、旁白）
+✓ 好：
+{
+  "title": "家族群組跳出 99+：表哥曬出和你同一支股票的對帳單",
+  "description": "他賺的金額，剛好是你賠的。三姑六婆開始一個個 tag 你。",
+  "choices": [
+    { "text": "已讀、把群組設成靜音", "effects": { "stress": 6, "family": -5 } },
+    { "text": "硬著頭皮回『恭喜啦』", "effects": { "stress": 10, "happiness": -8 } },
+    { "text": "傳一張『嘻嘻』貼圖蓋過去", "effects": { "stress": -3, "reputation": -4 } }
+  ]
+}
+
+事件結構規則（字數、3 個 choice、trade-off）跟前面完全一樣，只是「內容」要是這個回馬槍。`
 
 const TOOL_SCHEMA = {
   type: 'function' as const,
@@ -195,9 +235,36 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'character / stats required' })
   }
 
-  const { character, stats, lastEventTitles = [] } = body
+  const { character, stats, lastEventTitles = [], callbackMoment = null } = body
 
-  const userPrompt = `玩家身分：${character.name}${character.description ? `（${character.description}）` : ''}
+  const isCallback = !!callbackMoment
+  const systemPrompt = isCallback ? SYSTEM_PROMPT + CALLBACK_GUIDE : SYSTEM_PROMPT
+
+  // 摘要過去選擇造成的影響、給 AI 一點 tone（好/壞/反差）的線索
+  const effectSummary = (eff: Record<string, number>): string => {
+    const parts: string[] = []
+    const label: Record<string, string> = {
+      money: '錢', stress: '壓力', health: '健康', happiness: '快樂',
+      career: '職涯', reputation: '評價', boss: '主管', coworker: '同事', family: '家人',
+    }
+    for (const [k, v] of Object.entries(eff)) {
+      if (!v) continue
+      parts.push(`${label[k] ?? k}${v > 0 ? '+' : ''}${v}`)
+    }
+    return parts.join(' ') || '影響不大'
+  }
+
+  const userPrompt = isCallback
+    ? `玩家身分：${character.name}${character.description ? `（${character.description}）` : ''}
+目前 Day ${stats.day} / 30
+當前狀態：💰${stats.money.toLocaleString()} 🔥壓力${stats.stress} ❤️健康${stats.health} 😊快樂${stats.happiness} 📈職涯${stats.career} 👥評價${stats.reputation}
+
+【要回馬槍的過去選擇】
+Day ${callbackMoment!.day}：事件「${callbackMoment!.eventTitle}」→ 玩家選了「${callbackMoment!.choiceText}」
+（當時影響：${effectSummary(callbackMoment!.effects)}）
+
+請寫一個「回馬槍」事件：讓上面這個 ${stats.day - callbackMoment!.day} 天前的選擇，在今天以一個全新情境回來找他。連結要用暗示的、不要生硬回顧。`
+    : `玩家身分：${character.name}${character.description ? `（${character.description}）` : ''}
 目前 Day ${stats.day} / 30
 最近事件：${lastEventTitles.slice(0, 3).join(' / ') || '無'}
 當前狀態：💰${stats.money.toLocaleString()} 🔥壓力${stats.stress} ❤️健康${stats.health} 😊快樂${stats.happiness} 📈職涯${stats.career} 👥評價${stats.reputation}
@@ -217,12 +284,13 @@ export default defineEventHandler(async (event) => {
     const completion = await client.chat.completions.create({
       model: 'anthropic/claude-sonnet-4.5',
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
       ],
       tools: [TOOL_SCHEMA],
       tool_choice: { type: 'function', function: { name: 'create_event' } },
       max_tokens: 800,
+      temperature: isCallback ? 1.0 : 0.9,
     })
 
     const toolCall = completion.choices[0]?.message?.tool_calls?.[0]

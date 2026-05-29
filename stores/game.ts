@@ -58,6 +58,40 @@ export const useGameStore = defineStore('game', {
 
   getters: {
     isGameOver: (s) => s.endingId !== null,
+
+    /**
+     * 挑一筆「最有戲」的過去選擇，餵給 AI 做回馬槍事件。
+     * 評分：各 stat 變動絕對值加總 + 金錢分級加權；同分取較早的（callback 感更強）。
+     * log 為空時回 null（AI 走一般生成）。
+     */
+    callbackMoment: (s): LogEntry | null => {
+      if (s.log.length === 0) return null
+      const drama = (e: LogEntry): number => {
+        const ef = e.effects ?? {}
+        let score =
+          Math.abs(ef.stress ?? 0) +
+          Math.abs(ef.happiness ?? 0) +
+          Math.abs(ef.career ?? 0) +
+          Math.abs(ef.reputation ?? 0) +
+          Math.abs(ef.health ?? 0) +
+          Math.abs(ef.boss ?? 0) +
+          Math.abs(ef.coworker ?? 0) +
+          Math.abs(ef.family ?? 0)
+        const m = Math.abs(ef.money ?? 0)
+        score += m >= 3000 ? 12 : m >= 1000 ? 7 : m >= 300 ? 3 : 0
+        return score
+      }
+      let best = s.log[0]
+      let bestScore = drama(best)
+      for (const e of s.log) {
+        const sc = drama(e)
+        if (sc > bestScore) {
+          best = e
+          bestScore = sc
+        }
+      }
+      return best
+    },
   },
 
   actions: {
@@ -89,6 +123,13 @@ export const useGameStore = defineStore('game', {
 
     markAiEventTriggered() {
       this.aiEventTriggered = true
+      this.persist()
+    },
+
+    /** 加一個 buff（同 id 覆蓋、不疊加）。用於今日運勢等開局注入。 */
+    addBuff(buff: PlayerBuff) {
+      const filtered = this.stats.buffs.filter((b) => b.id !== buff.id)
+      this.stats.buffs = [...filtered, { ...buff }]
       this.persist()
     },
 

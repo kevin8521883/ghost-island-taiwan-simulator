@@ -112,6 +112,13 @@ export const useAchievements = () => {
     }
   }
 
+  const checkStreak = (streak: number) => {
+    for (const ach of ALL_ACHIEVEMENTS) {
+      if (ach.trigger.type !== 'streak') continue
+      if (streak >= (ach.trigger.count ?? 999)) tryUnlock(ach.id)
+    }
+  }
+
   const checkChoiceText = (text: string) => {
     for (const ach of ALL_ACHIEVEMENTS) {
       if (ach.trigger.type !== 'choice_count') continue
@@ -222,6 +229,7 @@ export const useAchievements = () => {
     checkStats,
     checkEventSeen,
     checkAiEvent,
+    checkStreak,
     checkChoiceText,
     checkEnding,
     checkMeta,

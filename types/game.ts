@@ -187,6 +187,7 @@ export interface AchievementTrigger {
     | 'total_runs'     // 累計遊戲場數
     | 'ai_event'       // 觸發過 AI 事件
     | 'choice_count'   // 累計選擇符合 matches 的次數
+    | 'streak'         // 連續登入天數達 count
   key?: string         // for stat
   gte?: number
   lte?: number

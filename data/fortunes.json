@@ -1,0 +1,184 @@
+[
+  {
+    "id": "slack_off",
+    "emoji": "🛋️",
+    "good": "擺爛追劇",
+    "bad": "回主管 LINE",
+    "buff": {
+      "id": "fortune_slack_off",
+      "name": "今日運勢 · 宜擺爛",
+      "icon": "🛋️",
+      "daysRemaining": 5,
+      "perDayEffects": { "happiness": 4, "career": -2 }
+    }
+  },
+  {
+    "id": "grind",
+    "emoji": "🔥",
+    "good": "衝刺加班",
+    "bad": "準時下班",
+    "buff": {
+      "id": "fortune_grind",
+      "name": "今日運勢 · 宜爆肝",
+      "icon": "🔥",
+      "daysRemaining": 5,
+      "perDayEffects": { "career": 4, "stress": 3 }
+    }
+  },
+  {
+    "id": "zen",
+    "emoji": "🧘",
+    "good": "深呼吸冥想",
+    "bad": "看政論節目",
+    "buff": {
+      "id": "fortune_zen",
+      "name": "今日運勢 · 宜放空",
+      "icon": "🧘",
+      "daysRemaining": 5,
+      "perDayEffects": { "stress": -4, "happiness": 1 }
+    }
+  },
+  {
+    "id": "midnight_snack",
+    "emoji": "🍜",
+    "good": "吃宵夜",
+    "bad": "量體重",
+    "buff": {
+      "id": "fortune_midnight_snack",
+      "name": "今日運勢 · 宜消夜",
+      "icon": "🍜",
+      "daysRemaining": 5,
+      "perDayEffects": { "happiness": 4, "health": -3 }
+    }
+  },
+  {
+    "id": "ghost_mode",
+    "emoji": "😶",
+    "good": "已讀不回",
+    "bad": "秒回所有訊息",
+    "buff": {
+      "id": "fortune_ghost_mode",
+      "name": "今日運勢 · 宜神隱",
+      "icon": "😶",
+      "daysRemaining": 5,
+      "perDayEffects": { "stress": -3, "reputation": -2 }
+    }
+  },
+  {
+    "id": "workout",
+    "emoji": "💪",
+    "good": "運動流汗",
+    "bad": "賴床到中午",
+    "buff": {
+      "id": "fortune_workout",
+      "name": "今日運勢 · 宜健身",
+      "icon": "💪",
+      "daysRemaining": 5,
+      "perDayEffects": { "health": 4, "happiness": -1 }
+    }
+  },
+  {
+    "id": "coffee",
+    "emoji": "☕",
+    "good": "狂灌咖啡",
+    "bad": "午睡補眠",
+    "buff": {
+      "id": "fortune_coffee",
+      "name": "今日運勢 · 宜續命",
+      "icon": "☕",
+      "daysRemaining": 5,
+      "perDayEffects": { "stress": -3, "health": -2 }
+    }
+  },
+  {
+    "id": "side_hustle",
+    "emoji": "💰",
+    "good": "接案兼差",
+    "bad": "點開蝦皮",
+    "buff": {
+      "id": "fortune_side_hustle",
+      "name": "今日運勢 · 宜偏財",
+      "icon": "💰",
+      "daysRemaining": 5,
+      "perDayEffects": { "money": 120, "stress": 2 }
+    }
+  },
+  {
+    "id": "brownnose",
+    "emoji": "👔",
+    "good": "拍主管馬屁",
+    "bad": "頂撞主管",
+    "buff": {
+      "id": "fortune_brownnose",
+      "name": "今日運勢 · 宜逢迎",
+      "icon": "👔",
+      "daysRemaining": 5,
+      "perDayEffects": { "boss": 4, "happiness": -2 }
+    }
+  },
+  {
+    "id": "treat_coworker",
+    "emoji": "🧋",
+    "good": "請同事喝飲料",
+    "bad": "搶同事功勞",
+    "buff": {
+      "id": "fortune_treat_coworker",
+      "name": "今日運勢 · 宜結緣",
+      "icon": "🧋",
+      "daysRemaining": 5,
+      "perDayEffects": { "coworker": 4, "money": -50 }
+    }
+  },
+  {
+    "id": "call_family",
+    "emoji": "🏠",
+    "good": "打電話回家",
+    "bad": "已讀家族群組",
+    "buff": {
+      "id": "fortune_call_family",
+      "name": "今日運勢 · 宜盡孝",
+      "icon": "🏠",
+      "daysRemaining": 5,
+      "perDayEffects": { "family": 4, "stress": 1 }
+    }
+  },
+  {
+    "id": "pray",
+    "emoji": "🛐",
+    "good": "燒香拜拜",
+    "bad": "鐵齒",
+    "buff": {
+      "id": "fortune_pray",
+      "name": "今日運勢 · 宜祈福",
+      "icon": "🛐",
+      "daysRemaining": 5,
+      "perDayEffects": { "happiness": 3, "money": -40 }
+    }
+  },
+  {
+    "id": "thrifty",
+    "emoji": "🪙",
+    "good": "省吃儉用",
+    "bad": "手滑下單",
+    "buff": {
+      "id": "fortune_thrifty",
+      "name": "今日運勢 · 宜守財",
+      "icon": "🪙",
+      "daysRemaining": 5,
+      "perDayEffects": { "money": 80, "happiness": -2 }
+    }
+  },
+  {
+    "id": "doomscroll",
+    "emoji": "📱",
+    "good": "滑手機放空",
+    "bad": "查看銀行 App",
+    "buff": {
+      "id": "fortune_doomscroll",
+      "name": "今日運勢 · 宜耍廢",
+      "icon": "📱",
+      "daysRemaining": 5,
+      "perDayEffects": { "happiness": 3, "career": -1, "health": -1 }
+    }
+  }
+]
