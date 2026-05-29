@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import type { ChoiceCondition, EventEffect, PlayerStats, Range } from '~/types/game'
+import { sceneFromEvent, outcomeScene, type SceneType } from '~/composables/useEventScene'
 
 const store = useGameStore()
 const { rollNextEvent, chooseOption, advanceDay, aiLoading } = useGameEngine()
+const coinBurst = useCoinBurst()
+
+// 事件動畫場景：預設跟著 currentEvent 走、選擇後若有大金額/開心瞬間切到對應結算場景
+const overrideScene = ref<SceneType | null>(null)
+const currentScene = computed<SceneType>(
+  () => overrideScene.value ?? sceneFromEvent(store.currentEvent)
+)
 
 const lastEffects = ref<EventEffect | null>(null)
 const lastChoiceText = ref('')
@@ -60,6 +68,31 @@ const handleChoice = (index: number) => {
   chooseOption(index)
   showOutcome.value = true
   portraitReactKey.value++
+
+  // 金錢正增益 → 飛硬幣到 GameStatusBar 的金錢欄位
+  const moneyGain = choice.effects.money ?? 0
+  if (moneyGain > 0) {
+    nextTick(() => {
+      // 用 outcome 卡中央當起點
+      const w = window.innerWidth
+      const h = window.innerHeight
+      coinBurst.fire({
+        amount: Math.min(4 + Math.floor(moneyGain / 50), 12),
+        sourceX: w / 2,
+        sourceY: h / 2 + 20,
+        targetSelector: '[data-stat-money]',
+      })
+    })
+  }
+
+  // 切到對應結算場景 1.6s 後還原
+  const oScene = outcomeScene(choice.effects as Record<string, number>)
+  if (oScene) {
+    overrideScene.value = oScene
+    setTimeout(() => {
+      overrideScene.value = null
+    }, 1600)
+  }
 }
 
 const quitRun = () => {
@@ -106,6 +139,10 @@ const isHarmful = (key: string, value: number): boolean => {
       :stats="store.stats"
       :character="store.selectedCharacter"
       :react-key="portraitReactKey"
+    />
+    <EventScreen
+      :scene="currentScene"
+      :character="store.selectedCharacter"
     />
 
     <template v-if="aiLoading">
@@ -193,7 +230,7 @@ const isHarmful = (key: string, value: number): boolean => {
               <span
                 v-for="(val, k) in buff.perDayEffects"
                 :key="k"
-                :class="val > 0 ? 'text-green-400' : val < 0 ? 'text-red-400' : 'text-muted'"
+                :class="isBeneficial(k, val) ? 'text-green-400' : isHarmful(k, val) ? 'text-red-400' : 'text-muted'"
               >
                 {{ statLabel[k] ?? k }} {{ val > 0 ? '+' : '' }}{{ val }}
               </span>

@@ -317,6 +317,342 @@
     );
   }
 
+  /* ─────────  事件動畫小視窗（C 簡化版 / NES 風 TV）  ───────── */
+  .event-screen {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    border: 3px solid #e8e6e3;
+    box-shadow: 4px 4px 0 #e8e6e3;
+    overflow: hidden;
+    image-rendering: pixelated;
+  }
+  .es-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 58%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  /* 所有圖背景上加一層底部暗化、讓 character 突出 */
+  .es-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.4) 100%);
+  }
+  /* idle 沒事件、用素色漸層 */
+  .es-scene-idle .es-bg {
+    background: linear-gradient(180deg, #2a2a3a 0%, #1a1a2a 100%);
+  }
+  .es-scene-office .es-bg { background-image: url('/scenes/office.webp'); }
+  .es-scene-payday .es-bg { background-image: url('/scenes/payday.webp'); }
+  .es-scene-shop .es-bg { background-image: url('/scenes/shop.webp'); }
+  .es-scene-luck .es-bg {
+    background-image: url('/scenes/luck.webp');
+    animation: es-luck-flash 1.6s ease-in-out infinite;
+  }
+  @keyframes es-luck-flash {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.25); }
+  }
+  .es-scene-social .es-bg { background-image: url('/scenes/social.webp'); }
+  .es-scene-home .es-bg { background-image: url('/scenes/home.webp'); }
+  .es-scene-accident .es-bg {
+    background-image: url('/scenes/accident.webp');
+    animation: es-accident-shake 0.16s linear infinite;
+  }
+  @keyframes es-accident-shake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-1px, 1px); }
+    50% { transform: translate(1px, -1px); }
+    75% { transform: translate(-1px, -1px); }
+  }
+  .es-scene-health .es-bg { background-image: url('/scenes/health.webp'); }
+  .es-scene-ai .es-bg {
+    background-image: url('/scenes/ai.webp');
+    animation: es-ai-shift 2.4s ease-in-out infinite;
+  }
+  @keyframes es-ai-shift {
+    0%, 100% { filter: hue-rotate(0); }
+    50% { filter: hue-rotate(40deg); }
+  }
+
+  .es-char {
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    transform: translateX(-50%);
+    animation: es-char-bob 1.2s ease-in-out infinite;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .es-char-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.7));
+    user-select: none;
+  }
+  .es-char-emoji {
+    font-size: 32px;
+    line-height: 1;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.6));
+  }
+  @keyframes es-char-bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -2px); }
+  }
+  /* office：角色微震（打字）*/
+  .es-scene-office .es-char {
+    animation: es-char-typing 0.12s steps(2) infinite;
+  }
+  @keyframes es-char-typing {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 1px); }
+  }
+  /* accident：角色搖晃 */
+  .es-scene-accident .es-char {
+    animation: es-char-panic 0.2s linear infinite;
+  }
+  @keyframes es-char-panic {
+    0%, 100% { transform: translate(-52%, 0) rotate(-3deg); }
+    50% { transform: translate(-48%, 0) rotate(3deg); }
+  }
+  /* payday / luck：角色蹦跳 */
+  .es-scene-payday .es-char,
+  .es-scene-luck .es-char {
+    animation: es-char-bounce 0.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+  @keyframes es-char-bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -8px); }
+  }
+
+  .es-label {
+    position: absolute;
+    bottom: 2px;
+    left: 4px;
+    font-size: 9px;
+    color: rgba(232, 230, 227, 0.65);
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── 粒子層 ─── */
+  .es-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .es-particle {
+    position: absolute;
+    font-size: 14px;
+    line-height: 1;
+    will-change: transform, opacity;
+  }
+  /* payday 鈔票雨 */
+  .es-money {
+    top: -16px;
+    animation: es-money-fall 1.6s linear infinite;
+  }
+  @keyframes es-money-fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110px) rotate(360deg); opacity: 0; }
+  }
+  /* shop 飛走的鈔票 */
+  .es-money-flee {
+    top: 40%;
+    left: 50%;
+    animation: es-money-flee 1.3s ease-out infinite;
+  }
+  @keyframes es-money-flee {
+    0% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+    100% {
+      transform: translate(60px, -30px) scale(0.4) rotate(40deg);
+      opacity: 0;
+    }
+  }
+  /* luck 星閃 */
+  .es-spark {
+    top: 30%;
+    color: #fbbf24;
+    text-shadow: 0 0 6px rgba(251, 191, 36, 0.7);
+    animation: es-spark 1s ease-out infinite;
+  }
+  @keyframes es-spark {
+    0% { transform: translateY(20px) scale(0.5); opacity: 0; }
+    50% { transform: translateY(0) scale(1.2); opacity: 1; }
+    100% { transform: translateY(-20px) scale(0.6); opacity: 0; }
+  }
+  /* office 打字光標 */
+  .es-typing {
+    bottom: 18px;
+    left: 60%;
+    color: rgba(232, 230, 227, 0.55);
+    animation: es-typing-blink 0.4s steps(2) infinite;
+  }
+  @keyframes es-typing-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  /* social 對話泡 */
+  .es-chat {
+    top: 12px;
+    left: 64%;
+    animation: es-chat-pop 1.8s ease-in-out infinite;
+  }
+  @keyframes es-chat-pop {
+    0%, 100% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    20%, 70% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+  /* home 暖光點 */
+  .es-warm {
+    bottom: 12px;
+    color: rgba(251, 191, 36, 0.6);
+    font-size: 20px;
+    text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+    animation: es-warm-rise 3s ease-in-out infinite;
+  }
+  @keyframes es-warm-rise {
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    50% { transform: translateY(-30px); opacity: 0.8; }
+  }
+  /* accident 警告 */
+  .es-warn {
+    top: 14%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ef4444;
+    font-size: 26px;
+    text-shadow: 0 0 6px rgba(239, 68, 68, 0.8);
+    animation: es-warn-blink 0.4s steps(2) infinite;
+  }
+  @keyframes es-warn-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.3; }
+  }
+  .es-flash {
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    animation: es-flash-pop 0.8s ease-out infinite;
+  }
+  @keyframes es-flash-pop {
+    0%, 90% { opacity: 0; }
+    91%, 95% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+  /* health 紅心 */
+  .es-heart {
+    top: 30%;
+    color: #f472b6;
+    text-shadow: 0 0 4px rgba(244, 114, 182, 0.6);
+    animation: es-heart-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes es-heart-pulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  /* ai 電子流 */
+  .es-ai {
+    top: 0;
+    color: #a78bfa;
+    font-size: 8px;
+    animation: es-ai-rain 1.3s linear infinite;
+  }
+  @keyframes es-ai-rain {
+    0% { transform: translateY(-20px); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(110px); opacity: 0; }
+  }
+
+  /* ─────────  金錢粒子 burst  ───────── */
+  .coin-particle {
+    position: fixed;
+    z-index: 55;
+    font-size: 22px;
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: coin-fly 1.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    text-shadow: 0 0 4px rgba(251, 191, 36, 0.7);
+  }
+  @keyframes coin-fly {
+    0% {
+      transform: translate(0, 0) scale(0.5) rotate(0deg);
+      opacity: 0;
+    }
+    15% {
+      transform: translate(var(--cb-mid-x), var(--cb-mid-y)) scale(1.2) rotate(120deg);
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      transform:
+        translate(var(--cb-target-x), var(--cb-target-y))
+        scale(0.4) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
+  /* ─────────  結局 ambient 粒子  ───────── */
+  .ending-ambient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .ambient-particle {
+    position: absolute;
+    top: -10%;
+    font-size: 14px;
+    opacity: 0;
+    animation: ambient-fall linear infinite;
+  }
+  .ambient-happy .ambient-particle {
+    color: #fbbf24;
+    text-shadow: 0 0 6px rgba(251, 191, 36, 0.6);
+    animation-name: ambient-rise;
+  }
+  .ambient-sad .ambient-particle {
+    color: rgba(180, 200, 220, 0.6);
+  }
+  .ambient-normal .ambient-particle {
+    color: rgba(232, 230, 227, 0.4);
+  }
+  @keyframes ambient-fall {
+    0% {
+      transform: translate(0, -20vh);
+      opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+      transform: translate(var(--drift, 0), 110vh);
+      opacity: 0;
+    }
+  }
+  @keyframes ambient-rise {
+    0% {
+      transform: translate(0, 110vh);
+      opacity: 0;
+    }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% {
+      transform: translate(var(--drift, 0), -20vh);
+      opacity: 0;
+    }
+  }
+
   /* 富二代解鎖閃爍 */
   @keyframes celebrate-flash {
     0%, 100% {

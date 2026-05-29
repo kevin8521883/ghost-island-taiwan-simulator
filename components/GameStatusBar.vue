@@ -50,7 +50,7 @@ const formatMoney = (n: number) => n.toLocaleString()
       />
     </div>
     <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
-      <div :class="{ 'danger-stat': moneyDanger }">
+      <div data-stat-money :class="{ 'danger-stat': moneyDanger }">
         💰 <NumberRoll :value="stats.money" :format-fn="formatMoney" />
       </div>
       <div :class="{ 'danger-stat': stressDanger }">

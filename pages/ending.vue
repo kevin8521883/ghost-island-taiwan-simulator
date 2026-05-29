@@ -181,8 +181,10 @@ const handleDownload = () => {
 </script>
 
 <template>
-  <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto flex flex-col justify-center space-y-6 relative">
+  <div class="min-h-dvh relative">
     <EndingEffect :ending-id="store.endingId" />
+    <EndingAmbient :mood="ending?.mood" />
+    <div class="min-h-dvh pt-14 px-6 pb-6 max-w-md mx-auto flex flex-col justify-center space-y-6 relative z-10">
     <template v-if="ending">
       <div class="pixel-card-accent space-y-3" @click="skip">
         <div class="flex items-center gap-3">
@@ -291,5 +293,6 @@ const handleDownload = () => {
         </div>
       </Transition>
     </template>
+    </div>
   </div>
 </template>
