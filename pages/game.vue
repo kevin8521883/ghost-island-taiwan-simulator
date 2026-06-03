@@ -3,7 +3,16 @@ import type { ChoiceCondition, EventEffect, PlayerStats, Range } from '~/types/g
 import { sceneFromEvent, outcomeScene, type SceneType } from '~/composables/useEventScene'
 
 const store = useGameStore()
-const { rollNextEvent, chooseOption, advanceDay, aiLoading } = useGameEngine()
+const {
+  rollNextEvent,
+  chooseOption,
+  advanceDay,
+  aiLoading,
+  pendingReviveMethod,
+  doRevive,
+  acceptFate,
+  restoreReviveOffer,
+} = useGameEngine()
 const coinBurst = useCoinBurst()
 
 // 事件動畫場景：預設跟著 currentEvent 走、選擇後若有大金額/開心瞬間切到對應結算場景
@@ -55,6 +64,8 @@ onMounted(async () => {
     navigateTo('/ending')
     return
   }
+  // reload 時若卡在封棺前續命決定中、重建 offer（ReviveModal 會跟著出現）
+  restoreReviveOffer()
   if (!store.currentEvent) {
     await rollNextEvent()
   }
@@ -104,8 +115,18 @@ const quitRun = () => {
 const nextDay = async () => {
   showOutcome.value = false
   lastEffects.value = null
-  const ended = await advanceDay()
-  if (ended) navigateTo('/ending')
+  const result = await advanceDay()
+  if (result === 'ended') navigateTo('/ending')
+  // 'revive-offer' → ReviveModal 會因 pendingReviveMethod 出現；'continue' → 留在 game
+}
+
+const onRevive = async () => {
+  await doRevive()
+}
+
+const onAcceptFate = () => {
+  acceptFate()
+  navigateTo('/ending')
 }
 
 const statLabel: Record<string, string> = {
@@ -135,6 +156,12 @@ const isHarmful = (key: string, value: number): boolean => {
 
 <template>
   <div class="min-h-dvh pt-14 px-4 pb-4 max-w-md mx-auto space-y-4">
+    <ReviveModal
+      v-if="pendingReviveMethod"
+      :method="pendingReviveMethod"
+      @revive="onRevive"
+      @accept="onAcceptFate"
+    />
     <GameStatusBar
       :stats="store.stats"
       :character="store.selectedCharacter"

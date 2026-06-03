@@ -254,5 +254,13 @@
     "description": "連續 7 天回訪。這座島是真的離不開了。",
     "hint": "連續登入 7 天",
     "trigger": { "type": "streak", "count": 7 }
+  },
+  {
+    "id": "revive_once",
+    "title": "鬼門關走一遭",
+    "icon": "⚰️",
+    "description": "在封棺前一刻續了命。死神也只能先記著這筆帳。",
+    "hint": "用過一次封棺前續命",
+    "trigger": { "type": "revive" }
   }
 ]

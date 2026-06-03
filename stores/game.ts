@@ -22,6 +22,10 @@ interface GameState {
   log: LogEntry[]
   aiEventTriggered: boolean
   endingNarrative: string | null
+  /** 致命結局暫存（封棺前續命決定中、尚未 commit）*/
+  pendingDeathEndingId: string | null
+  /** 本局是否已用過續命（一局一次）*/
+  reviveUsed: boolean
 }
 
 const emptyStats = (): PlayerStats => ({
@@ -54,6 +58,8 @@ export const useGameStore = defineStore('game', {
     log: [],
     aiEventTriggered: false,
     endingNarrative: null,
+    pendingDeathEndingId: null,
+    reviveUsed: false,
   }),
 
   getters: {
@@ -118,6 +124,8 @@ export const useGameStore = defineStore('game', {
       this.log = []
       this.aiEventTriggered = false
       this.endingNarrative = null
+      this.pendingDeathEndingId = null
+      this.reviveUsed = false
       this.persist()
     },
 
@@ -130,6 +138,46 @@ export const useGameStore = defineStore('game', {
     addBuff(buff: PlayerBuff) {
       const filtered = this.stats.buffs.filter((b) => b.id !== buff.id)
       this.stats.buffs = [...filtered, { ...buff }]
+      this.persist()
+    },
+
+    /** 暫存一個致命結局、等待玩家做「封棺前續命」的決定（尚未寫入圖鑑/歷史）*/
+    setPendingDeath(endingId: string) {
+      this.pendingDeathEndingId = endingId
+      this.persist()
+    },
+
+    /** 清掉暫存的致命結局（放棄續命、正式進結局前呼叫）*/
+    clearPendingDeath() {
+      this.pendingDeathEndingId = null
+      this.persist()
+    },
+
+    /**
+     * 套用續命：先把瀕死數值拉回安全帶、再吃代價 deltas、標記本局已續命。
+     *
+     * 順序很重要：先 clamp 再扣代價，代價才會「真的被感受到」（否則例如蠻牛
+     * health-15 會被 clamp 完全吃掉）。安全帶留足夠 buffer，代價幅度小、扣完
+     * 仍在所有致命門檻之外（stress<100 / health>0 / happiness>0 /
+     * money>-50000 且不滿足 startup_crash 的 money<=-30000）。
+     */
+    applyRevive(cost: EventEffect) {
+      // 1. 拉回安全帶（保證脫離 5 個致命結局，且留 buffer 不會隔天又秒死）
+      this.stats.stress = Math.min(this.stats.stress, 60)
+      this.stats.health = Math.max(this.stats.health, 40)
+      this.stats.happiness = Math.max(this.stats.happiness, 40)
+      this.stats.money = Math.max(this.stats.money, -12000)
+      // 2. 套用續命代價（此時已在安全帶、代價幅度小、扣完不會再致命）
+      const relationKeys: StatKey[] = ['boss', 'coworker', 'family']
+      for (const key of Object.keys(cost) as StatKey[]) {
+        const delta = cost[key] ?? 0
+        this.stats[key] += delta
+        if (relationKeys.includes(key)) {
+          this.stats[key] = clampRelation(this.stats[key])
+        }
+      }
+      this.reviveUsed = true
+      this.pendingDeathEndingId = null
       this.persist()
     },
 
@@ -269,6 +317,8 @@ export const useGameStore = defineStore('game', {
       this.log = []
       this.aiEventTriggered = false
       this.endingNarrative = null
+      this.pendingDeathEndingId = null
+      this.reviveUsed = false
       if (import.meta.client) localStorage.removeItem(STORAGE_KEY)
     },
 
@@ -284,6 +334,8 @@ export const useGameStore = defineStore('game', {
         log: this.log,
         aiEventTriggered: this.aiEventTriggered,
         endingNarrative: this.endingNarrative,
+        pendingDeathEndingId: this.pendingDeathEndingId,
+        reviveUsed: this.reviveUsed,
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot))
     },
@@ -306,6 +358,8 @@ export const useGameStore = defineStore('game', {
         this.log = data.log ?? []
         this.aiEventTriggered = data.aiEventTriggered ?? false
         this.endingNarrative = data.endingNarrative ?? null
+        this.pendingDeathEndingId = data.pendingDeathEndingId ?? null
+        this.reviveUsed = data.reviveUsed ?? false
       } catch (_) {
         // ignore corrupted save
       }

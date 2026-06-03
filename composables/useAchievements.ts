@@ -119,6 +119,12 @@ export const useAchievements = () => {
     }
   }
 
+  const checkRevive = () => {
+    for (const ach of ALL_ACHIEVEMENTS) {
+      if (ach.trigger.type === 'revive') tryUnlock(ach.id)
+    }
+  }
+
   const checkChoiceText = (text: string) => {
     for (const ach of ALL_ACHIEVEMENTS) {
       if (ach.trigger.type !== 'choice_count') continue
@@ -230,6 +236,7 @@ export const useAchievements = () => {
     checkEventSeen,
     checkAiEvent,
     checkStreak,
+    checkRevive,
     checkChoiceText,
     checkEnding,
     checkMeta,

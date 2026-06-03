@@ -172,6 +172,8 @@ export interface Ending {
   variants?: Record<string, EndingVariant>
   /** 角色在這個結局頁的情緒（影響 portrait 動畫） */
   mood?: EndingMood
+  /** 致命/崩潰結局：中途撞到數值牆觸發，可在「封棺前續命」攔截一次 */
+  fatal?: boolean
 }
 
 export interface AchievementTrigger {
@@ -188,6 +190,7 @@ export interface AchievementTrigger {
     | 'ai_event'       // 觸發過 AI 事件
     | 'choice_count'   // 累計選擇符合 matches 的次數
     | 'streak'         // 連續登入天數達 count
+    | 'revive'         // 用過封棺前續命
   key?: string         // for stat
   gte?: number
   lte?: number

@@ -1,8 +1,12 @@
 import charactersData from '~/data/characters.json'
-import type { Character, GameEvent } from '~/types/game'
+import type { Character, Ending, GameEvent } from '~/types/game'
+import { pickReviveMethod, type ReviveMethod } from '~/composables/useRevive'
 
 const CHARACTERS = charactersData as Character[]
 const AI_EVENT_DAY = 13
+
+/** advanceDay 的結果：繼續 / 進結局 / 跳出封棺前續命 */
+export type AdvanceResult = 'continue' | 'ended' | 'revive-offer'
 
 export const useGameEngine = () => {
   const store = useGameStore()
@@ -13,6 +17,11 @@ export const useGameEngine = () => {
   const achievements = useAchievements()
   const aiLoading = useState<boolean>('ai-event-loading', () => false)
   const aiError = useState<string>('ai-event-error', () => '')
+  /** 封棺前續命：當前要 offer 的續命方式（null = 沒在 offer）*/
+  const pendingReviveMethod = useState<ReviveMethod | null>(
+    'revive-method',
+    () => null
+  )
 
   const startGame = (character: Character) => {
     store.startNewLife(character)
@@ -104,43 +113,85 @@ export const useGameEngine = () => {
     achievements.checkStats(store.stats)
   }
 
-  const advanceDay = async (): Promise<boolean> => {
+  // 把結局正式寫入：圖鑑 / 歷史 / 成就 / endingId
+  const commitEnding = (ending: Ending) => {
+    const characterId = store.selectedCharacter?.id ?? null
+    store.setEnding(ending.id)
+    dex.recordUnlock(ending.id, characterId)
+    if (store.selectedCharacter) {
+      history.record({
+        characterId: store.selectedCharacter.id,
+        characterName: store.selectedCharacter.name,
+        endingId: ending.id,
+        endingTitle: ending.title,
+        day: store.stats.day,
+        finalStats: { ...store.stats },
+      })
+    }
+    achievements.checkEnding(ending.id, characterId, store.stats)
+    achievements.checkMeta()
+  }
+
+  const advanceDay = async (): Promise<AdvanceResult> => {
     // 結局只在「日期變動」or「stat 死局」時 check；timeOfDay 推進不算結局判定
     const ending = checkEnding(store.stats, store.selectedCharacter?.id ?? null)
     if (ending) {
-      store.setEnding(ending.id)
-      dex.recordUnlock(ending.id, store.selectedCharacter?.id ?? null)
-      if (store.selectedCharacter) {
-        history.record({
-          characterId: store.selectedCharacter.id,
-          characterName: store.selectedCharacter.name,
-          endingId: ending.id,
-          endingTitle: ending.title,
-          day: store.stats.day,
-          finalStats: { ...store.stats },
-        })
+      // 致命結局 + 本局還沒續過命 → 先攔住、不寫入任何紀錄，offer 封棺前續命
+      if (ending.fatal && !store.reviveUsed) {
+        store.setPendingDeath(ending.id)
+        pendingReviveMethod.value = pickReviveMethod(store.stats)
+        return 'revive-offer'
       }
-      achievements.checkEnding(
-        ending.id,
-        store.selectedCharacter?.id ?? null,
-        store.stats
-      )
-      achievements.checkMeta()
-      return true
+      commitEnding(ending)
+      return 'ended'
     }
     store.advanceDay()
     achievements.checkStats(store.stats)
     await rollNextEvent()
-    return false
+    return 'continue'
+  }
+
+  // 封棺前續命：付代價、脫離致命狀態、接續下一天
+  const doRevive = async () => {
+    const method = pendingReviveMethod.value
+    if (!method) return
+    store.applyRevive(method.cost)
+    pendingReviveMethod.value = null
+    achievements.checkRevive()
+    store.advanceDay()
+    achievements.checkStats(store.stats)
+    await rollNextEvent()
+  }
+
+  // 放棄續命：把暫存的致命結局正式寫入、進結局頁
+  const acceptFate = () => {
+    const id = store.pendingDeathEndingId
+    pendingReviveMethod.value = null
+    if (!id) return
+    const ending = findEnding(id, store.selectedCharacter?.id ?? null)
+    if (!ending) return // 防守：找不到結局就不清狀態、不亂跳（理論上不會發生）
+    store.clearPendingDeath()
+    commitEnding(ending)
+  }
+
+  // reload 後若仍卡在續命決定中、依當前 stats 重算 offer
+  const restoreReviveOffer = () => {
+    if (store.pendingDeathEndingId && !pendingReviveMethod.value) {
+      pendingReviveMethod.value = pickReviveMethod(store.stats)
+    }
   }
 
   return {
     characters: CHARACTERS,
     aiLoading,
     aiError,
+    pendingReviveMethod,
     startGame,
     rollNextEvent,
     chooseOption,
     advanceDay,
+    doRevive,
+    acceptFate,
+    restoreReviveOffer,
   }
 }

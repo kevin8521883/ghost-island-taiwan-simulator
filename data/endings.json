@@ -1,6 +1,7 @@
 [
   {
     "id": "burnout",
+    "fatal": true,
     "title": "過勞邊緣人",
     "description": "你成功把公司當家，但家沒有把你當人。在 7-11 結帳時手指停在悠遊卡上，你已經想不起來自己昨天有沒有吃飯。",
     "priority": 100,
@@ -44,6 +45,7 @@
   },
   {
     "id": "health_collapse",
+    "fatal": true,
     "title": "急診室一日遊",
     "description": "胃食道逆流、自律神經失調、慢性疲勞——醫生唸了一串病名，你只想知道能不能請病假。",
     "priority": 95,
@@ -53,6 +55,7 @@
   },
   {
     "id": "bankruptcy",
+    "fatal": true,
     "title": "卡債人生",
     "description": "你打開銀行 App，看著紅色數字發呆。爸媽 LINE 傳訊息：『你最近還好嗎』，你已讀不回。",
     "priority": 90,
@@ -62,6 +65,7 @@
   },
   {
     "id": "lying_flat",
+    "fatal": true,
     "title": "躺平大師",
     "description": "你關掉手機通知、退追蹤所有前同事、把履歷檔案改名為「再見」。世界很吵，但你終於安靜下來了。",
     "priority": 80,
@@ -120,6 +124,7 @@
   },
   {
     "id": "startup_crash",
+    "fatal": true,
     "title": "創業失敗回去打工",
     "description": "你燒了爸媽的退休金、燒了自己的青春、燒了三個合夥人的友誼。最後你帶著「至少我試過了」這六個字，回去投履歷。",
     "priority": 55,
