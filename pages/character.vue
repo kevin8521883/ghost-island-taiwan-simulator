@@ -4,6 +4,7 @@ import type { Character } from '~/types/game'
 const { characters, startGame } = useGameEngine()
 const dex = useEndingDex()
 const history = useRunHistory()
+const legacy = useLegacy()
 const sfx = useSfx()
 
 const selected = ref<Character | null>(null)
@@ -135,6 +136,12 @@ const spinAndStart = async () => {
         已解鎖隱藏角色：{{ dex.unlockedCharCount }} / {{ dex.totalChars }}
       </p>
     </header>
+
+    <!-- 跨局記憶：輪迴前情提要 -->
+    <div v-if="legacy.hasPast && legacy.recap" class="pixel-card-accent space-y-1">
+      <p class="text-[11px] text-amber-400">🔁 第 {{ legacy.reincarnation }} 輩子</p>
+      <p class="text-xs text-paper leading-relaxed">{{ legacy.recap }}</p>
+    </div>
 
     <div class="space-y-3">
       <div v-for="c in visibleCharacters" :key="c.id" class="relative">
