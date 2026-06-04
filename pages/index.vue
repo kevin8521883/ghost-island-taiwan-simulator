@@ -6,6 +6,7 @@ const history = useRunHistory()
 const ach = useAchievements()
 const endingStats = useEndingStats()
 const fortune = useDailyFortune()
+const analytics = useAnalytics()
 const hasSave = ref(false)
 
 onMounted(() => {
@@ -18,6 +19,7 @@ onMounted(() => {
   // 連抽日曆打卡 + 連續登入成就
   const s = fortune.touchStreak()
   ach.checkStreak(s)
+  analytics.track('landing')
 })
 
 const globalTotalRuns = computed(() => endingStats.stats.value?.totalRuns ?? 0)

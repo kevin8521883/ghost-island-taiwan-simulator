@@ -14,6 +14,8 @@ const STORAGE_KEY = 'ghost-island-save-v1'
 
 interface GameState {
   selectedCharacter: Character | null
+  /** 玩家自訂暱稱（選填）；空則用角色名 */
+  playerName: string | null
   stats: PlayerStats
   currentEvent: GameEvent | null
   seenEventIds: string[]
@@ -50,6 +52,7 @@ const clampRelation = (v: number) => Math.max(0, Math.min(100, v))
 export const useGameStore = defineStore('game', {
   state: (): GameState => ({
     selectedCharacter: null,
+    playerName: null,
     stats: emptyStats(),
     currentEvent: null,
     seenEventIds: [],
@@ -64,6 +67,10 @@ export const useGameStore = defineStore('game', {
 
   getters: {
     isGameOver: (s) => s.endingId !== null,
+
+    /** 顯示用名稱：有暱稱用暱稱、否則用角色名（理論上不會空、保底「社畜」）*/
+    displayName: (s): string =>
+      (s.playerName && s.playerName.trim()) || s.selectedCharacter?.name || '社畜',
 
     /**
      * 挑一筆「最有戲」的過去選擇，餵給 AI 做回馬槍事件。
@@ -101,8 +108,9 @@ export const useGameStore = defineStore('game', {
   },
 
   actions: {
-    startNewLife(character: Character) {
+    startNewLife(character: Character, playerName: string | null = null) {
       this.selectedCharacter = character
+      this.playerName = playerName && playerName.trim() ? playerName.trim().slice(0, 12) : null
       this.stats = {
         money: character.money,
         stress: character.stress,
@@ -309,6 +317,7 @@ export const useGameStore = defineStore('game', {
 
     reset() {
       this.selectedCharacter = null
+      this.playerName = null
       this.stats = emptyStats()
       this.currentEvent = null
       this.seenEventIds = []
@@ -326,6 +335,7 @@ export const useGameStore = defineStore('game', {
       if (!import.meta.client) return
       const snapshot = {
         selectedCharacter: this.selectedCharacter,
+        playerName: this.playerName,
         stats: this.stats,
         currentEvent: this.currentEvent,
         seenEventIds: this.seenEventIds,
@@ -347,6 +357,7 @@ export const useGameStore = defineStore('game', {
       try {
         const data = JSON.parse(raw)
         this.selectedCharacter = data.selectedCharacter ?? null
+        this.playerName = data.playerName ?? null
         const base = emptyStats()
         // 舊存檔沒有 buffs / 關係欄位，用預設補
         this.stats = { ...base, ...(data.stats ?? {}) }

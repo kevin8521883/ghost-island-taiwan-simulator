@@ -7,6 +7,7 @@ const history = useRunHistory()
 const sfx = useSfx()
 
 const selected = ref<Character | null>(null)
+const playerName = ref('')
 const spinning = ref(false)
 const spinDisplay = ref<Character | null>(null)
 const spinTick = ref(0)
@@ -51,9 +52,11 @@ const visibleCharacters = computed(() => {
   return characters.filter((c) => !c.hidden || dex.isCharUnlocked(c.id))
 })
 
+const nameOrNull = () => (playerName.value.trim() ? playerName.value.trim() : null)
+
 const confirmAndStart = () => {
   if (!selected.value) return
-  startGame(applyNgPlus(selected.value))
+  startGame(applyNgPlus(selected.value), nameOrNull())
   navigateTo('/game')
 }
 
@@ -115,7 +118,7 @@ const spinAndStart = async () => {
   await new Promise((r) => setTimeout(r, spinUnlockedRichKid.value ? 2200 : 1200))
 
   spinning.value = false
-  startGame(applyNgPlus(result))
+  startGame(applyNgPlus(result), nameOrNull())
   navigateTo('/game')
 }
 </script>
@@ -150,6 +153,16 @@ const spinAndStart = async () => {
     </div>
 
     <div class="sticky-actions sticky bottom-0 z-20 space-y-2 pt-6 pb-3 -mx-6 px-6">
+      <label class="pixel-card flex items-center gap-3 text-xs">
+        <span class="text-amber-400 whitespace-nowrap">你的名字</span>
+        <input
+          v-model="playerName"
+          type="text"
+          maxlength="12"
+          placeholder="（選填，例如 阿明）"
+          class="flex-1 bg-transparent border-b border-[#444] focus:border-amber-400 outline-none text-paper py-1 placeholder:text-muted"
+        />
+      </label>
       <label
         v-if="ngPlusAvailable"
         class="pixel-card flex items-center gap-3 cursor-pointer text-xs"

@@ -15,6 +15,7 @@ export const useGameEngine = () => {
   const dex = useEndingDex()
   const history = useRunHistory()
   const achievements = useAchievements()
+  const analytics = useAnalytics()
   const aiLoading = useState<boolean>('ai-event-loading', () => false)
   const aiError = useState<string>('ai-event-error', () => '')
   /** 封棺前續命：當前要 offer 的續命方式（null = 沒在 offer）*/
@@ -23,11 +24,12 @@ export const useGameEngine = () => {
     () => null
   )
 
-  const startGame = (character: Character) => {
-    store.startNewLife(character)
+  const startGame = (character: Character, playerName: string | null = null) => {
+    store.startNewLife(character, playerName)
     // 注入今日運勢 buff（連抽日曆的反差梗）
     const fortune = useDailyFortune()
     store.addBuff(fortune.todayFortune.buff)
+    analytics.track('run_start')
     rollNextEvent()
   }
 
@@ -44,7 +46,7 @@ export const useGameEngine = () => {
           body: {
             character: {
               id: store.selectedCharacter.id,
-              name: store.selectedCharacter.name,
+              name: store.displayName,
               description: store.selectedCharacter.description,
             },
             stats: store.stats,
@@ -130,6 +132,7 @@ export const useGameEngine = () => {
     }
     achievements.checkEnding(ending.id, characterId, store.stats)
     achievements.checkMeta()
+    analytics.track('run_end')
   }
 
   const advanceDay = async (): Promise<AdvanceResult> => {
@@ -147,6 +150,7 @@ export const useGameEngine = () => {
     }
     store.advanceDay()
     achievements.checkStats(store.stats)
+    if (store.stats.day === 15) analytics.track('reach_day15')
     await rollNextEvent()
     return 'continue'
   }
@@ -158,7 +162,9 @@ export const useGameEngine = () => {
     store.applyRevive(method.cost)
     pendingReviveMethod.value = null
     achievements.checkRevive()
+    analytics.track('revive_used')
     store.advanceDay()
+    if (store.stats.day === 15) analytics.track('reach_day15')
     achievements.checkStats(store.stats)
     await rollNextEvent()
   }

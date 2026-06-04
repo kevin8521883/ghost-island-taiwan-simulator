@@ -236,6 +236,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const { character, stats, lastEventTitles = [], callbackMoment = null } = body
+  // 防護：限制注入 prompt 的長度（暱稱/描述若被竄改也不會夾帶長指令）
+  const safeName = String(character.name ?? '').slice(0, 24)
+  const safeDesc = character.description ? String(character.description).slice(0, 60) : ''
 
   const isCallback = !!callbackMoment
   const systemPrompt = isCallback ? SYSTEM_PROMPT + CALLBACK_GUIDE : SYSTEM_PROMPT
@@ -255,7 +258,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const userPrompt = isCallback
-    ? `玩家身分：${character.name}${character.description ? `（${character.description}）` : ''}
+    ? `玩家身分：${safeName}${safeDesc ? `（${safeDesc}）` : ''}
 目前 Day ${stats.day} / 30
 當前狀態：💰${stats.money.toLocaleString()} 🔥壓力${stats.stress} ❤️健康${stats.health} 😊快樂${stats.happiness} 📈職涯${stats.career} 👥評價${stats.reputation}
 
@@ -264,7 +267,7 @@ Day ${callbackMoment!.day}：事件「${callbackMoment!.eventTitle}」→ 玩家
 （當時影響：${effectSummary(callbackMoment!.effects)}）
 
 請寫一個「回馬槍」事件：讓上面這個 ${stats.day - callbackMoment!.day} 天前的選擇，在今天以一個全新情境回來找他。連結要用暗示的、不要生硬回顧。`
-    : `玩家身分：${character.name}${character.description ? `（${character.description}）` : ''}
+    : `玩家身分：${safeName}${safeDesc ? `（${safeDesc}）` : ''}
 目前 Day ${stats.day} / 30
 最近事件：${lastEventTitles.slice(0, 3).join(' / ') || '無'}
 當前狀態：💰${stats.money.toLocaleString()} 🔥壓力${stats.stress} ❤️健康${stats.health} 😊快樂${stats.happiness} 📈職涯${stats.career} 👥評價${stats.reputation}

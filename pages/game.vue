@@ -14,6 +14,9 @@ const {
   restoreReviveOffer,
 } = useGameEngine()
 const coinBurst = useCoinBurst()
+const analytics = useAnalytics()
+const sfx = useSfx()
+const confirmingIndex = ref<number | null>(null)
 
 // 事件動畫場景：預設跟著 currentEvent 走、選擇後若有大金額/開心瞬間切到對應結算場景
 const overrideScene = ref<SceneType | null>(null)
@@ -71,39 +74,72 @@ onMounted(async () => {
   }
 })
 
+// 依結果效果挑揭曉音效
+const outcomeSfx = (effects: EventEffect): string | null => {
+  if ((effects.money ?? 0) >= 500) return 'coin'
+  let net = 0
+  for (const k of Object.keys(effects) as (keyof EventEffect)[]) {
+    const v = effects[k] ?? 0
+    if (isBeneficial(k, v)) net += Math.abs(v)
+    else if (isHarmful(k, v)) net -= Math.abs(v)
+  }
+  if (net > 0) return 'positive'
+  if (net < 0) return 'negative'
+  return null
+}
+
 const handleChoice = (index: number) => {
+  if (confirmingIndex.value !== null) return // 防連點/重入
   const choice = store.currentEvent?.choices[index]
   if (!choice) return
-  lastChoiceText.value = choice.text
-  lastEffects.value = { ...choice.effects }
-  chooseOption(index)
-  showOutcome.value = true
-  portraitReactKey.value++
 
-  // 金錢正增益 → 飛硬幣到 GameStatusBar 的金錢欄位
-  const moneyGain = choice.effects.money ?? 0
-  if (moneyGain > 0) {
-    nextTick(() => {
-      // 用 outcome 卡中央當起點
-      const w = window.innerWidth
-      const h = window.innerHeight
-      coinBurst.fire({
-        amount: Math.min(4 + Math.floor(moneyGain / 50), 12),
-        sourceX: w / 2,
-        sourceY: h / 2 + 20,
-        targetSelector: '[data-stat-money]',
+  // 第一拍：按下確認、高亮該選項、其他淡出 + 音效/觸覺
+  confirmingIndex.value = index
+  sfx.play('press')
+  sfx.haptic(12)
+  const isDay1 = store.stats.day === 1
+
+  // 第二拍：260ms 後套用結果、揭曉 outcome
+  setTimeout(() => {
+    lastChoiceText.value = choice.text
+    lastEffects.value = { ...choice.effects }
+    chooseOption(index)
+    showOutcome.value = true
+    confirmingIndex.value = null
+    portraitReactKey.value++
+    if (isDay1) analytics.track('day1_choice')
+
+    // 揭曉音效 + 觸覺（依結果好壞）
+    const s = outcomeSfx(choice.effects)
+    if (s) {
+      sfx.play(s)
+      sfx.haptic(s === 'negative' ? [15, 30, 15] : 18)
+    }
+
+    // 金錢正增益 → 飛硬幣到 GameStatusBar 的金錢欄位
+    const moneyGain = choice.effects.money ?? 0
+    if (moneyGain > 0) {
+      nextTick(() => {
+        const w = window.innerWidth
+        const h = window.innerHeight
+        coinBurst.fire({
+          amount: Math.min(4 + Math.floor(moneyGain / 50), 12),
+          sourceX: w / 2,
+          sourceY: h / 2 + 20,
+          targetSelector: '[data-stat-money]',
+        })
       })
-    })
-  }
+    }
 
-  // 切到對應結算場景 1.6s 後還原
-  const oScene = outcomeScene(choice.effects as Record<string, number>)
-  if (oScene) {
-    overrideScene.value = oScene
-    setTimeout(() => {
-      overrideScene.value = null
-    }, 1600)
-  }
+    // 切到對應結算場景 1.6s 後還原
+    const oScene = outcomeScene(choice.effects as Record<string, number>)
+    if (oScene) {
+      overrideScene.value = oScene
+      setTimeout(() => {
+        overrideScene.value = null
+      }, 1600)
+    }
+  }, 260)
 }
 
 const quitRun = () => {
@@ -165,6 +201,7 @@ const isHarmful = (key: string, value: number): boolean => {
     <GameStatusBar
       :stats="store.stats"
       :character="store.selectedCharacter"
+      :player-name="store.playerName"
       :react-key="portraitReactKey"
     />
     <EventScreen
@@ -194,6 +231,7 @@ const isHarmful = (key: string, value: number): boolean => {
             :key="originalIdx"
             :choice="choice"
             :index="originalIdx"
+            :state="confirmingIndex === null ? 'idle' : confirmingIndex === originalIdx ? 'pressed' : 'dimmed'"
             @select="handleChoice"
           />
         </div>

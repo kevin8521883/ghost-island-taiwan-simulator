@@ -8,6 +8,12 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits<{ revive: []; accept: [] }>()
 
+const sfx = useSfx()
+onMounted(() => {
+  sfx.play('death')
+  sfx.haptic([30, 50, 30])
+})
+
 const statLabel: Record<string, string> = {
   money: '💰 金錢',
   stress: '🔥 壓力',

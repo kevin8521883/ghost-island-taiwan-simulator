@@ -2,6 +2,7 @@
 import type { Achievement } from '~/types/game'
 
 const achievements = useAchievements()
+const sfx = useSfx()
 const current = ref<Achievement | null>(null)
 let timer: ReturnType<typeof setTimeout> | null = null
 
@@ -10,6 +11,7 @@ const showNext = () => {
   const next = achievements.consumeJustUnlocked()
   if (!next) return
   current.value = next
+  sfx.play('achievement')
   timer = setTimeout(() => {
     current.value = null
     timer = null

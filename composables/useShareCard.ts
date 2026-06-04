@@ -4,6 +4,7 @@ interface CardOptions {
   ending: Ending
   stats: PlayerStats
   character: Character | null
+  playerName?: string | null
 }
 
 const W = 1080
@@ -37,7 +38,7 @@ const wrapText = (
 }
 
 const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
-  const { ending, stats, character } = opts
+  const { ending, stats, character, playerName } = opts
   const sansTC = '"Noto Sans TC", system-ui, sans-serif'
 
   // 背景
@@ -117,11 +118,14 @@ const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
     ctx.fillText(`${item.label} ${item.val}`, x, y)
   })
 
-  // 角色身分
+  // 角色身分（有暱稱就「阿明 · 普通上班族」）
   if (character) {
+    const name = playerName && playerName.trim()
+      ? `${playerName.trim()} · ${character.name}`
+      : `身分：${character.name}`
     ctx.fillStyle = '#888'
     ctx.font = `26px ${sansTC}`
-    ctx.fillText(`身分：${character.name}`, W / 2, H - 140)
+    ctx.fillText(name, W / 2, H - 140)
   }
 
   // 站點 URL

@@ -64,6 +64,31 @@
     word-break: break-word;
   }
 
+  /* 選擇確認轉場：按下的高亮、其他淡出 */
+  .choice-btn {
+    transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+  .choice-pressed {
+    background: #2a2410 !important;
+    border-color: #fbbf24 !important;
+    box-shadow: 4px 4px 0 #fbbf24 !important;
+    transform: translate(-1px, -1px);
+    animation: choice-confirm 0.26s ease;
+  }
+  @keyframes choice-confirm {
+    0% { transform: translate(0, 0); }
+    40% { transform: translate(-2px, -2px) scale(1.02); }
+    100% { transform: translate(-1px, -1px) scale(1); }
+  }
+  .choice-dimmed {
+    opacity: 0.25;
+    transform: scale(0.97);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .choice-btn, .choice-pressed { animation: none; transition: opacity 0.1s linear; }
+  }
+
   /* disabled：保留實心 bg、用灰階 + 降低文字對比，避免半透明讓底層內容透出來 */
   .pixel-button-disabled {
     filter: grayscale(0.85) brightness(0.55);

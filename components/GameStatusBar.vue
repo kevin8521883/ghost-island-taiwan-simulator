@@ -4,8 +4,13 @@ import type { Character, PlayerStats } from '~/types/game'
 const props = defineProps<{
   stats: PlayerStats
   character?: Character | null
+  playerName?: string | null
   reactKey?: string | number
 }>()
+
+const shownName = computed(() =>
+  (props.playerName && props.playerName.trim()) || props.character?.name || ''
+)
 
 const dayPct = computed(() => Math.min(100, (props.stats.day / 30) * 100))
 const stressDanger = computed(() => props.stats.stress >= 90)
@@ -34,7 +39,7 @@ const formatMoney = (n: number) => n.toLocaleString()
         :mood="portraitMood"
         :react-key="reactKey"
       />
-      <span class="text-paper text-[11px] flex-1">{{ character.name }}</span>
+      <span class="text-paper text-[11px] flex-1">{{ shownName }}</span>
       <span class="text-muted text-[11px]">{{ Math.round(dayPct) }}%</span>
     </div>
     <div class="flex items-center justify-between text-xs mb-2">

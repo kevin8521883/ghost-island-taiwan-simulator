@@ -24,6 +24,7 @@ const steps = [
   },
 ]
 
+const analytics = useAnalytics()
 const open = ref(false)
 const step = ref(0)
 
@@ -31,6 +32,7 @@ const advance = () => {
   if (step.value < steps.length - 1) {
     step.value++
   } else {
+    analytics.track('onboard_done')
     close()
   }
 }
@@ -42,7 +44,10 @@ const close = () => {
   }
 }
 
-const skip = () => close()
+const skip = () => {
+  analytics.track('onboard_skip')
+  close()
+}
 
 onMounted(() => {
   if (!import.meta.client) return

@@ -6,9 +6,35 @@ const ALL_ENDINGS = endingsData as Ending[]
 const endingStats = useEndingStats()
 const dex = useEndingDex()
 
-onMounted(() => {
+// FTUE 漏斗
+const FUNNEL_STEPS: { key: string; label: string }[] = [
+  { key: 'landing', label: '進首頁' },
+  { key: 'onboard_done', label: '看完教學' },
+  { key: 'run_start', label: '開始遊戲' },
+  { key: 'day1_choice', label: '做了第一個選擇' },
+  { key: 'reach_day15', label: '撐到 Day 15' },
+  { key: 'run_end', label: '走到結局' },
+  { key: 'share_click', label: '點了分享' },
+]
+const funnel = ref<Record<string, number> | null>(null)
+const funnelRows = computed(() => {
+  if (!funnel.value) return []
+  const base = funnel.value.landing || 0
+  return FUNNEL_STEPS.map((s) => {
+    const count = funnel.value![s.key] ?? 0
+    return { ...s, count, pct: base > 0 ? Math.round((count / base) * 100) : 0 }
+  })
+})
+
+onMounted(async () => {
   endingStats.fetchAll()
   dex.refresh()
+  try {
+    const res = await $fetch<{ counts: Record<string, number> }>('/api/analytics/funnel')
+    funnel.value = res.counts
+  } catch (_) {
+    // 漏斗抓不到不影響結局統計
+  }
 })
 
 const totalRuns = computed(() => endingStats.stats.value?.totalRuns ?? 0)
@@ -62,6 +88,27 @@ const moodColor = (mood?: string) => {
         {{ totalRuns.toLocaleString() }}
       </p>
       <p class="text-[10px] text-muted">場</p>
+    </div>
+
+    <!-- FTUE 漏斗 -->
+    <div v-if="funnelRows.length && (funnel?.landing ?? 0) > 0" class="pixel-card space-y-2">
+      <p class="text-amber-400 text-xs">🔻 玩家漏斗（相對進首頁）</p>
+      <div
+        v-for="row in funnelRows"
+        :key="row.key"
+        class="space-y-0.5"
+      >
+        <div class="flex justify-between text-[11px]">
+          <span class="text-paper">{{ row.label }}</span>
+          <span class="text-muted tabular-nums">
+            {{ row.count.toLocaleString() }}
+            <span class="text-amber-400">{{ row.pct }}%</span>
+          </span>
+        </div>
+        <div class="h-1.5 bg-[#0a0a0a] border border-[#333] overflow-hidden">
+          <div class="h-full bg-amber-400/80" :style="{ width: row.pct + '%' }" />
+        </div>
+      </div>
     </div>
 
     <div v-if="totalRuns === 0 && !endingStats.loading.value" class="pixel-card text-center text-xs text-muted py-6">

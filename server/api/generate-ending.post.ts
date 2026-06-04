@@ -123,13 +123,16 @@ export default defineEventHandler(async (event) => {
   }
 
   const { character, ending, stats, log } = body
+  // 防護：限制注入 prompt 的長度（暱稱/描述若被竄改也不會夾帶長指令）
+  const safeName = String(character.name ?? '').slice(0, 24)
+  const safeDesc = character.description ? String(character.description).slice(0, 60) : ''
 
   // 把 log 整理成 prompt-friendly 格式：全選列出（30 天）
   const logLines = log
     .map((e) => `Day ${e.day}：「${e.eventTitle}」→ 選「${e.choiceText}」`)
     .join('\n')
 
-  const userPrompt = `玩家身分：${character.name}${character.description ? `（${character.description}）` : ''}
+  const userPrompt = `玩家身分：${safeName}${safeDesc ? `（${safeDesc}）` : ''}
 最終結局：${ending.title}
 最終狀態：💰${stats.money.toLocaleString()} 🔥壓力${stats.stress} ❤️健康${stats.health} 😊快樂${stats.happiness} 📈職涯${stats.career} 👥評價${stats.reputation}
 

@@ -12,8 +12,9 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: '鬼島台灣模擬器：社畜篇',
+      htmlAttrs: { lang: 'zh-Hant' },
       meta: [
-        { name: 'description', content: '一款台灣黑色幽默人生模擬遊戲' },
+        { name: 'description', content: '一款台灣黑色幽默人生模擬遊戲。每天一張事件卡，撐過 30 天社畜人生。' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { name: 'theme-color', content: '#0a0a0a' },
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
@@ -23,6 +24,8 @@ export default defineNuxtConfig({
         { property: 'og:title', content: '鬼島台灣模擬器：社畜篇' },
         { property: 'og:description', content: '一款台灣黑色幽默人生模擬遊戲。每天一張事件卡，你能撐過 30 天嗎？' },
         { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://ghost-island-taiwan-simulator.vercel.app/' },
+        { property: 'og:site_name', content: '鬼島台灣模擬器：社畜篇' },
         { property: 'og:image', content: '/og-image.png' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
@@ -30,6 +33,7 @@ export default defineNuxtConfig({
         { name: 'twitter:image', content: '/og-image.png' },
       ],
       link: [
+        { rel: 'canonical', href: 'https://ghost-island-taiwan-simulator.vercel.app/' },
         { rel: 'manifest', href: '/manifest.webmanifest' },
         { rel: 'icon', type: 'image/svg+xml', href: '/pwa-icon-source.svg' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png' },

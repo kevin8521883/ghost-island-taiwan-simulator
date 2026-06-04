@@ -35,6 +35,25 @@ export default defineEventHandler((event) => {
         image: `${SITE_URL}/og-image.png`,
       }
 
+  // JSON-LD：讓 Google 把結局頁理解成遊戲的一篇條目（可索引）
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: og.title,
+    description: og.description,
+    image: og.image,
+    isPartOf: {
+      '@type': 'VideoGame',
+      name: '鬼島台灣模擬器：社畜篇',
+      url: SITE_URL,
+      genre: ['Simulation', 'Indie'],
+      gamePlatform: ['Web', 'PWA'],
+      inLanguage: 'zh-Hant',
+    },
+    inLanguage: 'zh-Hant',
+    url: `${SITE_URL}/share/${id}`,
+  }
+
   setResponseHeader(event, 'content-type', 'text/html; charset=utf-8')
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
@@ -45,13 +64,15 @@ export default defineEventHandler((event) => {
   <meta property="og:title" content="${escapeHtml(og.title)}">
   <meta property="og:description" content="${escapeHtml(og.description)}">
   <meta property="og:image" content="${og.image}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
   <meta property="og:url" content="${SITE_URL}/share/${id}">
+  <meta property="og:site_name" content="鬼島台灣模擬器：社畜篇">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(og.title)}">
   <meta name="twitter:description" content="${escapeHtml(og.description)}">
   <meta name="twitter:image" content="${og.image}">
   <link rel="canonical" href="${SITE_URL}/share/${id}">
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <style>
     body {
       background: #0a0a0a;

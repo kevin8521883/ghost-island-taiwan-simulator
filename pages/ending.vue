@@ -5,6 +5,7 @@ const sfx = useSfx()
 const shareCard = useShareCard()
 const dex = useEndingDex()
 const endingStats = useEndingStats()
+const analytics = useAnalytics()
 
 const ending = computed(() =>
   findEnding(store.endingId, store.selectedCharacter?.id ?? null)
@@ -35,7 +36,7 @@ const fetchAiNarrative = async () => {
         body: {
           character: {
             id: store.selectedCharacter.id,
-            name: store.selectedCharacter.name,
+            name: store.displayName,
             description: store.selectedCharacter.description,
           },
           ending: {
@@ -144,10 +145,12 @@ const shareToast = ref<string>('')
 const handleShare = async () => {
   if (!ending.value) return
   sfx.play('click')
+  analytics.track('share_click')
   const result = await shareCard.share({
     ending: ending.value,
     stats: store.stats,
     character: store.selectedCharacter,
+    playerName: store.playerName,
   })
   if (result === 'downloaded') {
     shareToast.value = '已下載結局圖'
@@ -168,6 +171,7 @@ const handleDownload = () => {
     ending: ending.value,
     stats: store.stats,
     character: store.selectedCharacter,
+    playerName: store.playerName,
   })
   if (ok) {
     shareToast.value = '已下載到本機'
@@ -195,7 +199,9 @@ const handleDownload = () => {
             :mood="ending?.mood ?? 'normal'"
           />
           <div class="flex-1 min-w-0">
-            <p class="text-[10px] text-muted">{{ store.selectedCharacter?.name }}</p>
+            <p class="text-[10px] text-muted">
+              {{ store.displayName }}<span v-if="store.playerName"> · {{ store.selectedCharacter?.name }}</span>
+            </p>
             <p class="text-[11px] text-amber-400">第 {{ store.stats.day }} 天 · 結局</p>
           </div>
         </div>
@@ -245,15 +251,7 @@ const handleDownload = () => {
       </Transition>
 
       <Transition name="fade">
-        <div v-if="descDone" class="pixel-card text-xs space-y-1">
-          <p class="text-amber-400 pb-2">最終數值</p>
-          <p>💰 金錢 {{ store.stats.money.toLocaleString() }}</p>
-          <p>🔥 壓力 {{ store.stats.stress }}</p>
-          <p>❤️ 健康 {{ store.stats.health }}</p>
-          <p>😊 快樂 {{ store.stats.happiness }}</p>
-          <p>📈 職涯 {{ store.stats.career }}</p>
-          <p>👥 評價 {{ store.stats.reputation }}</p>
-        </div>
+        <StatHexagon v-if="descDone" :stats="store.stats" />
       </Transition>
 
       <Transition name="fade">
