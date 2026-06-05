@@ -1,4 +1,5 @@
 import type { Character, Ending, PlayerStats } from '~/types/game'
+import { RADAR_AXES, radarClamp, radarPoint, radarAngle } from '~/utils/statRadar'
 
 interface CardOptions {
   ending: Ending
@@ -35,6 +36,71 @@ const wrapText = (
     currentY += lineHeight
   }
   return currentY
+}
+
+// 在 canvas 上畫六角雷達圖（跟結局頁的 StatHexagon 共用 statRadar 幾何）
+const drawRadar = (
+  ctx: CanvasRenderingContext2D,
+  stats: PlayerStats,
+  cx: number,
+  cy: number,
+  maxR: number,
+  font: string,
+) => {
+  const labelR = maxR + 42
+  // 網格：4 圈同心六邊形 + 軸線
+  ctx.strokeStyle = '#3a3a3a'
+  ctx.lineWidth = 2
+  for (const lv of [0.25, 0.5, 0.75, 1]) {
+    ctx.beginPath()
+    RADAR_AXES.forEach((_, i) => {
+      const p = radarPoint(cx, cy, maxR * lv, i)
+      i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)
+    })
+    ctx.closePath()
+    ctx.stroke()
+  }
+  RADAR_AXES.forEach((_, i) => {
+    const p = radarPoint(cx, cy, maxR, i)
+    ctx.beginPath()
+    ctx.moveTo(cx, cy)
+    ctx.lineTo(p.x, p.y)
+    ctx.stroke()
+  })
+  // 資料多邊形
+  ctx.beginPath()
+  RADAR_AXES.forEach((ax, i) => {
+    const p = radarPoint(cx, cy, maxR * radarClamp(ax.norm(stats)), i)
+    i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)
+  })
+  ctx.closePath()
+  ctx.fillStyle = 'rgba(251, 191, 36, 0.28)'
+  ctx.fill()
+  ctx.strokeStyle = '#fbbf24'
+  ctx.lineWidth = 4
+  ctx.lineJoin = 'round'
+  ctx.stroke()
+  // 頂點
+  RADAR_AXES.forEach((ax, i) => {
+    const p = radarPoint(cx, cy, maxR * radarClamp(ax.norm(stats)), i)
+    ctx.beginPath()
+    ctx.arc(p.x, p.y, 7, 0, Math.PI * 2)
+    ctx.fillStyle = '#fbbf24'
+    ctx.fill()
+  })
+  // 標籤 + 數值
+  RADAR_AXES.forEach((ax, i) => {
+    const p = radarPoint(cx, cy, labelR, i)
+    const cos = Math.cos(radarAngle(i))
+    ctx.textAlign = Math.abs(cos) < 0.3 ? 'center' : cos > 0 ? 'left' : 'right'
+    ctx.fillStyle = '#e8e6e3'
+    ctx.font = `26px ${font}`
+    ctx.fillText(`${ax.emoji}${ax.label}`, p.x, p.y)
+    ctx.fillStyle = '#fbbf24'
+    ctx.font = `bold 30px ${font}`
+    ctx.fillText(ax.fmt(stats), p.x, p.y + 32)
+  })
+  ctx.textAlign = 'center' // 還原
 }
 
 const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
@@ -92,31 +158,17 @@ const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
   ctx.lineTo(W - 150, dividerY)
   ctx.stroke()
 
-  // 最終數值 label
+  // 人生形狀 label
   ctx.fillStyle = '#fbbf24'
   ctx.font = `28px ${sansTC}`
-  ctx.fillText('— 最終數值 —', W / 2, dividerY + 50)
+  ctx.fillText('— 這一局的人生形狀 —', W / 2, dividerY + 48)
 
-  // 2x3 stats grid
-  const items: { label: string; val: string }[] = [
-    { label: '💰', val: stats.money.toLocaleString() },
-    { label: '🔥 壓力', val: stats.stress.toString() },
-    { label: '❤️ 健康', val: stats.health.toString() },
-    { label: '😊 快樂', val: stats.happiness.toString() },
-    { label: '📈 職涯', val: stats.career.toString() },
-    { label: '👥 評價', val: stats.reputation.toString() },
-  ]
-  const gridY = dividerY + 110
-  const colW = (W - 200) / 2
-  ctx.font = `bold 34px ${sansTC}`
-  ctx.fillStyle = '#e8e6e3'
-  items.forEach((item, i) => {
-    const col = i % 2
-    const row = Math.floor(i / 2)
-    const x = 100 + col * colW + colW / 2
-    const y = gridY + row * 75
-    ctx.fillText(`${item.label} ${item.val}`, x, y)
-  })
+  // 六角雷達圖（取代原本的 2x3 數值格）。自適應大小、避免撞到底部身分/URL
+  const radarTop = dividerY + 78
+  const radarBottom = H - 170
+  const radarCy = (radarTop + radarBottom) / 2
+  const radarMaxR = Math.min(110, (radarBottom - radarTop) / 2 - 60)
+  drawRadar(ctx, stats, W / 2, radarCy, radarMaxR, sansTC)
 
   // 角色身分（有暱稱就「阿明 · 普通上班族」）
   if (character) {

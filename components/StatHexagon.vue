@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PlayerStats } from '~/types/game'
+import { RADAR_AXES, radarClamp, radarPoint, radarAnchor } from '~/utils/statRadar'
 
 interface Props {
   stats: PlayerStats
@@ -11,33 +12,9 @@ const CY = 120
 const MAX_R = 78
 const LABEL_R = 100
 
-// 六軸（順時針，從正上方開始）。norm() 把各值正規化到 0-1
-const AXES: {
-  key: keyof PlayerStats
-  emoji: string
-  label: string
-  norm: (s: PlayerStats) => number
-  fmt: (s: PlayerStats) => string
-}[] = [
-  { key: 'money', emoji: '💰', label: '金錢', norm: (s) => clamp((s.money + 50000) / 250000), fmt: (s) => s.money.toLocaleString() },
-  { key: 'career', emoji: '📈', label: '職涯', norm: (s) => clamp(s.career / 100), fmt: (s) => String(s.career) },
-  { key: 'reputation', emoji: '👥', label: '評價', norm: (s) => clamp(s.reputation / 100), fmt: (s) => String(s.reputation) },
-  { key: 'happiness', emoji: '😊', label: '快樂', norm: (s) => clamp(s.happiness / 100), fmt: (s) => String(s.happiness) },
-  { key: 'health', emoji: '❤️', label: '健康', norm: (s) => clamp(s.health / 100), fmt: (s) => String(s.health) },
-  { key: 'stress', emoji: '🔥', label: '壓力', norm: (s) => clamp(s.stress / 100), fmt: (s) => String(s.stress) },
-]
+const AXES = RADAR_AXES
 
-function clamp(v: number) {
-  return Math.max(0, Math.min(1, v))
-}
-
-// 第 i 軸的角度（弧度），從正上方 -90° 順時針
-const angleOf = (i: number) => (-90 + i * 60) * (Math.PI / 180)
-
-const pointAt = (i: number, r: number) => {
-  const a = angleOf(i)
-  return { x: CX + r * Math.cos(a), y: CY + r * Math.sin(a) }
-}
+const pointAt = (i: number, r: number) => radarPoint(CX, CY, r, i)
 
 // 背景網格（4 圈同心六邊形）
 const gridLevels = [0.25, 0.5, 0.75, 1]
@@ -55,10 +32,7 @@ const spokes = computed(() => AXES.map((_, i) => pointAt(i, MAX_R)))
 
 // 資料多邊形頂點
 const dataPoints = computed(() =>
-  AXES.map((ax, i) => {
-    const r = MAX_R * ax.norm(props.stats)
-    return pointAt(i, r)
-  })
+  AXES.map((ax, i) => pointAt(i, MAX_R * radarClamp(ax.norm(props.stats))))
 )
 const dataPolyStr = computed(() =>
   dataPoints.value.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
@@ -68,13 +42,11 @@ const dataPolyStr = computed(() =>
 const labels = computed(() =>
   AXES.map((ax, i) => {
     const p = pointAt(i, LABEL_R)
-    const cos = Math.cos(angleOf(i))
-    const anchor = Math.abs(cos) < 0.3 ? 'middle' : cos > 0 ? 'start' : 'end'
     return {
       ...ax,
       x: p.x,
       y: p.y,
-      anchor,
+      anchor: radarAnchor(i),
       value: ax.fmt(props.stats),
     }
   })
