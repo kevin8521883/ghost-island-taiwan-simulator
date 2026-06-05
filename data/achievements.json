@@ -235,7 +235,7 @@
     "id": "perfect_middle",
     "title": "完美中庸",
     "icon": "⚖️",
-    "description": "通關時 6 個 stat 全部在 40-60 之間。鬼島生存大師。",
+    "description": "達成中庸頓悟結局——5 個數值全卡在中間。鬼島生存大師。",
     "hint": "中庸頓悟條件",
     "trigger": { "type": "ending", "endingIds": ["enlightenment"] }
   },

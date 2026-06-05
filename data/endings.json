@@ -99,7 +99,7 @@
     "description": "白天上班、晚上接案、週末擺攤，你的人脈紙鈔一起厚了起來。你已經兩年沒看到月亮，但你買得起會員制健身房。",
     "priority": 68,
     "mood": "happy",
-    "condition": { "reputation": { "gte": 80 }, "money": { "gte": 100000 } },
+    "condition": { "reputation": { "gte": 75 }, "money": { "gte": 70000 } },
     "hidden": true,
     "hint": "白天上班晚上副業"
   },
@@ -109,7 +109,7 @@
     "description": "你的限動上熱門。粉絲叫你不要去上班、留下來陪他們聊天。業配排到三個月後，你的爸媽終於不問你「真正的工作」是什麼。",
     "priority": 67,
     "mood": "happy",
-    "condition": { "reputation": { "gte": 95 }, "day": { "lte": 20 } },
+    "condition": { "reputation": { "gte": 85 }, "day": { "lte": 24 } },
     "hidden": true,
     "hint": "短時間內爆紅"
   },
@@ -174,11 +174,11 @@
     "priority": 50,
     "mood": "normal",
     "condition": {
-      "stress": { "gte": 40, "lte": 60 },
-      "health": { "gte": 40, "lte": 60 },
-      "happiness": { "gte": 40, "lte": 60 },
-      "career": { "gte": 40, "lte": 60 },
-      "reputation": { "gte": 40, "lte": 60 },
+      "stress": { "gte": 38, "lte": 62 },
+      "health": { "gte": 38, "lte": 62 },
+      "happiness": { "gte": 38, "lte": 62 },
+      "career": { "gte": 38, "lte": 62 },
+      "reputation": { "gte": 38, "lte": 62 },
       "day": { "gte": 30 }
     },
     "hidden": true,

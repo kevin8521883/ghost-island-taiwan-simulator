@@ -73,7 +73,7 @@ const spinAndStart = async () => {
   // 決定結果
   const rand = Math.random()
   let result: Character | undefined
-  if (rand < 0.05) {
+  if (rand < 0.08) {
     result = characters.find((c) => c.id === 'rich_kid')
     if (result && !dex.isCharUnlocked('rich_kid')) {
       dex.unlockCharacter('rich_kid')
