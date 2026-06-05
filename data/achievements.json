@@ -187,7 +187,7 @@
     "id": "all_endings",
     "title": "鬼島大成",
     "icon": "🏆",
-    "description": "12 個結局全收齊。請點個讚分享、招待玩家來鬼島。",
+    "description": "13 個結局全收齊。請點個讚分享、招待玩家來鬼島。",
     "hint": "全結局收集",
     "trigger": { "type": "all_endings" }
   },
@@ -262,5 +262,29 @@
     "description": "在封棺前一刻續了命。死神也只能先記著這筆帳。",
     "hint": "用過一次封棺前續命",
     "trigger": { "type": "revive" }
+  },
+  {
+    "id": "kevin_cofounder",
+    "title": "上船了",
+    "icon": "🚤",
+    "description": "跟 Kevin 一起離職創業、當上內湖共同創辦人。看似上岸、其實上船。",
+    "hint": "Kevin 主線 + 把主管關係衝到頂",
+    "trigger": { "type": "ending", "endingIds": ["kevin_partner"] }
+  },
+  {
+    "id": "amy_referral",
+    "title": "內推到岸",
+    "icon": "🏢",
+    "description": "保住 Amy 的秘密、收下她的內推，跟著她跳槽 Google。義氣有價、現在她是你的 reviewer。",
+    "hint": "走完 Amy 的內推主線",
+    "trigger": { "type": "event_seen", "eventIds": ["amy_arc_05_epilogue"] }
+  },
+  {
+    "id": "dad_last_words",
+    "title": "來得及的擁抱",
+    "icon": "🫶",
+    "description": "你終於回家擁抱了爸——然後送走了他。有些和解，剛好趕上最後一班。",
+    "hint": "陪爸媽主線走到最後",
+    "trigger": { "type": "event_seen", "eventIds": ["mom_arc_05"] }
   }
 ]

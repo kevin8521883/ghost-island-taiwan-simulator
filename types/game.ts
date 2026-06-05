@@ -149,6 +149,10 @@ export interface EndingCondition {
   career?: Range
   reputation?: Range
   day?: Range
+  /** 關係維度（NPC 主線 payoff 結局用，例：kevin_partner 需 boss 高）*/
+  boss?: Range
+  coworker?: Range
+  family?: Range
 }
 
 export interface EndingVariant {

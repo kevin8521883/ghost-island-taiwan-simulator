@@ -2538,9 +2538,17 @@
     "chainOnly": true,
     "weight": 1,
     "choices": [
-      { "text": "答應跟他走", "effects": { "career": 15, "money": 8000, "stress": 15, "boss": 20 } },
+      {
+        "text": "答應跟他走",
+        "effects": { "career": 15, "money": 8000, "stress": 15, "boss": 20 },
+        "grantBuff": { "id": "kevin_late_night", "name": "Kevin 的半夜電話", "icon": "📞", "daysRemaining": -1, "perDayEffects": { "money": 200, "boss": 1, "stress": 1 } }
+      },
       { "text": "委婉拒絕", "effects": { "career": -3, "boss": -5, "happiness": 3 } },
-      { "text": "反勸他別衝動", "effects": { "boss": 10, "reputation": 3 } }
+      {
+        "text": "反勸他別衝動",
+        "effects": { "boss": 10, "reputation": 3 },
+        "trigger": { "afterDays": 4, "outcomes": [{ "eventId": "kevin_arc_05_aftermath", "weight": 100 }] }
+      }
     ]
   },
   {
@@ -2607,7 +2615,12 @@
     "chainOnly": true,
     "weight": 1,
     "choices": [
-      { "text": "接受、立刻離職", "effects": { "career": 12, "money": 30000, "stress": 20, "happiness": 15, "boss": -15 } },
+      {
+        "text": "接受、立刻離職",
+        "effects": { "career": 12, "money": 30000, "stress": 12, "happiness": 15, "boss": -15 },
+        "grantBuff": { "id": "amy_got_your_back", "name": "Amy 罩你", "icon": "🤝", "daysRemaining": -1, "perDayEffects": { "coworker": 2 } },
+        "trigger": { "afterDays": 3, "outcomes": [{ "eventId": "amy_arc_05_epilogue", "weight": 100 }] }
+      },
       { "text": "用 offer 跟現公司談加薪", "effects": { "career": 5, "money": 15000, "boss": -10, "stress": 10 } },
       { "text": "婉拒、留現公司", "effects": { "coworker": -5, "happiness": -3 } }
     ]
@@ -2683,7 +2696,12 @@
     "chainOnly": true,
     "weight": 1,
     "choices": [
-      { "text": "認真回應、第一次擁抱爸", "effects": { "family": 25, "happiness": 20, "reputation": 5 } },
+      {
+        "text": "認真回應、第一次擁抱爸",
+        "effects": { "family": 25, "happiness": 20, "reputation": 5 },
+        "grantBuff": { "id": "dad_words", "name": "爸的那句話", "icon": "🫶", "daysRemaining": -1, "perDayEffects": { "stress": -1, "family": 1, "happiness": 1 } },
+        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "mom_arc_05", "weight": 100 }] }
+      },
       { "text": "笑著轉移話題", "effects": { "family": 5, "happiness": 5 } },
       { "text": "假裝沒聽到", "effects": { "family": -5, "happiness": -10 } }
     ]
@@ -2786,6 +2804,43 @@
       },
       { "text": "再存一個月", "effects": { "stress": 5 } },
       { "text": "改買 Switch 二手", "effects": { "money": -6000, "happiness": 12, "stress": -3 } }
+    ]
+  },
+  {
+    "id": "kevin_arc_05_aftermath",
+    "title": "Kevin 傳訊：『公司收了、但謝謝你那天攔我』",
+    "description": "四個月後。語音 30 秒，背景有小孩的聲音。",
+    "tags": ["npc", "kevin", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "約他吃飯、聽他說", "effects": { "boss": 8, "happiness": 5, "reputation": 3 } },
+      { "text": "已讀、回個貼圖", "effects": { "boss": -2, "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "amy_arc_05_epilogue",
+    "title": "Google 第一週、Amy 是你的 reviewer",
+    "description": "她在你的 PR 底下留了 11 條 comment，最後一條：『下次自己看 spec』。",
+    "tags": ["npc", "amy", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "謝啦、改天請你手搖", "effects": { "coworker": 8, "happiness": 4, "stress": -2 } },
+      { "text": "默默照改、心裡卡卡", "effects": { "career": 5, "coworker": -2, "stress": 3 } },
+      { "text": "回敬『當年是誰求我保密』", "effects": { "coworker": 3, "happiness": 6 } }
+    ]
+  },
+  {
+    "id": "mom_arc_05",
+    "title": "媽 LINE：『你爸今天早上、走得很安詳』",
+    "description": "上週你才擁抱他。手機螢幕亮著，會議還在進行，你的手指停在那行字上。",
+    "tags": ["npc", "mom", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "立刻奔回家、工作丟給同事", "effects": { "family": 15, "happiness": -10, "stress": 10, "boss": -8 } },
+      { "text": "強忍開完會、再請喪假", "effects": { "family": -5, "happiness": -20, "stress": 20, "career": 3 } }
     ]
   }
 ]

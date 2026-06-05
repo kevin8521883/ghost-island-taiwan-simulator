@@ -104,7 +104,7 @@ const continueGame = () => {
 
       <footer class="text-[10px] text-muted pt-6 space-y-1">
         <p>Ghost Island Taiwan Simulator · v0.3</p>
-        <p>200+ 事件 · 12 結局 · 9 種人生 · 含 AI 即興篇</p>
+        <p>200+ 事件 · 13 結局 · 9 種人生 · 含 AI 即興篇</p>
       </footer>
     </div>
   </div>

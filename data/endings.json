@@ -226,5 +226,16 @@
         "description": "30 天過去、家人都活著、冰箱沒空、小孩沒受傷、老公沒外遇。沒有人會頒獎、但你知道自己撐住了這個家。"
       }
     }
+  },
+  {
+    "id": "kevin_partner",
+    "title": "內湖共同創辦人",
+    "description": "薪水多三成、名片印上 co-founder。代價是 24 小時待命、和你跟著他那棟離婚房抵押下去的連帶保證。上岸了，還是上船了？",
+    "priority": 72,
+    "mood": "normal",
+    "fatal": false,
+    "hidden": true,
+    "hint": "跟 Kevin 一起離職創業、把主管關係衝到頂",
+    "condition": { "boss": { "gte": 85 }, "day": { "gte": 16 } }
   }
 ]
