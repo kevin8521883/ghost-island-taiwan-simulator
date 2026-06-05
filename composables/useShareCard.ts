@@ -149,8 +149,8 @@ const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
   ctx.font = `30px ${sansTC}`
   const descEndY = wrapText(ctx, ending.description, W / 2, 520, W - 220, 44)
 
-  // 分隔線
-  const dividerY = Math.max(descEndY + 40, 800)
+  // 分隔線（floor 放低、避免雷達圖被擠到底部撞身分列）
+  const dividerY = Math.max(descEndY + 40, 640)
   ctx.strokeStyle = '#444'
   ctx.lineWidth = 2
   ctx.beginPath()
@@ -165,9 +165,9 @@ const drawCard = (ctx: CanvasRenderingContext2D, opts: CardOptions) => {
 
   // 六角雷達圖（取代原本的 2x3 數值格）。自適應大小、避免撞到底部身分/URL
   const radarTop = dividerY + 78
-  const radarBottom = H - 170
+  const radarBottom = H - 200
   const radarCy = (radarTop + radarBottom) / 2
-  const radarMaxR = Math.min(110, (radarBottom - radarTop) / 2 - 60)
+  const radarMaxR = Math.min(125, (radarBottom - radarTop) / 2 - 50)
   drawRadar(ctx, stats, W / 2, radarCy, radarMaxR, sansTC)
 
   // 角色身分（有暱稱就「阿明 · 普通上班族」）
