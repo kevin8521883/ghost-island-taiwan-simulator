@@ -2700,7 +2700,7 @@
         "text": "認真回應、第一次擁抱爸",
         "effects": { "family": 25, "happiness": 20, "reputation": 5 },
         "grantBuff": { "id": "dad_words", "name": "爸的那句話", "icon": "🫶", "daysRemaining": -1, "perDayEffects": { "stress": -1, "family": 1, "happiness": 1 } },
-        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "mom_arc_05", "weight": 100 }] }
+        "trigger": { "afterDays": 5, "outcomes": [{ "eventId": "mom_arc_05_recover", "weight": 70 }, { "eventId": "mom_arc_05", "weight": 30 }] }
       },
       { "text": "笑著轉移話題", "effects": { "family": 5, "happiness": 5 } },
       { "text": "假裝沒聽到", "effects": { "family": -5, "happiness": -10 } }
@@ -2841,6 +2841,19 @@
     "choices": [
       { "text": "立刻奔回家、工作丟給同事", "effects": { "family": 15, "happiness": -10, "stress": 10, "boss": -8 } },
       { "text": "強忍開完會、再請喪假", "effects": { "family": -5, "happiness": -20, "stress": 20, "career": 3 } }
+    ]
+  },
+  {
+    "id": "mom_arc_05_recover",
+    "title": "爸出院後、開始每天傳養生影片給你",
+    "description": "『這個一定要看』『記得轉給同事』。早安長輩圖一張接一張。你竟然有點想念他以前的沉默。",
+    "tags": ["npc", "mom", "chain"],
+    "chainOnly": true,
+    "weight": 1,
+    "choices": [
+      { "text": "每則都回、陪他練 LINE", "effects": { "family": 12, "happiness": 8, "stress": 2 } },
+      { "text": "已讀、但週末一定回家吃飯", "effects": { "family": 8, "happiness": 5 } },
+      { "text": "設靜音、但偶爾點個讚", "effects": { "family": 2, "happiness": 3, "stress": -2 } }
     ]
   }
 ]

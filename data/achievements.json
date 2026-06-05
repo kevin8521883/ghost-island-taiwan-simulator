@@ -286,5 +286,13 @@
     "description": "你終於回家擁抱了爸——然後送走了他。有些和解，剛好趕上最後一班。",
     "hint": "陪爸媽主線走到最後",
     "trigger": { "type": "event_seen", "eventIds": ["mom_arc_05"] }
+  },
+  {
+    "id": "dad_recovered",
+    "title": "爸的養生群組",
+    "icon": "📹",
+    "description": "爸撐過來了。代價是你每天要看他傳的養生影片和早安圖。這代價你願意付。",
+    "hint": "陪爸媽主線走到最後（爸康復）",
+    "trigger": { "type": "event_seen", "eventIds": ["mom_arc_05_recover"] }
   }
 ]
